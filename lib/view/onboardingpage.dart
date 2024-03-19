@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:savvy/components/buttons.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/utils/colors.dart';
+import 'package:savvy/view/signinpage.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -11,6 +12,14 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
+  void navigateToSignInPage() {
+    Navigator.pushNamed(context, '/signinpage');
+  }
+
+  void navigateToRegisterPage() {
+    Navigator.pushNamed(context, '/registerpage');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,8 +166,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             PrimaryButton(
-                              onTap: () {},
-                              buttonText: "Sign  In",
+                              onTap: navigateToSignInPage,
+                              buttonText: "Sign In",
                               buttonColor: Colors.white,
                               borderColor: Colors.white,
                               textColor: darkGrey,
@@ -166,7 +175,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               splashColor: lightPink,
                             ),
                             PrimaryButton(
-                              onTap: () {},
+                              onTap: navigateToRegisterPage,
                               buttonText: "Register",
                               buttonColor: primaryPurple,
                               borderColor: primaryPurple,

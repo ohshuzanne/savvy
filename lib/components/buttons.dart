@@ -97,7 +97,10 @@ class PrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         splashColor: splashColor, // Set the splashColor here
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 40),
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+          ),
+          width: 120,
           decoration: BoxDecoration(
             color: buttonColor,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -105,15 +108,26 @@ class PrimaryButton extends StatelessWidget {
               color: borderColor,
               width: 1,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: darkBlue.withOpacity(0.6),
+                blurRadius: 5,
+                offset: Offset(
+                  0,
+                  1,
+                ),
+              ),
+            ],
           ),
           child: Text(
             buttonText,
             style: TextStyle(
               color: textColor,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               fontFamily: 'Lexend',
               fontSize: 14,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

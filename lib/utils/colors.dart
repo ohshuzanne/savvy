@@ -8,3 +8,5 @@ const lightBlue = Color(0xffCDE0FF);
 const lightGreen = Color(0xffB2EAC0);
 const darkGrey = Color(0xff272839);
 const primaryPurple = Color(0xff6100FF);
+const backgroundWhite = Color(0xffFCFBFB);
+const lighterBlue = Color(0xffE3EEFF);
