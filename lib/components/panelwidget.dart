@@ -63,12 +63,38 @@ class RegisterPanelWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            //heading
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    "Fill in all fields!",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    "Be patient! You're just one step away from meeting your virtual pet.",
+                    style: TextStyle(
+                      color: darkGrey.withOpacity(0.6),
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
             //username text field
             PrimaryTextField(
               controller: usernameController,
               hintText: "Username",
               obscureText: false,
             ),
+
+            const SizedBox(height: 15),
 
             //email text field
             PrimaryTextField(
@@ -77,12 +103,16 @@ class RegisterPanelWidget extends StatelessWidget {
               obscureText: false,
             ),
 
+            const SizedBox(height: 15),
+
             //password text field
             PrimaryTextField(
               controller: passwordController,
               hintText: "Password",
               obscureText: true,
             ),
+
+            const SizedBox(height: 15),
 
             //confirm password text field
             PrimaryTextField(
@@ -91,15 +121,19 @@ class RegisterPanelWidget extends StatelessWidget {
               obscureText: true,
             ),
 
+            const SizedBox(height: 30),
+
             //save button
-            PrimaryButton(
-              onTap: onSaveRegistration,
-              buttonText: "Register Now",
-              buttonColor: backgroundWhite,
-              borderColor: backgroundWhite,
-              textColor: darkGrey,
-              borderRadius: 25,
-              splashColor: lightPink,
+            Center(
+              child: PrimaryButton(
+                onTap: onSaveRegistration,
+                buttonText: "Register Now",
+                buttonColor: backgroundWhite,
+                borderColor: backgroundWhite,
+                textColor: darkGrey,
+                borderRadius: 25,
+                splashColor: lightPink,
+              ),
             ),
           ],
         ),

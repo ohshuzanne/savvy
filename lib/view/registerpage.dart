@@ -41,6 +41,10 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  void navigateToHomePage() {
+    Navigator.pushNamed(context, '/homepage');
+  }
+
   void selectPet(String pet) {
     setState(() {
       selectedPet = pet;
@@ -85,12 +89,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // Here, you can save the jsonData to a file, database, or send it to a server.
     print(jsonData);
+    navigateToHomePage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.5;
-    final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.46;
+    final panelHeightOpen = MediaQuery.of(context).size.height * 0.72;
     return Scaffold(
       //appbar
       appBar: AppBar(
@@ -117,8 +122,6 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            BackgroundShapesState(),
-
             // Pet scrolling widget
             Positioned(
               top: 30, // Adjust the position to the bottom of the Stack
@@ -164,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Select button
             Positioned(
-              top: 260, // Adjust the position as needed
+              top: 240,
               left: 0,
               right: 0,
               child: Center(
@@ -195,10 +198,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: saveRegistrationDetails,
-                        child: const Text('Save Registration'),
-                      ),
                     ],
                   ),
                 ),
