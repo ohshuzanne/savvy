@@ -12,6 +12,7 @@ class RegisterPanelWidget extends StatelessWidget {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController petNameController = TextEditingController();
   final Function()? onSaveRegistration;
 
   RegisterPanelWidget({
@@ -24,6 +25,7 @@ class RegisterPanelWidget extends StatelessWidget {
     required this.confirmPasswordController,
     required this.emailController,
     required this.onSaveRegistration,
+    required this.petNameController,
   }) : super(key: key);
 
   @override
@@ -74,6 +76,7 @@ class RegisterPanelWidget extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
+                  const SizedBox(height: 6),
                   Text(
                     "Be patient! You're just one step away from meeting your virtual pet.",
                     style: TextStyle(
@@ -119,6 +122,15 @@ class RegisterPanelWidget extends StatelessWidget {
               controller: confirmPasswordController,
               hintText: "Confirm Password",
               obscureText: true,
+            ),
+
+            const SizedBox(height: 15),
+
+            //pet name text field
+            PrimaryTextField(
+              controller: petNameController,
+              hintText: "Pet Name",
+              obscureText: false,
             ),
 
             const SizedBox(height: 30),

@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _petNameController = TextEditingController();
 
   bool isToggled = false;
   final panelController = PanelController();
@@ -38,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _pageController.dispose();
+    _petNameController.dispose();
     super.dispose();
   }
 
@@ -82,6 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'username': _emailController.text,
       'password': _passwordController.text,
       'selectedPet': selectedPet,
+      'petName': _petNameController.text,
     };
 
     // Convert the registration data to JSON format
@@ -95,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.46;
-    final panelHeightOpen = MediaQuery.of(context).size.height * 0.72;
+    final panelHeightOpen = MediaQuery.of(context).size.height * 0.75;
     return Scaffold(
       //appbar
       appBar: AppBar(
@@ -210,6 +213,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 passwordController: _passwordController,
                 confirmPasswordController: _confirmPasswordController,
                 emailController: _emailController,
+                petNameController: _petNameController,
                 onSaveRegistration: saveRegistrationDetails,
               ),
             ),
