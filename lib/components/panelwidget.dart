@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/utils/colors.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:savvy/components/textfield.dart';
+import 'package:savvy/components/buttons.dart';
 
-class PanelWidget extends StatelessWidget {
+class RegisterPanelWidget extends StatelessWidget {
   final ScrollController controller;
   final Color dragHandleColor;
   final PanelController panelController;
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  final Function()? onSaveRegistration;
 
-  const PanelWidget({
+  RegisterPanelWidget({
     Key? key,
     required this.controller,
     required this.dragHandleColor,
     required this.panelController,
+    required this.usernameController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.emailController,
+    required this.onSaveRegistration,
   }) : super(key: key);
 
   @override
@@ -50,13 +63,43 @@ class PanelWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Spending and Saving"),
-            const SizedBox(height: 20),
-            Text(
-              "It's important to understand why it's so crucial that you start saving as early on in your life as possible, so here's a lesson for you to learn today:... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            //username text field
+            PrimaryTextField(
+              controller: usernameController,
+              hintText: "Username",
+              obscureText: false,
             ),
-            Text(
-              "It's important to understand why it's so crucial that you start saving as early on in your life as possible, so here's a lesson for you to learn today:... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+
+            //email text field
+            PrimaryTextField(
+              controller: emailController,
+              hintText: "E-mail",
+              obscureText: false,
+            ),
+
+            //password text field
+            PrimaryTextField(
+              controller: passwordController,
+              hintText: "Password",
+              obscureText: true,
+            ),
+
+            //confirm password text field
+            PrimaryTextField(
+              controller: confirmPasswordController,
+              hintText: "Confirm Password",
+              obscureText: true,
+            ),
+
+            //save button
+            PrimaryButton(
+              onTap: onSaveRegistration,
+              buttonText: "Register Now",
+              buttonColor: backgroundWhite,
+              borderColor: backgroundWhite,
+              textColor: darkGrey,
+              borderRadius: 25,
+              splashColor: lightPink,
             ),
           ],
         ),

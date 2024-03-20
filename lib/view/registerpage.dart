@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -17,6 +18,10 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   bool isToggled = false;
   final panelController = PanelController();
   String? selectedPet;
@@ -28,8 +33,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -63,6 +70,21 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       },
     );
+  }
+
+  void saveRegistrationDetails() {
+    // Create a data model for user registration details
+    final registrationData = {
+      'username': _emailController.text,
+      'password': _passwordController.text,
+      'selectedPet': selectedPet,
+    };
+
+    // Convert the registration data to JSON format
+    final jsonData = json.encode(registrationData);
+
+    // Here, you can save the jsonData to a file, database, or send it to a server.
+    print(jsonData);
   }
 
   @override
@@ -140,15 +162,26 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
 
-            //button
-            PrimaryButton(
-                onTap: () {},
-                buttonText: "Select",
-                buttonColor: backgroundWhite,
-                borderColor: backgroundWhite,
-                textColor: darkGrey,
-                borderRadius: 25,
-                splashColor: primaryPurple),
+            // Select button
+            Positioned(
+              top: 260, // Adjust the position as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: PrimaryButton(
+                  onTap: () {
+                    showPetSelectionDialog();
+                  },
+                  buttonText: "Select",
+                  buttonColor: backgroundWhite,
+                  borderColor: backgroundWhite,
+                  textColor: darkGrey,
+                  borderRadius: 25,
+                  splashColor: primaryPurple,
+                ),
+              ),
+            ),
+
             SlidingUpPanel(
               controller: panelController,
               borderRadius: BorderRadius.vertical(
@@ -162,14 +195,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: saveRegistrationDetails,
+                        child: const Text('Save Registration'),
+                      ),
                     ],
                   ),
                 ),
               ),
-              panelBuilder: (controller) => PanelWidget(
+              panelBuilder: (controller) => RegisterPanelWidget(
                 controller: controller,
                 dragHandleColor: darkGrey.withOpacity(0.4),
                 panelController: panelController,
+                usernameController: _usernameController,
+                passwordController: _passwordController,
+                confirmPasswordController: _confirmPasswordController,
+                emailController: _emailController,
+                onSaveRegistration: saveRegistrationDetails,
               ),
             ),
           ],
