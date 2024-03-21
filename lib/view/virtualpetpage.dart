@@ -31,14 +31,22 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Purchase Cat'),
-          content: Text('Do you want to purchase this cat for 200 coins?'),
+          title: Text(
+            'Purchase Cat',
+            style:
+                TextStyle(fontFamily: 'Lexend', fontSize: 16, color: darkGrey),
+          ),
+          content: Text('Do you want to purchase this cat for 200 coins?',
+              style: TextStyle(fontFamily: 'Lexend', color: darkGrey)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Decline'),
+              child: Text(
+                'Decline',
+                style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -53,7 +61,10 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
                   _showDeclinedPurchaseDialog();
                 }
               },
-              child: Text('Accept'),
+              child: Text(
+                'Accept',
+                style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+              ),
             ),
           ],
         );
@@ -66,14 +77,24 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Purchase Declined'),
-          content: Text('You do not have enough coins to make this purchase.'),
+          title: Text(
+            'Purchase Declined',
+            style:
+                TextStyle(fontFamily: 'Lexend', fontSize: 16, color: darkGrey),
+          ),
+          content: Text(
+            'You do not have enough coins to make this purchase.',
+            style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: Text(
+                'OK',
+                style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+              ),
             ),
           ],
         );
