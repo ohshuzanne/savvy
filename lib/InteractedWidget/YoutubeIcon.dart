@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_15k/Constants/Colors.dart';
+import 'package:savvy/Constants/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class YoutubeIcon extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_15k/Forum/commentPage.dart';
+import 'package:savvy/Forum/commentPage.dart';
 
 import '../InteractedWidget/FavouriteIcon.dart';
 import '../InteractedWidget/ShareIcon.dart';

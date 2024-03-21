@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:road_to_15k/dummyData.dart';
+import 'package:savvy/dummyData.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'ForumSinglePostWidget.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:road_to_15k/Constants/Colors.dart';
+import 'package:savvy/Constants/Colors.dart';
 
 class NewHub extends StatelessWidget {
   const NewHub({super.key});

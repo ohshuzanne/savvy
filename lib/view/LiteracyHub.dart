@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_15k/Constants/Colors.dart';
+import 'package:savvy/Constants/Colors.dart';
 
-import 'ArticleFull.dart';
+import '../Hub/ArticleFull.dart';
 import '../InteractedWidget/BookmarkIcon.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import '../dummyData.dart';
