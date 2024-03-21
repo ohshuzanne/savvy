@@ -6,16 +6,16 @@ import 'package:flutter/widgets.dart';
 import 'package:savvy/dummyData.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'ForumSinglePostWidget.dart';
+import '../Forum/ForumSinglePostWidget.dart';
 
-class Forum extends StatefulWidget {
-  Forum({super.key});
+class CommunityExchangePage extends StatefulWidget {
+  CommunityExchangePage({super.key});
 
   @override
-  State<Forum> createState() => _ForumState();
+  State<CommunityExchangePage> createState() => _CommunityExchangePageState();
 }
 
-class _ForumState extends State<Forum> {
+class _CommunityExchangePageState extends State<CommunityExchangePage> {
   int postNumber = 10;
   bool searchStatus = false;
 
