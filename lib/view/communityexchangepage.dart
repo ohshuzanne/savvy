@@ -1,333 +1,255 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/Constants/Colors.dart';
+import 'package:savvy/dummyData.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-import '../Hub/ArticleFull.dart';
-import '../InteractedWidget/BookmarkIcon.dart';
-import '../InteractedWidget/ProfilePicWidget.dart';
-import '../dummyData.dart';
-import '../utils/colors.dart';
+import '../components/Forum/ForumSinglePostWidget.dart';
 
-class FinancialLiteracyHub extends StatelessWidget {
-  const FinancialLiteracyHub({super.key});
+class CommunityExchangePage extends StatefulWidget {
+  CommunityExchangePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 7, // Adjust the length based on your number of tabs
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              isScrollable: true, // Optional for many tabs
-              /*indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                // Set border radius for round tabs
-                color: Colors.blue, // Customize indicator color
-              ),*/
-              tabs: const [
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("For you"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Following"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Debt Management Strategies"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Financial Planning"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Building Your Financial Literacy"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Financial Products and Services"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(Icons.explore)),
-                ),
-              ],
-              labelColor: primaryPurple,
-              unselectedLabelColor: darkGrey,
-              indicatorColor: primaryPurple,
-              labelStyle: TextStyle(
-                fontFamily: 'Lexend',
-              ),
-
-            ),
-          ),
-          body: const TabBarView(
-            children: [
-              Center(child: ArticlesListView(classification: Classifications.forYou,)), //forYou,followong,debtManageStractegies,financialPlanning
-              Center(child: ArticlesListView(classification: Classifications.followong,)),
-              Center(child: ArticlesListView(classification: Classifications.debtManageStractegies,)),
-              Center(child: ArticlesListView(classification: Classifications.financialPlanning,)),
-              Center(child: Text('Settings')),
-              Center(child: Text('Settings')),
-              Center(child: Text('Settings')),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  State<CommunityExchangePage> createState() => _CommunityExchangePageState();
 }
 
-class ArticlesListView extends StatelessWidget {
-  final classification;
+class _CommunityExchangePageState extends State<CommunityExchangePage> {
+  int postNumber = 10;
+  bool searchStatus = false;
 
-  const ArticlesListView({
-    super.key,
-    this.classification,
-  });
+  DummyData dummyData = DummyData();
+  late List<String> name ;
+  late List<DateTime> publishedDate ;
+  late List<String> content ;
+  late List<int> numLikes ;
+  late List<int> numComments ;
+  late List<int> numShare ;
+  late List<String> profilePicUrl ;
+
+  List<String> nameFilterList = [];
+  List<String> contentFilterList = [];
+  List<DateTime> publishedDateFilterList = [] ;
+  List<int> numLikesFilterList = [] ;
+  List<int> numCommentsFilterList = [];
+  List<int> numShareFilterList = [];
+  List<String> profilePicUrlFilterList = [];
 
   @override
   Widget build(BuildContext context) {
-    DummyArticle dummyArticle = DummyArticle();
-    dummyArticle.getData(classification);
 
-    late List authorName = dummyArticle.authorName;
-    late List authorProfilePic = dummyArticle.authorProfilePic;
-    late List publishedDate = dummyArticle.publishedDate;
-    late List title = dummyArticle.title;
-    late List content = dummyArticle.content;
-    late List hashtag = dummyArticle.hashtag;
-    late List pic = dummyArticle.pic;
+    final _searchTextController = TextEditingController();
 
     MediaQueryData media = MediaQuery.of(context);
-
     return SizedBox(
       height: media.size.height,
       child: ListView(
         children: [
 
-          //检查是否有dummydata 并输出
-          dummyArticle.authorName.isEmpty?
-          Padding(
-            padding: EdgeInsets.only(top:media.size.height*0.35),
-            child: const Center(child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Currently No Data here.\nExplore other classification or follow some other author",textAlign: TextAlign.center,),
-                Icon(Icons.mobiledata_off_rounded),
-              ],
-            )),
-          ):
+          //搜索栏
+          //searchTab(name,content,filterList),
+          Builder(
+              builder: (BuildContext context) {return
+                SizedBox(
+                  width: media.size.width,
+                  height: media.size.height * 0.09, //搜索栏主要高度定型
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      searchStatus == true
+                          ?
+                      // 输入文本框
+                      Padding(
+                        padding: EdgeInsets.only(left: media.size.width * 0.05,
+                            right: media.size.width * 0.05),
+                        child: SizedBox(
+                          width: media.size.width * 0.7,
+                          height: media.size.height * 0.05,
+                          child: TextField(
+                            onSubmitted: (text) {
+                              nameFilterList=[];
+                              contentFilterList=[];
+                              publishedDateFilterList=[];
+                              numLikesFilterList=[];
+                              numCommentsFilterList=[];
+                              numShareFilterList=[];
+                              profilePicUrlFilterList=[];
+                              // TODO: 算法问题
+                              int ctr = -1;
+                              for (var nameItem in name) {
+                                ctr+=1;
+                                var contentItem = content[ctr];
+                                if (nameItem.contains( _searchTextController.text) || contentItem.contains(_searchTextController.text)) {
+                                  nameFilterList.add(nameItem);
+                                  contentFilterList.add(content[ctr]);
+                                  publishedDateFilterList.add(publishedDate[ctr]);
+                                  numLikesFilterList.add(numLikes[ctr]);
+                                  numCommentsFilterList.add(numComments[ctr]);
+                                  numShareFilterList.add(numShare[ctr]);
+                                  profilePicUrlFilterList.add(profilePicUrl[ctr]);
+                                }
+
+                              }
+                              print("Print nameFilterList Below:");
+                              print(nameFilterList);
+                              print("End loop -- current text bar text = { ${_searchTextController.text} }");
+
+                              //当输入的内容不是名字Nor内容， 给提示， 返回全部results
+                              if(nameFilterList.isEmpty && contentFilterList.isEmpty){
+                                showAlertDialog(context,_searchTextController);
+                              }
+
+                              print("Print contentFilterList Below:");
+                              print(contentFilterList);
+                              print("End loop -- current text bar text = { ${_searchTextController.text} }");
+
+                              setState(() {
+
+                              });
+
+                            },
+                            controller: _searchTextController,
+                            // 搜索栏 Rounded Corner
+                            decoration: InputDecoration(
+                              labelText: "Search for User or Content",
+                              filled: true,
+                              // Set background color
+                              fillColor: Colors.white,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                // Adjust corner radius as needed
+                                borderSide: const BorderSide(
+                                    color: Colors.grey), // Optional border color
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                // Adjust corner radius as needed
+                                borderSide: const BorderSide(
+                                    color: Colors
+                                        .blue), // Optional focus border color
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                          :
+                      //未来可以放其他filter之类的按钮， if search off的时候看到的
+                      SizedBox(
+                        width: media.size.width * 0.7,
+                        height: media.size.height * 0.05,
+                        child: const Text("Seach off"),
+                      ),
+
+                      //搜索按钮
+                      GestureDetector(
+                          onTap: () {
+                            if (searchStatus == true) {
+                              // 如果文本框有字就搜索，没有的话就关闭
+                              SearchOff();
+                            } else {
+                              SearchOn();
+                            }
+                          },
+                          child: searchStatus
+                              ? Icon(
+                            Icons.close_rounded,
+                            size: media.size.width * 0.1,
+                          ).animate().fade().slide()
+                              : Icon(
+                            Icons.search,
+                            size: media.size.width * 0.1,
+                          ).animate().fade().slide()),
+
+                      //最右边的padding
+                      SizedBox(
+                        width: media.size.width * 0.05,
+                      ),
+                    ],
+                  ),
+                );}
+          ),
+
+
+
+          // TODO: 结束---
+
+
+          //内容
           ListView.builder(
-              itemCount: authorName.length,
+              itemCount: nameFilterList.isEmpty? name.length:nameFilterList.length,
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               itemBuilder: (BuildContext context, int ctr) {
-                return ArticleOverview(
-                  authorName: authorName[ctr],
-                  authorProfilePic: authorProfilePic[ctr],
-                  publishedDate: publishedDate[ctr],
-                  title: title[ctr],
-                  content: content[ctr],
-                  hashtag: hashtag[ctr],
-                  pic: pic[ctr],
+                return ForumSinglePostWidget(
+                  currentctr: ctr,
+                  name: nameFilterList.isEmpty?                   name[ctr]:            nameFilterList[ctr],
+                  publishedDate: publishedDateFilterList.isEmpty? publishedDate[ctr]:   publishedDateFilterList[ctr],
+                  content: contentFilterList.isEmpty?             content[ctr]:         contentFilterList[ctr],
+                  numLikes: numLikesFilterList.isEmpty?           numLikes[ctr]:        numLikesFilterList[ctr],
+                  numComments: numCommentsFilterList.isEmpty?     numComments[ctr]:     numCommentsFilterList[ctr],
+                  profilePicUrl: profilePicUrlFilterList.isEmpty? profilePicUrl[ctr]:   profilePicUrlFilterList[ctr],
+                  numShare: numShareFilterList.isEmpty?           numShare[ctr]:        numShareFilterList[ctr],
                 );
-
-                },),
+              }),
         ],
       ),
     );
   }
-}
 
-class ArticleOverview extends StatelessWidget {
-  var authorName;
-  var authorProfilePic;
-  var publishedDate;
-  var title;
-  var content;
-  var hashtag;
-  var pic;
+  void SearchOff() {
+    setState(() {
+      searchStatus = false;
+      print("Search off");
 
-  ArticleOverview(
-      {super.key,
-      required this.authorName,
-      required this.authorProfilePic,
-      required this.publishedDate,
-      required this.title,
-      required this.content,
-      required this.hashtag,
-      required this.pic});
+      nameFilterList=[];
+      contentFilterList=[];
+      publishedDateFilterList=[];
+      numLikesFilterList=[];
+      numCommentsFilterList=[];
+      numShareFilterList=[];
+      profilePicUrlFilterList=[];
+    });
+  }
 
-  static const double left_padding = 0.07;
-  static const double right_padding = 0.0;
-  static const double content_Ratio = 0.8;
-  static const double image_Ratio = 0.115;
-  static const double padding_between_content_and_image = 0.017;
+  void SearchOn() {
+    setState(() {
+      searchStatus = true;
+      print("Search on");
+    });
+  }
 
   @override
-  Widget build(BuildContext context) {
-    MediaQueryData media = MediaQuery.of(context);
-
-    return InkWell(
-      hoverColor: ColorClass.lighterBlue, // Color on hover
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Articlefull(
-                authorName: authorName,
-                publishedDate: publishedDate,
-                content: content,
-                title: title,
-                hashtag: hashtag,
-                pic: pic,
-                authorProfilePic: authorProfilePic)),
-      ),
-      child: MouseRegion(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: SizedBox(
-                  height: 180, //Fixed Height as Medium
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //文章and 其他
-                      SizedBox(
-                        width: media.size.width * content_Ratio,
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: media.size.width * left_padding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              //头像 \t 名字 \t 日期
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ProfilePicture(
-                                    picUrl: authorProfilePic,
-                                    width: media.size.width * 0.075,
-                                    height: media.size.width * 0.075,
-                                  ),
-                                  SizedBox(
-                                    width: media.size.width * 0.02,
-                                  ),
-                                  Text(
-                                    authorName,
-                                    style: const TextStyle(
-                                        fontSize: 10, fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: media.size.width * 0.02,
-                                  ),
-                                  Text(
-                                    publishedDate,
-                                    style: const TextStyle(
-                                        fontSize: 11, fontWeight: FontWeight.w300),
-                                  ),
-                                ],
-                              ),
-
-                              // 标题 \H1
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: media.size.width * (content_Ratio-left_padding),
-                                      child: Text(
-                                        title,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              //文章 \p1
-                              Text(
-                                truncateString(content),
-                                style: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.w400),
-                              ),
-
-                              // #tag 标签 ... more 按钮
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //标签 大类
-                                  Text("#$hashtag",
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle: FontStyle.italic)),
-
-                                  //按钮 大类
-                                  BookmarkIcon(
-                                    numBookmarked: 1,
-                                  ),
-                                ],
-                              ),
-
-                              //padding and 下滑线
-
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      //Padding between 内容和照片
-                      SizedBox(width:media.size.width * padding_between_content_and_image,),
-
-
-                      //照片 最右边padding
-                      SizedBox(
-                        width: media.size.width * (image_Ratio + right_padding),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: media.size.width * right_padding,
-                          ),
-                          child: Image.network(pic),
-                        ),
-                      ),
-
-
-                    ],
-                  )),
-            ),
-            //下划线
-            Container(color: Colors.black12,child: SizedBox(height: 0.5,width: media.size.width*0.9,)),
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    searchStatus = true;
+    name = dummyData.name;
+    publishedDate = dummyData.publishedDate;
+    content = dummyData.content;
+    numLikes = dummyData.numLikes;
+    numComments = dummyData.numComments;
+    numShare = dummyData.numShare;
+    profilePicUrl = dummyData.profilePicUrl;
+    print("init");
   }
 }
 
-String truncateString(String text, {int maxLength = 200}) {
-  if (text.length <= maxLength) return "$text\n";
-  return "${text.substring(0, maxLength)}...";
+
+void showAlertDialog(BuildContext context,_textController) {
+
+  String title = "Search Result";
+  String content = "No result for ${_textController.text}";
+  List<Widget> actions = [
+    TextButton(
+      onPressed: () => Navigator.pop(context), // Close the dialog
+      child: Text('Ok'),
+    ),
+  ];
+
+  // Show the dialog
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: actions,
+        );
+      });
 }
+

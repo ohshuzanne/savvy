@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:savvy/InteractedWidget/BookmarkIcon.dart';
-import 'package:savvy/InteractedWidget/FavouriteIcon.dart';
-import 'package:savvy/InteractedWidget/ShareIcon.dart';
-import 'package:savvy/InteractedWidget/YoutubeIcon.dart';
-import 'package:savvy/InteractedWidget/ProfilePicWidget.dart';
+import '../InteractedWidget/BookmarkIcon.dart';
+import '../InteractedWidget/FavouriteIcon.dart';
+import '../InteractedWidget/ProfilePicWidget.dart';
+import '../InteractedWidget/ShareIcon.dart';
+import '../InteractedWidget/YoutubeIcon.dart';
 
 class Articlefull extends StatelessWidget {
   final String authorName;

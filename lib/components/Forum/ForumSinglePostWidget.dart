@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/Forum/commentPage.dart';
+import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
+
 
 import '../InteractedWidget/FavouriteIcon.dart';
 import '../InteractedWidget/ShareIcon.dart';
-import '../InteractedWidget/ProfilePicWidget.dart';
+import 'commentPage.dart';
 
 class ForumSinglePostWidget extends StatelessWidget {
   final name;

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
 
 
-import 'Forum.dart';
+import 'FinancialLiteracyHub.dart';
+import 'communityexchangepage.dart';
 import 'debtmanagerpage.dart';
 import 'expensestrackerpage.dart';
 

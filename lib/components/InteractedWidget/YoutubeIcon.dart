@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/Constants/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../utils/colors.dart';
 
 class YoutubeIcon extends StatelessWidget {
   late var link;
@@ -10,7 +11,7 @@ class YoutubeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      hoverColor: ColorClass.lighterBlue,
+      hoverColor: lighterBlue,
       onTap: (){_launchURL(link);print("Youtubed Tab-ed");},
       child: const Row(
         children: [

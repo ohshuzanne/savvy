@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:savvy/components/InteractedWidget/FavouriteIcon.dart';
 import 'dart:math' as math;
 
-import '../InteractedWidget/FavouriteIcon.dart';
-import 'ForumSinglePostWidget.dart';
+import '../../dummyData.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
-import '../dummyData.dart'; // Import for using math.pi
+import 'ForumSinglePostWidget.dart';
+
 
 class commentPage extends StatefulWidget {
   final currentctr;

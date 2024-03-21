@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:savvy/Constants/Colors.dart';
+import 'package:savvy/utils/colors.dart';
 
 class NewHub extends StatelessWidget {
   const NewHub({super.key});
@@ -47,7 +47,7 @@ class NewHub extends StatelessWidget {
                     Text("7 days!",
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: ColorClass.primaryPurple)),
+                            color: primaryPurple)),
                     pointWidget(),
                   ],
                 ),
@@ -60,15 +60,15 @@ class NewHub extends StatelessWidget {
                       height: media.size.height * container_height_ratio,
                       width: media.size.width * container_focus_weight_ratio,
                       decoration: BoxDecoration(
-                        color: ColorClass.lightGreen,
+                        color: lightGreen,
                         // shape: BoxShape.circle,
                         borderRadius: BorderRadius.circular(10),
                         gradient: const LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomRight,
                             colors: [
-                              ColorClass.lightGreen,
-                              ColorClass.lightBlue
+                              lightGreen,
+                              lightBlue
                             ]),
                       ),
 
@@ -140,15 +140,15 @@ class NewHub extends StatelessWidget {
                       height: media.size.height * container_height_ratio,
                       width: media.size.width * container_unfocus_weight_ratio,
                       decoration: BoxDecoration(
-                        color: ColorClass.lightGreen,
+                        color: lightGreen,
                         // shape: BoxShape.circle,
                         borderRadius: BorderRadius.circular(10),
                         gradient: const LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomRight,
                             colors: [
-                              ColorClass.darkBlue,
-                              ColorClass.lightPurple
+                              darkBlue,
+                              lightPurple
                             ]),
                       ),
                       child: Column(
@@ -196,15 +196,15 @@ class NewHub extends StatelessWidget {
                           width:
                               media.size.width * container_unfocus_weight_ratio,
                           decoration: BoxDecoration(
-                            color: ColorClass.lightGreen,
+                            color: lightGreen,
                             // shape: BoxShape.circle,
                             borderRadius: BorderRadius.circular(10),
                             gradient: const LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  ColorClass.darkBlue,
-                                  ColorClass.lightPurple
+                                  darkBlue,
+                                  lightPurple
                                 ]),
                           ),
                         ),
@@ -268,8 +268,8 @@ class NewHub extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomLeft,
                       colors: [
-                        ColorClass.primaryPurple,
-                        ColorClass.darkBlue,
+                        primaryPurple,
+                        darkBlue,
                       ],
                     ),
                   ),
@@ -411,13 +411,13 @@ class Unfocus_Indicator extends StatelessWidget {
           height: media.size.height * container_height_ratio,
           width: media.size.width * container_unfocus_weight_ratio,
           decoration: BoxDecoration(
-            color: ColorClass.lightGreen,
+            color: lightGreen,
             // shape: BoxShape.circle,
             borderRadius: BorderRadius.circular(10),
             gradient: const LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomRight,
-                colors: [ColorClass.darkBlue, ColorClass.lightPurple]),
+                colors: [darkBlue, lightPurple]),
           ),
         ),
       ),
