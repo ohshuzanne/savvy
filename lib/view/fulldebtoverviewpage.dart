@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/components/gradient_background.dart';
 
 class FullDebtOverviewPage extends StatefulWidget {
   const FullDebtOverviewPage({super.key});
@@ -12,15 +13,21 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Debt Overview Page"),
-              ],
+        child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Debt Overview Page",
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
