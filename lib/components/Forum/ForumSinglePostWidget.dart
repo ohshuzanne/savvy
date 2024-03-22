@@ -75,7 +75,7 @@ class ForumSinglePostWidget extends StatelessWidget {
             SizedBox(width: media.size.width * contentRatioSize,
               child: Text("$content")),
 
-            // Like and Comment
+            // Like, Comment and share
             SizedBox(
               width: media.size.width * contentRatioSize,
               height: 50, //padding between content and button
@@ -86,7 +86,12 @@ class ForumSinglePostWidget extends StatelessWidget {
                 const SizedBox(),
               ],),
             ),
-            Padding(padding:EdgeInsets.only(top: media.size.height * 0.03,))
+
+            //padding & 下划线
+            Padding(padding:EdgeInsets.only(top: media.size.height * 0.01,)),
+            Container(color: Colors.black12,child: SizedBox(height: 0.5,width: media.size.width*0.5,)),
+            Padding(padding:EdgeInsets.only(top: media.size.height * 0.02,)),
+
           ],)
       ],),
     );
@@ -115,15 +120,6 @@ class CommentIcon extends StatelessWidget {
   }
 
   Future<void> goCommentPage(context) {
-    //   Navigator.of(context).popUntil((route) => route.isFirst);
-    //
-    //   return Navigator.pushReplacement<void, void>(
-    //     context,
-    //     MaterialPageRoute<void>(
-    //       builder: (BuildContext context) => commentPage(currentctr),
-    //     ),
-    //   );
-    // }
     return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => commentPage(currentctr)),

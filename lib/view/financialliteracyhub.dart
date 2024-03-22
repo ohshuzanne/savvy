@@ -12,11 +12,11 @@ class FinancialLiteracyHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 7, // Adjust the length based on your number of tabs
+    return DefaultTabController(
+        length: 4, // Adjust the length based on your number of tabs
         child: Scaffold(
           appBar: AppBar(
+            leading: BackButton(),
             bottom: TabBar(
               isScrollable: true, // Optional for many tabs
               tabs: [
@@ -44,23 +44,6 @@ class FinancialLiteracyHub extends StatelessWidget {
                     child: Text("Financial Planning"),
                   ),
                 ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Building Your Financial Literacy"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Financial Products and Services"),
-                  ),
-                ),
-                Tab(
-                  icon: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(Icons.explore)),
-                ),
               ],
     labelColor: primaryPurple,
     unselectedLabelColor: darkGrey,
@@ -75,13 +58,11 @@ class FinancialLiteracyHub extends StatelessWidget {
               Center(child: ArticlesListView(classification: Classifications.followong,)),
               Center(child: ArticlesListView(classification: Classifications.debtManageStractegies,)),
               Center(child: ArticlesListView(classification: Classifications.financialPlanning,)),
-              Center(child: Text('Settings')),
-              Center(child: Text('Settings')),
-              Center(child: Text('Settings')),
+
             ],
           ),
         ),
-      ),
+
     );
   }
 }
