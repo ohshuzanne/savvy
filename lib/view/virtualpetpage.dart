@@ -44,7 +44,7 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Decline',
+                'NO',
                 style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
               ),
             ),
@@ -62,7 +62,7 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
                 }
               },
               child: Text(
-                'Accept',
+                'YES',
                 style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
               ),
             ),

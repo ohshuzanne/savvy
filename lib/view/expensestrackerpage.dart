@@ -24,12 +24,22 @@ class _ExpensesTrackerPageState extends State<ExpensesTrackerPage> {
             size: 16,
           ),
         ),
-        title: const Text(
-          "Savvy",
-          style: TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 20,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 23,
+              child: Image.asset('lib/images/savvylogo.png'),
+            ),
+            Text(
+              "avvy",
+              style: TextStyle(
+                fontFamily: 'Lexend',
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
         actions: [
