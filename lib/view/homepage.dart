@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildNavItem(Icons.payment_rounded, 0),
-                _buildNavItem(Icons.credit_card_rounded, 1),
+                _buildNavItem(Icons.money_rounded, 1),
                 _buildNavItem(Icons.school_rounded, 2),
                 _buildNavItem(Icons.forum_rounded, 3),
               ],
