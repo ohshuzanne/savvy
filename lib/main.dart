@@ -5,8 +5,6 @@ import 'package:savvy/view/registerpage.dart';
 import 'package:savvy/view/signinpage.dart';
 import 'package:savvy/view/pagenotfound.dart';
 
-import 'view/financialliteracyhub_suzdesign.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -16,9 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const OnboardingPage(),
       onGenerateRoute: (settings) {
