@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
-
-
+import 'package:savvy/view/financialliteracyhub.dart';
 import 'communityexchangepage.dart';
 import 'debtmanagerpage.dart';
 import 'expensestrackerpage.dart';
-import 'financialliteracyhub_suzdesign.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     DebtManagerPage(),
     ExpensesTrackerPage(),
-    FinancialLiteracyHub_SuzDesign(),
+    FinancialLiteracyHub(),
     CommunityExchangePage(),
   ];
 

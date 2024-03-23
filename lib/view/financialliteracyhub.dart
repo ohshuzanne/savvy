@@ -5,18 +5,47 @@ import '../components/Hub/ArticleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
 import '../dummyData.dart';
 import '../utils/colors.dart';
+import 'package:savvy/components/showdialog.dart';
 
 class FinancialLiteracyHub extends StatelessWidget {
   const FinancialLiteracyHub({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
-        length: 4, // Adjust the length based on your number of tabs
-        child: Scaffold(
-          appBar: AppBar(
-            leading: BackButton(),
+      length: 4, // Adjust the length based on your number of tabs
+      child: Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: darkGrey,
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 16,
+              ),
+            ),
+            title: const Text(
+              "Savvy",
+              style: TextStyle(
+                fontFamily: 'Lexend',
+                fontSize: 20,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  CustomAlertDialog.showAlertDialog(
+                    context,
+                    "This page is used for registered users to sign in. Please return to the previous page if you are not a registered user.",
+                    "Info",
+                    textColor: darkGrey,
+                  );
+                },
+                icon: const Icon(Icons.info_outline_rounded, size: 22),
+              ),
+            ],
             bottom: TabBar(
               isScrollable: true, // Optional for many tabs
               tabs: [
@@ -45,24 +74,34 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
               ],
-    labelColor: primaryPurple,
-    unselectedLabelColor: darkGrey,
-    indicatorColor: primaryPurple,
-    labelStyle: TextStyle(
-    fontFamily: 'Lexend',
-
-            ),)),
-          body: const TabBarView(
-            children: [
-              Center(child: ArticlesListView(classification: Classifications.forYou,)), //forYou,followong,debtManageStractegies,financialPlanning
-              Center(child: ArticlesListView(classification: Classifications.followong,)),
-              Center(child: ArticlesListView(classification: Classifications.debtManageStractegies,)),
-              Center(child: ArticlesListView(classification: Classifications.financialPlanning,)),
-
-            ],
-          ),
+              labelColor: primaryPurple,
+              unselectedLabelColor: darkGrey,
+              indicatorColor: primaryPurple,
+              labelStyle: TextStyle(
+                fontFamily: 'Lexend',
+              ),
+            )),
+        body: const TabBarView(
+          children: [
+            Center(
+                child: ArticlesListView(
+              classification: Classifications.forYou,
+            )), //forYou,followong,debtManageStractegies,financialPlanning
+            Center(
+                child: ArticlesListView(
+              classification: Classifications.followong,
+            )),
+            Center(
+                child: ArticlesListView(
+              classification: Classifications.debtManageStractegies,
+            )),
+            Center(
+                child: ArticlesListView(
+              classification: Classifications.financialPlanning,
+            )),
+          ],
         ),
-
+      ),
     );
   }
 }
@@ -94,35 +133,42 @@ class ArticlesListView extends StatelessWidget {
       height: media.size.height,
       child: ListView(
         children: [
-
           //检查是否有dummydata 并输出
-          dummyArticle.authorName.isEmpty?
-          Padding(
-            padding: EdgeInsets.only(top:media.size.height*0.35),
-            child: const Center(child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Currently No Data here.\nExplore other classification or follow some other author",textAlign: TextAlign.center,),
-                Icon(Icons.mobiledata_off_rounded),
-              ],
-            )),
-          ):
-          ListView.builder(
-            itemCount: authorName.length,
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemBuilder: (BuildContext context, int ctr) {
-              return ArticleOverview(
-                authorName: authorName[ctr],
-                authorProfilePic: authorProfilePic[ctr],
-                publishedDate: publishedDate[ctr],
-                title: title[ctr],
-                content: content[ctr],
-                hashtag: hashtag[ctr],
-                pic: pic[ctr],
-              );
-
-            },),
+          dummyArticle.authorName.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(top: media.size.height * 0.35),
+                  child: const Center(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Currently No Data here.\nExplore other classification\nor follow some other authors",
+                        style: TextStyle(
+                          fontFamily: 'Lexend',
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Icon(Icons.mobiledata_off_rounded),
+                    ],
+                  )),
+                )
+              : ListView.builder(
+                  itemCount: authorName.length,
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int ctr) {
+                    return ArticleOverview(
+                      authorName: authorName[ctr],
+                      authorProfilePic: authorProfilePic[ctr],
+                      publishedDate: publishedDate[ctr],
+                      title: title[ctr],
+                      content: content[ctr],
+                      hashtag: hashtag[ctr],
+                      pic: pic[ctr],
+                    );
+                  },
+                ),
         ],
       ),
     );
@@ -140,13 +186,13 @@ class ArticleOverview extends StatelessWidget {
 
   ArticleOverview(
       {super.key,
-        required this.authorName,
-        required this.authorProfilePic,
-        required this.publishedDate,
-        required this.title,
-        required this.content,
-        required this.hashtag,
-        required this.pic});
+      required this.authorName,
+      required this.authorProfilePic,
+      required this.publishedDate,
+      required this.title,
+      required this.content,
+      required this.hashtag,
+      required this.pic});
 
   static const double left_padding = 0.07;
   static const double right_padding = 0.0;
@@ -187,8 +233,8 @@ class ArticleOverview extends StatelessWidget {
                       SizedBox(
                         width: media.size.width * content_Ratio,
                         child: Padding(
-                          padding:
-                          EdgeInsets.only(left: media.size.width * left_padding),
+                          padding: EdgeInsets.only(
+                              left: media.size.width * left_padding),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -209,7 +255,8 @@ class ArticleOverview extends StatelessWidget {
                                   Text(
                                     authorName,
                                     style: const TextStyle(
-                                        fontSize: 10, fontWeight: FontWeight.bold),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
                                     width: media.size.width * 0.02,
@@ -217,23 +264,27 @@ class ArticleOverview extends StatelessWidget {
                                   Text(
                                     publishedDate,
                                     style: const TextStyle(
-                                        fontSize: 11, fontWeight: FontWeight.w300),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w300),
                                   ),
                                 ],
                               ),
 
                               // 标题 \H1
                               Padding(
-                                padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                                padding: const EdgeInsets.only(
+                                    top: 4.0, bottom: 4.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: media.size.width * (content_Ratio-left_padding),
+                                      width: media.size.width *
+                                          (content_Ratio - left_padding),
                                       child: Text(
                                         title,
                                         style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.bold),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
@@ -249,7 +300,8 @@ class ArticleOverview extends StatelessWidget {
 
                               // #tag 标签 ... more 按钮
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   //标签 大类
                                   Text("#$hashtag",
@@ -266,15 +318,16 @@ class ArticleOverview extends StatelessWidget {
                               ),
 
                               //padding and 下滑线
-
                             ],
                           ),
                         ),
                       ),
 
                       //Padding between 内容和照片
-                      SizedBox(width:media.size.width * padding_between_content_and_image,),
-
+                      SizedBox(
+                        width: media.size.width *
+                            padding_between_content_and_image,
+                      ),
 
                       //照片 最右边padding
                       SizedBox(
@@ -286,13 +339,16 @@ class ArticleOverview extends StatelessWidget {
                           child: Image.network(pic),
                         ),
                       ),
-
-
                     ],
                   )),
             ),
             //下划线
-            Container(color: Colors.black12,child: SizedBox(height: 0.5,width: media.size.width*0.9,)),
+            Container(
+                color: Colors.black12,
+                child: SizedBox(
+                  height: 0.5,
+                  width: media.size.width * 0.9,
+                )),
           ],
         ),
       ),
