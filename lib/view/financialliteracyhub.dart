@@ -25,12 +25,22 @@ class FinancialLiteracyHub extends StatelessWidget {
                 size: 16,
               ),
             ),
-            title: const Text(
-              "Savvy",
-              style: TextStyle(
-                fontFamily: 'Lexend',
-                fontSize: 20,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 23,
+                  child: Image.asset('lib/images/savvylogo.png'),
+                ),
+                Text(
+                  "avvy",
+                  style: TextStyle(
+                    fontFamily: 'Lexend',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             centerTitle: true,
             actions: [
@@ -52,25 +62,37 @@ class FinancialLiteracyHub extends StatelessWidget {
                 Tab(
                   icon: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("For you"),
+                    child: Text("For you",
+                        style: TextStyle(
+                          fontFamily: 'Lexend',
+                        )),
                   ),
                 ),
                 Tab(
                   icon: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Following"),
+                    child: Text("Following",
+                        style: TextStyle(
+                          fontFamily: 'Lexend',
+                        )),
                   ),
                 ),
                 Tab(
                   icon: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Debt Management Strategies"),
+                    child: Text("Debt Management Strategies",
+                        style: TextStyle(
+                          fontFamily: 'Lexend',
+                        )),
                   ),
                 ),
                 Tab(
                   icon: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Financial Planning"),
+                    child: Text("Financial Planning",
+                        style: TextStyle(
+                          fontFamily: 'Lexend',
+                        )),
                   ),
                 ),
               ],
@@ -224,7 +246,7 @@ class ArticleOverview extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SizedBox(
-                  height: 180, //Fixed Height as Medium
+                  height: 200, //Fixed Height as Medium
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -255,6 +277,7 @@ class ArticleOverview extends StatelessWidget {
                                   Text(
                                     authorName,
                                     style: const TextStyle(
+                                        fontFamily: 'Lexend',
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -264,6 +287,7 @@ class ArticleOverview extends StatelessWidget {
                                   Text(
                                     publishedDate,
                                     style: const TextStyle(
+                                        fontFamily: 'Lexend',
                                         fontSize: 11,
                                         fontWeight: FontWeight.w300),
                                   ),
@@ -273,7 +297,9 @@ class ArticleOverview extends StatelessWidget {
                               // 标题 \H1
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 4.0, bottom: 4.0),
+                                  top: 4.0,
+                                  bottom: 4.0,
+                                ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -282,9 +308,13 @@ class ArticleOverview extends StatelessWidget {
                                           (content_Ratio - left_padding),
                                       child: Text(
                                         title,
+                                        maxLines: 2, // Limit to 2 lines
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
+                                          fontFamily: 'Lexend',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -295,7 +325,9 @@ class ArticleOverview extends StatelessWidget {
                               Text(
                                 truncateString(content),
                                 style: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.w400),
+                                    fontFamily: 'Lexend',
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w400),
                               ),
 
                               // #tag 标签 ... more 按钮
@@ -306,7 +338,9 @@ class ArticleOverview extends StatelessWidget {
                                   //标签 大类
                                   Text("#$hashtag",
                                       style: const TextStyle(
-                                          fontSize: 11,
+                                          fontFamily: 'Lexend',
+                                          color: darkGrey,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           fontStyle: FontStyle.italic)),
 

@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:savvy/components/InteractedWidget/FavouriteIcon.dart';
+import 'package:savvy/components/textfield.dart';
+import 'package:savvy/utils/colors.dart';
 import 'dart:math' as math;
 
 import '../../dummyData.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'ForumSinglePostWidget.dart';
-
 
 class commentPage extends StatefulWidget {
   final currentctr;
@@ -41,7 +42,6 @@ class _commentPageState extends State<commentPage> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
-
 
     return Scaffold(
       body: Stack(children: <Widget>[
@@ -79,15 +79,18 @@ class _commentPageState extends State<commentPage> {
                   ),
 
                   //主帖子
-                  child: ForumSinglePostWidget(
-                    currentctr: widget.currentctr,
-                    name: name[widget.currentctr],
-                    publishedDate: publishedDate[widget.currentctr],
-                    content: content[widget.currentctr],
-                    numLikes: numLikes[widget.currentctr],
-                    numComments: numComments[widget.currentctr],
-                    profilePicUrl: profilePicUrl[widget.currentctr],
-                    numShare: numShare[widget.currentctr],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: ForumSinglePostWidget(
+                      currentctr: widget.currentctr,
+                      name: name[widget.currentctr],
+                      publishedDate: publishedDate[widget.currentctr],
+                      content: content[widget.currentctr],
+                      numLikes: numLikes[widget.currentctr],
+                      numComments: numComments[widget.currentctr],
+                      profilePicUrl: profilePicUrl[widget.currentctr],
+                      numShare: numShare[widget.currentctr],
+                    ),
                   ),
                 ),
 
@@ -105,7 +108,9 @@ class _commentPageState extends State<commentPage> {
                         numLikes: commentnumLikes[ctr],
                       );
                     }),
-                SizedBox(height: media.size.height*0.1,),
+                SizedBox(
+                  height: media.size.height * 0.1,
+                ),
               ]),
             ),
           ],
@@ -121,41 +126,45 @@ class _commentPageState extends State<commentPage> {
           // Span the entire width
 
           child: Container(
-              color: Colors.grey[200],
-              // Optional background color for the row
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: media.size.width * 0.65,
-                    child: TextField(
-                      controller: _textController, // Assign the controller
-                      decoration: InputDecoration(
-                        hintText: 'Enter some text...',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: EdgeInsets.zero, // Remove default padding
-                    ),
-                    onPressed: () {
-                      // Access the entered text using the controller
-                      String enteredText = _textController.text;
-                      reRender();
-                      print('Entered Text: $enteredText');
-                    },
-                    child: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()..rotateZ(-45.0 * math.pi / 180.0),
-                        child: const Icon(Icons.send)),
-                  ),
-                ],
+            decoration: BoxDecoration(
+              color: darkBlue.withOpacity(0.5),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
               ),
+            ),
+            height: 80,
+            // Optional background color for the row
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 250,
+                  child: PrimaryTextField(
+                      controller: _textController,
+                      hintText: "Enter your comment...",
+                      obscureText: false),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: backgroundWhite,
+                    shape: const CircleBorder(),
+                    padding: EdgeInsets.zero, // Remove default padding
+                  ),
+                  onPressed: () {
+                    // Access the entered text using the controller
+                    String enteredText = _textController.text;
+                    reRender();
+                    print('Entered Text: $enteredText');
+                  },
+                  child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..rotateZ(-45.0 * math.pi / 180.0),
+                      child: const Icon(Icons.send, color: darkBlue)),
+                ),
+              ],
+            ),
           ),
         ),
       ]),
@@ -168,6 +177,7 @@ class _commentPageState extends State<commentPage> {
         .dispose(); // Dispose the controller when the widget is disposed
     super.dispose();
   }
+
   @override
   void initState() {
     super.initState();
@@ -190,11 +200,12 @@ class _commentPageState extends State<commentPage> {
     setState(() {
       numComment += 1;
       commentName.add("NewCommentName");
-      commentprofilePicUrl.add("https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
+      commentprofilePicUrl.add(
+          "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
       commentPublishedDate.add(DateTime.now());
       commentContent.add(_textController.text);
       commentnumLikes.add(0);
-      _textController.text="";
+      _textController.text = "";
       print("Re-rendered");
     });
   }
@@ -229,7 +240,6 @@ class CommentPostWidget extends StatelessWidget {
     double contentFontSize = 12;
     double nameAndTimeFontSize = 12;
 
-
     return Padding(
       padding: EdgeInsets.only(
         top: media.size.height * 0.025,
@@ -243,10 +253,8 @@ class CommentPostWidget extends StatelessWidget {
               children: [
                 //最左边的padding
                 SizedBox(
-                  width: media.size.width * screenLeftPaddingRatio ,
-
+                  width: media.size.width * screenLeftPaddingRatio,
                 ),
-
 
                 //头像
                 SizedBox(
@@ -273,7 +281,9 @@ class CommentPostWidget extends StatelessWidget {
                             Text(
                               "$name",
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: nameAndTimeFontSize),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: nameAndTimeFontSize),
                             ),
                             publishedDate.month == DateTime.now().month &&
                                     publishedDate.day == DateTime.now().day
@@ -304,7 +314,12 @@ class CommentPostWidget extends StatelessWidget {
                           SizedBox(
                               //无限内容
                               width: media.size.width * contentRatioSize,
-                              child: Text("$content",style: TextStyle(fontSize: contentFontSize,),)),
+                              child: Text(
+                                "$content",
+                                style: TextStyle(
+                                  fontSize: contentFontSize,
+                                ),
+                              )),
                           FavouritedIcon(
                             numLikes: numLikes,
                           ),
@@ -316,7 +331,6 @@ class CommentPostWidget extends StatelessWidget {
                         padding: EdgeInsets.only(
                       top: media.size.height * 0.03,
                     )),
-
                   ],
                 )
               ],
@@ -352,18 +366,10 @@ class _bottomInputBarState extends State<bottomInputBar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: media.size.width * 0.65,
-          child: TextField(
-            controller: widget.textController, // Assign the controller
-            decoration: InputDecoration(
-              hintText: 'Enter some text...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0),
-              ),
-            ),
-          ),
-        ),
+        PrimaryTextField(
+            controller: widget.textController,
+            hintText: "Enter your comment...",
+            obscureText: false),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: const CircleBorder(),

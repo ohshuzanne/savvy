@@ -1,21 +1,24 @@
-
 import 'package:flutter/material.dart';
+import 'package:savvy/utils/colors.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ShareIcon extends StatelessWidget {
   late final numShare;
 
-  ShareIcon({super.key,required this.numShare});
+  ShareIcon({super.key, required this.numShare});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
-          onTap:share,
-          child: const Icon(Icons.share_outlined),),
-        Text("$numShare",style: const TextStyle(fontSize: 10),),
-
+          onTap: share,
+          child: const Icon(Icons.share_outlined, color: darkBlue),
+        ),
+        Text(
+          "$numShare",
+          style: const TextStyle(fontSize: 10),
+        ),
       ],
     );
   }
@@ -27,5 +30,4 @@ class ShareIcon extends StatelessWidget {
       print('Sharing failed: $e');
     }
   }
-
 }

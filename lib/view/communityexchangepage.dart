@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/components/gradient_background.dart';
+import 'package:savvy/components/showdialog.dart';
 import 'package:savvy/dummyData.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -57,189 +59,212 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
             size: 16,
           ),
         ),
-        title: const Text(
-          "Savvy",
-          style: TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 20,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 23,
+              child: Image.asset('lib/images/savvylogo.png'),
+            ),
+            Text(
+              "avvy",
+              style: TextStyle(
+                fontFamily: 'Lexend',
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              CustomAlertDialog.showAlertDialog(
+                context,
+                "This page is used for registered users to sign in. Please return to the previous page if you are not a registered user.",
+                "Info",
+                textColor: darkGrey,
+              );
+            },
             icon: const Icon(Icons.info_outline_rounded, size: 22),
           ),
         ],
       ),
-      body: SizedBox(
-        height: media.size.height,
-        child: ListView(
-          children: [
-            //搜索栏
-            //searchTab(name,content,filterList),
-            Builder(builder: (BuildContext context) {
-              return SizedBox(
-                width: media.size.width,
-                height: media.size.height * 0.09, //搜索栏主要高度定型
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    searchStatus == true
-                        ?
-                        // 输入文本框
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: media.size.width * 0.05,
-                                right: media.size.width * 0.05),
-                            child: SizedBox(
-                              width: media.size.width * 0.7,
-                              height: media.size.height * 0.05,
-                              child: TextField(
-                                onSubmitted: (text) {
-                                  nameFilterList = [];
-                                  contentFilterList = [];
-                                  publishedDateFilterList = [];
-                                  numLikesFilterList = [];
-                                  numCommentsFilterList = [];
-                                  numShareFilterList = [];
-                                  profilePicUrlFilterList = [];
+      body: Stack(
+        children: <Widget>[
+          SizedBox(
+            height: media.size.height,
+            child: ListView(
+              children: [
+                //搜索栏
+                //searchTab(name,content,filterList),
+                Builder(builder: (BuildContext context) {
+                  return SizedBox(
+                    width: media.size.width,
+                    height: media.size.height * 0.09, //搜索栏主要高度定型
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        searchStatus == true
+                            ?
+                            // 输入文本框
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: media.size.width * 0.05,
+                                    right: media.size.width * 0.05),
+                                child: SizedBox(
+                                  width: media.size.width * 0.7,
+                                  height: media.size.height * 0.05,
+                                  child: TextField(
+                                    onSubmitted: (text) {
+                                      nameFilterList = [];
+                                      contentFilterList = [];
+                                      publishedDateFilterList = [];
+                                      numLikesFilterList = [];
+                                      numCommentsFilterList = [];
+                                      numShareFilterList = [];
+                                      profilePicUrlFilterList = [];
 
-                                  int ctr = -1;
-                                  for (var nameItem in name) {
-                                    ctr += 1;
-                                    var contentItem = content[ctr];
-                                    if (nameItem.contains(
-                                            _searchTextController.text) ||
-                                        contentItem.contains(
-                                            _searchTextController.text)) {
-                                      nameFilterList.add(nameItem);
-                                      contentFilterList.add(content[ctr]);
-                                      publishedDateFilterList
-                                          .add(publishedDate[ctr]);
-                                      numLikesFilterList.add(numLikes[ctr]);
-                                      numCommentsFilterList
-                                          .add(numComments[ctr]);
-                                      numShareFilterList.add(numShare[ctr]);
-                                      profilePicUrlFilterList
-                                          .add(profilePicUrl[ctr]);
-                                    }
-                                  }
-                                  print("Print nameFilterList Below:");
-                                  print(nameFilterList);
-                                  print(
-                                      "End loop -- current text bar text = { ${_searchTextController.text} }");
+                                      int ctr = -1;
+                                      for (var nameItem in name) {
+                                        ctr += 1;
+                                        var contentItem = content[ctr];
+                                        if (nameItem.contains(
+                                                _searchTextController.text) ||
+                                            contentItem.contains(
+                                                _searchTextController.text)) {
+                                          nameFilterList.add(nameItem);
+                                          contentFilterList.add(content[ctr]);
+                                          publishedDateFilterList
+                                              .add(publishedDate[ctr]);
+                                          numLikesFilterList.add(numLikes[ctr]);
+                                          numCommentsFilterList
+                                              .add(numComments[ctr]);
+                                          numShareFilterList.add(numShare[ctr]);
+                                          profilePicUrlFilterList
+                                              .add(profilePicUrl[ctr]);
+                                        }
+                                      }
+                                      print("Print nameFilterList Below:");
+                                      print(nameFilterList);
+                                      print(
+                                          "End loop -- current text bar text = { ${_searchTextController.text} }");
 
-                                  //当输入的内容不是名字Nor内容， 给提示， 返回全部results
-                                  if (nameFilterList.isEmpty &&
-                                      contentFilterList.isEmpty) {
-                                    showAlertDialog(
-                                        context, _searchTextController);
-                                  }
+                                      //当输入的内容不是名字Nor内容， 给提示， 返回全部results
+                                      if (nameFilterList.isEmpty &&
+                                          contentFilterList.isEmpty) {
+                                        showAlertDialog(
+                                            context, _searchTextController);
+                                      }
 
-                                  print("Print contentFilterList Below:");
-                                  print(contentFilterList);
-                                  print(
-                                      "End loop -- current text bar text = { ${_searchTextController.text} }");
+                                      print("Print contentFilterList Below:");
+                                      print(contentFilterList);
+                                      print(
+                                          "End loop -- current text bar text = { ${_searchTextController.text} }");
 
-                                  setState(() {});
-                                },
-                                controller: _searchTextController,
-                                // 搜索栏 Rounded Corner
-                                decoration: InputDecoration(
-                                  labelText: "Search for User or Content",
-                                  filled: true,
-                                  // Set background color
-                                  fillColor: Colors.white,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    // Adjust corner radius as needed
-                                    borderSide: const BorderSide(
-                                        color: Colors
-                                            .grey), // Optional border color
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    // Adjust corner radius as needed
-                                    borderSide: const BorderSide(
-                                        color: Colors
-                                            .blue), // Optional focus border color
+                                      setState(() {});
+                                    },
+                                    controller: _searchTextController,
+                                    // 搜索栏 Rounded Corner
+                                    decoration: InputDecoration(
+                                      labelText: "Search for User or Content",
+                                      filled: true,
+                                      // Set background color
+                                      fillColor: Colors.white,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        // Adjust corner radius as needed
+                                        borderSide: const BorderSide(
+                                            color: Colors
+                                                .grey), // Optional border color
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        // Adjust corner radius as needed
+                                        borderSide: const BorderSide(
+                                            color: Colors
+                                                .blue), // Optional focus border color
+                                      ),
+                                    ),
                                   ),
                                 ),
+                              )
+                            :
+                            //未来可以放其他filter之类的按钮， if search off的时候看到的
+                            SizedBox(
+                                width: media.size.width * 0.7,
+                                height: media.size.height * 0.05,
+                                // child: const Text("Seach off"),
                               ),
-                            ),
-                          )
-                        :
-                        //未来可以放其他filter之类的按钮， if search off的时候看到的
+
+                        //搜索按钮
+                        GestureDetector(
+                            onTap: () {
+                              if (searchStatus == true) {
+                                SearchOff();
+                              } else {
+                                SearchOn();
+                              }
+                            },
+                            child: searchStatus
+                                ? Icon(
+                                    Icons.close_rounded,
+                                    size: media.size.width * 0.06,
+                                  ).animate().fade().slide()
+                                : Icon(
+                                    Icons.search,
+                                    size: media.size.width * 0.06,
+                                  ).animate().fade().slide()),
+
+                        //最右边的padding
                         SizedBox(
-                            width: media.size.width * 0.7,
-                            height: media.size.height * 0.05,
-                            // child: const Text("Seach off"),
-                          ),
-
-                    //搜索按钮
-                    GestureDetector(
-                        onTap: () {
-                          if (searchStatus == true) {
-                            SearchOff();
-                          } else {
-                            SearchOn();
-                          }
-                        },
-                        child: searchStatus
-                            ? Icon(
-                                Icons.close_rounded,
-                                size: media.size.width * 0.1,
-                              ).animate().fade().slide()
-                            : Icon(
-                                Icons.search,
-                                size: media.size.width * 0.1,
-                              ).animate().fade().slide()),
-
-                    //最右边的padding
-                    SizedBox(
-                      width: media.size.width * 0.05,
+                          width: media.size.width * 0.05,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }),
-
-            //内容
-            ListView.builder(
-                itemCount: nameFilterList.isEmpty
-                    ? name.length
-                    : nameFilterList.length,
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemBuilder: (BuildContext context, int ctr) {
-                  return ForumSinglePostWidget(
-                    currentctr: ctr,
-                    name: nameFilterList.isEmpty
-                        ? name[ctr]
-                        : nameFilterList[ctr],
-                    publishedDate: publishedDateFilterList.isEmpty
-                        ? publishedDate[ctr]
-                        : publishedDateFilterList[ctr],
-                    content: contentFilterList.isEmpty
-                        ? content[ctr]
-                        : contentFilterList[ctr],
-                    numLikes: numLikesFilterList.isEmpty
-                        ? numLikes[ctr]
-                        : numLikesFilterList[ctr],
-                    numComments: numCommentsFilterList.isEmpty
-                        ? numComments[ctr]
-                        : numCommentsFilterList[ctr],
-                    profilePicUrl: profilePicUrlFilterList.isEmpty
-                        ? profilePicUrl[ctr]
-                        : profilePicUrlFilterList[ctr],
-                    numShare: numShareFilterList.isEmpty
-                        ? numShare[ctr]
-                        : numShareFilterList[ctr],
                   );
                 }),
-          ],
-        ),
+
+                //内容
+                ListView.builder(
+                    itemCount: nameFilterList.isEmpty
+                        ? name.length
+                        : nameFilterList.length,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int ctr) {
+                      return ForumSinglePostWidget(
+                        currentctr: ctr,
+                        name: nameFilterList.isEmpty
+                            ? name[ctr]
+                            : nameFilterList[ctr],
+                        publishedDate: publishedDateFilterList.isEmpty
+                            ? publishedDate[ctr]
+                            : publishedDateFilterList[ctr],
+                        content: contentFilterList.isEmpty
+                            ? content[ctr]
+                            : contentFilterList[ctr],
+                        numLikes: numLikesFilterList.isEmpty
+                            ? numLikes[ctr]
+                            : numLikesFilterList[ctr],
+                        numComments: numCommentsFilterList.isEmpty
+                            ? numComments[ctr]
+                            : numCommentsFilterList[ctr],
+                        profilePicUrl: profilePicUrlFilterList.isEmpty
+                            ? profilePicUrl[ctr]
+                            : profilePicUrlFilterList[ctr],
+                        numShare: numShareFilterList.isEmpty
+                            ? numShare[ctr]
+                            : numShareFilterList[ctr],
+                      );
+                    }),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

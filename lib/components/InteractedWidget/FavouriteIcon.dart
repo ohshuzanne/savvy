@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/utils/colors.dart';
 
 class FavouritedIcon extends StatefulWidget {
   late int numLikes;
 
-  FavouritedIcon({super.key,required this.numLikes});
+  FavouritedIcon({super.key, required this.numLikes});
 
   @override
   State<FavouritedIcon> createState() => _FavouritedIconState();
@@ -19,19 +20,20 @@ class _FavouritedIconState extends State<FavouritedIcon> {
     liked = false;
   }
 
-  like(){
+  like() {
     setState(() {
       liked = true;
-      widget.numLikes+=1;
+      widget.numLikes += 1;
     });
   }
 
-  unlike(){
+  unlike() {
     setState(() {
       liked = false;
-      widget.numLikes-=1;
+      widget.numLikes -= 1;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -39,10 +41,13 @@ class _FavouritedIconState extends State<FavouritedIcon> {
         GestureDetector(
           onTap: liked ? unlike : like,
           child: liked
-              ? const Icon(Icons.favorite)
-              : const Icon(Icons.favorite_border_outlined),
+              ? const Icon(Icons.favorite_rounded, color: darkBlue)
+              : const Icon(Icons.favorite_border_outlined, color: darkBlue),
         ),
-        Text(widget.numLikes.toString(),style: const TextStyle(fontSize: 10),),
+        Text(
+          widget.numLikes.toString(),
+          style: const TextStyle(fontSize: 10),
+        ),
       ],
     );
 
@@ -61,6 +66,5 @@ class _FavouritedIconState extends State<FavouritedIcon> {
       },
     );
 */
-
   }
 }

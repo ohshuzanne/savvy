@@ -40,11 +40,11 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(25),
                               child: Container(
-                                height: 40,
-                                width: 40,
+                                height: 30,
+                                width: 30,
                                 color: darkGrey.withOpacity(0.1),
                                 child: Icon(Icons.settings_rounded,
-                                    size: 30, color: Colors.white),
+                                    size: 20, color: Colors.white),
                               ),
                             ),
                           ),

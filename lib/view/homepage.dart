@@ -3,7 +3,6 @@ import 'package:savvy/utils/colors.dart';
 import 'package:savvy/view/financialliteracyhub.dart';
 import 'communityexchangepage.dart';
 import 'debtmanagerpage.dart';
-import 'expensestrackerpage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,7 +16,6 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     DebtManagerPage(),
-    ExpensesTrackerPage(),
     FinancialLiteracyHub(),
     CommunityExchangePage(),
   ];
@@ -49,7 +47,6 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildNavItem(Icons.payment_rounded, 0),
-                _buildNavItem(Icons.money_rounded, 1),
                 _buildNavItem(Icons.school_rounded, 2),
                 _buildNavItem(Icons.forum_rounded, 3),
               ],
