@@ -27,29 +27,41 @@ class ExpensesDashboard extends StatelessWidget {
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Balance",style: GoogleFonts.lexend(color: Colors.black)),
+                    Text("Balance",
+                        style: GoogleFonts.lexend(color: Colors.black)),
                     Text("\$ ${balance}")
                   ],
                 ),
-              ), ListTile(title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Monthly Income",style: GoogleFonts.lexend(color: Colors.black)),
-                  Text("\$ ${income}"),
-                  Row(children: [Text("Edit Monthly Income",style: GoogleFonts.lexend(color: Colors.black)),Icon(Icons.edit_rounded, color: Colors.grey,)],)
-
-                ],
-              ),),
-              ListTile(title: Row(
-                children: [
-
-                ],
-              ),)
+              ),
+              ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Monthly Income",
+                        style: GoogleFonts.lexend(color: Colors.black)),
+                    Text("\$ ${income}"),
+                    Row(
+                      children: [
+                        Text("Edit Monthly Income",
+                            style: GoogleFonts.lexend(color: Colors.black)),
+                        Icon(
+                          Icons.edit_rounded,
+                          color: Colors.grey,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              ListTile(
+                title: Row(
+                  children: [],
+                ),
+              )
             ],
           ),
         ),
       ),
-
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: darkGrey,
@@ -85,7 +97,6 @@ class ExpensesDashboard extends StatelessWidget {
           ),
         ],
       ),
-
       floatingActionButton: CreateButton(),
       body: SafeArea(
           child: Padding(
@@ -116,16 +127,15 @@ class ExpensesDashboard extends StatelessWidget {
                 toolbarHeight: 80,
                 title: Text(
                   "Record your expenses today!",
-                  style: GoogleFonts.lexend(color: Colors.black, fontSize : 18),
-                  
+                  style: GoogleFonts.lexend(color: Colors.black, fontSize: 18),
                 ),
               ),
               TotalExpenses(),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 5, left: 10),
+                padding: const EdgeInsets.only(top: 15.0, bottom: 5, left: 10),
                 child: Text(
                   "Categories",
-                  style: GoogleFonts.lexend(color: Colors.black, fontSize:17),
+                  style: GoogleFonts.lexend(color: Colors.black, fontSize: 17),
                 ),
               ),
               GridView.count(
@@ -146,7 +156,8 @@ class ExpensesDashboard extends StatelessWidget {
                   children: [
                     Text(
                       "Latest Transaction",
-                      style: GoogleFonts.lexend(color: Colors.black, fontSize:17),
+                      style:
+                          GoogleFonts.lexend(color: Colors.black, fontSize: 17),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -160,7 +171,8 @@ class ExpensesDashboard extends StatelessWidget {
                         children: [
                           Text(
                             "View All",
-                            style: GoogleFonts.lexend(color: mainPurple.withOpacity(0.7)),
+                            style: GoogleFonts.lexend(
+                                color: mainPurple.withOpacity(0.7)),
                           ),
                           SizedBox(
                             width: 2,

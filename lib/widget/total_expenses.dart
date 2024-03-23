@@ -8,24 +8,15 @@ import '../dummy.dart';
 class TotalExpenses extends StatefulWidget {
   const TotalExpenses({super.key});
 
-
   @override
   State<TotalExpenses> createState() => _TotalExpensesState();
 }
 
 class _TotalExpensesState extends State<TotalExpenses> {
-
-
-
-
   String getTotal() {
     double total = 0;
     for (Map i in expenseList) {
-      if (DateTime
-          .parse(i['date'])
-          .month == DateTime
-          .now()
-          .month) {
+      if (DateTime.parse(i['date']).month == DateTime.now().month) {
         total += i['amount'].toDouble();
       }
     }
@@ -35,13 +26,14 @@ class _TotalExpensesState extends State<TotalExpenses> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-              builder: (BuildContext context) =>
-                  BudgetScreen()));},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+                builder: (BuildContext context) => BudgetScreen()));
+      },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -67,25 +59,34 @@ class _TotalExpensesState extends State<TotalExpenses> {
                   children: [
                     Row(
                       children: [
-                        Text("Total Expenses", style: GoogleFonts.lexend(color: Colors.black)),
-                        Text("/Budget",style: GoogleFonts.lexend(color: Colors.black, fontSize: 8))
+                        Text("Total Expenses",
+                            style: GoogleFonts.lexend(color: Colors.black)),
+                        Text("/Budget",
+                            style: GoogleFonts.lexend(
+                                color: Colors.black, fontSize: 8))
                       ],
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("RM ${getTotal()}", style: TextStyle(fontSize: 25),),
+                        Text(
+                          "RM ${getTotal()}",
+                          style: TextStyle(fontSize: 25),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 7.0),
-                          child: Text("/RM $budget", style: TextStyle(fontSize: 12),),
+                          child: Text(
+                            "/RM $budget",
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       ],
                     ),
-
                   ],
                 ),
-
               ],
             ),
           ),
