@@ -15,6 +15,96 @@ class FullDebtOverviewPage extends StatefulWidget {
 class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
   int _touchedIndex = -1;
 
+  void _showLoanTypeChoice(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Select Loan Type',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showSettingsModalSheet(context);
+                },
+                child: Text('DMP Loan'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Other Type of Loan'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSettingsModalSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Save'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,20 +124,25 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
                       bottomRight: Radius.circular(25),
                     ),
                   ),
-                  //settings icon
+                  //add icon
                   child: Stack(
                     children: [
                       Positioned(
                         top: MediaQuery.of(context).size.height * 0.04,
                         left: MediaQuery.of(context).size.width * 0.85,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            color: darkGrey.withOpacity(0.1),
-                            child: Icon(Icons.settings_rounded,
-                                size: 20, color: Colors.white),
+                        child: GestureDetector(
+                          onTap: () {
+                            _showLoanTypeChoice(context);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              color: darkGrey.withOpacity(0.1),
+                              child: Icon(Icons.add_rounded,
+                                  size: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

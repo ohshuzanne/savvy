@@ -4,6 +4,7 @@ import 'package:savvy/dummy.dart';
 import 'package:savvy/screen/categories_details_screen.dart';
 import 'package:savvy/utils/categories.dart';
 import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/colors.dart';
 
 class CategoriesWidget extends StatefulWidget {
   final String cat;
@@ -14,22 +15,16 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class _CategoriesWidgetState extends State<CategoriesWidget> {
-
   String getTotal() {
     double total = 0;
     for (Map i in expenseList) {
-      if (DateTime
-          .parse(i['date'])
-          .month == DateTime
-          .now()
-          .month && i['categories'] == widget.cat) {
+      if (DateTime.parse(i['date']).month == DateTime.now().month &&
+          i['categories'] == widget.cat) {
         total += i['amount'].toDouble();
       }
     }
     return (total).toStringAsFixed(2);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +34,12 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
         Navigator.push(
             context,
             MaterialPageRoute<void>(
-                builder: (BuildContext context) => CategoriesDetails(cat: widget.cat,)));
+                builder: (BuildContext context) => CategoriesDetails(
+                      cat: widget.cat,
+                    )));
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -57,17 +54,27 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 0, left: 20, right: 20),
+            padding: const EdgeInsets.only(
+                top: 20.0, bottom: 0, left: 20, right: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(getIcons(widget.cat), size: 30, color: mainPurple,),
+                Icon(
+                  getIcons(widget.cat),
+                  size: 30,
+                  color: primaryPurple,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(widget.cat, style: GoogleFonts.lexend(color: Colors.black, fontSize:13, fontWeight: FontWeight.w500),),
+                  child: Text(
+                    widget.cat,
+                    style: GoogleFonts.lexend(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
                 Text("RM " + getTotal()),
-
               ],
             ),
           ),
