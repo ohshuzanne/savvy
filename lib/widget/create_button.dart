@@ -13,7 +13,7 @@ class _CreateButtonState extends State<CreateButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 60.0, right: 20),
+      padding: const EdgeInsets.only(bottom: 20.0, right: 20),
       child: FloatingActionButton(
 
         shape: CircleBorder(),

@@ -10,6 +10,8 @@ import 'package:savvy/widget/create_button.dart';
 import 'package:savvy/widget/total_expenses.dart';
 import 'package:savvy/widget/transaction_log.dart';
 
+import '../utils/colors.dart';
+
 class ExpensesDashboard extends StatelessWidget {
   const ExpensesDashboard({super.key});
 
@@ -47,6 +49,43 @@ class ExpensesDashboard extends StatelessWidget {
           ),
         ),
       ),
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: darkGrey,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 16,
+          ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 23,
+              child: Image.asset('lib/images/savvylogo.png'),
+            ),
+            Text(
+              "avvy",
+              style: TextStyle(
+                fontFamily: 'Lexend',
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.info_outline_rounded, size: 22),
+          ),
+        ],
+      ),
+
       floatingActionButton: CreateButton(),
       body: SafeArea(
           child: Padding(
@@ -57,6 +96,7 @@ class ExpensesDashboard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBar(
+                automaticallyImplyLeading: false,
                 actions: [
                   Builder(builder: (context) {
                     return GestureDetector(
