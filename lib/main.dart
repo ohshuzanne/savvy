@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/utils/color.dart';
 import 'package:savvy/view/homepage.dart';
 import 'package:savvy/view/onboardingpage.dart';
 import 'package:savvy/view/registerpage.dart';
@@ -20,6 +21,11 @@ class MyApp extends StatelessWidget {
 
       MaterialApp(
       debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(scrolledUnderElevation: 0),
+          colorScheme: ColorScheme.fromSeed(seedColor: mainPurple),
+          useMaterial3: true,
+        ),
       home: const OnboardingPage(),
       onGenerateRoute: (settings) {
         switch (settings.name) {

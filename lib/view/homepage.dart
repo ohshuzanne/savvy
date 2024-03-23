@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/view/expensestrackerpage.dart';
 import 'package:savvy/view/financialliteracyhub.dart';
+import '../screen/expenses_dashboard_screen.dart';
 import 'communityexchangepage.dart';
 import 'debtmanagerpage.dart';
 
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     DebtManagerPage(),
-    ExpensesTrackerPage(),
+    ExpensesDashboard(),
     FinancialLiteracyHub(),
     CommunityExchangePage(),
   ];
