@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/utils/color.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/view/debtmanagerpage.dart';
 import 'package:savvy/view/homepage.dart';
