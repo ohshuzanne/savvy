@@ -13,96 +13,205 @@ class FinancialLiteracyHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4, // Adjust the length based on your number of tabs
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            foregroundColor: darkGrey,
-            leading: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 16,
+          backgroundColor: Colors.transparent,
+          foregroundColor: darkGrey,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 23,
+                child: Image.asset('lib/images/savvylogo.png'),
               ),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 23,
-                  child: Image.asset('lib/images/savvylogo.png'),
+              Text(
+                "avvy",
+                style: TextStyle(
+                  fontFamily: 'Lexend',
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
-                Text(
-                  "avvy",
-                  style: TextStyle(
-                    fontFamily: 'Lexend',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  CustomAlertDialog.showAlertDialog(
-                    context,
-                    "This page is used for registered users to sign in. Please return to the previous page if you are not a registered user.",
-                    "Info",
-                    textColor: darkGrey,
-                  );
-                },
-                icon: const Icon(Icons.info_outline_rounded, size: 22),
               ),
             ],
-            bottom: TabBar(
-              isScrollable: true, // Optional for many tabs
-              tabs: [
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("For you",
-                        style: TextStyle(
-                          fontFamily: 'Lexend',
-                        )),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                CustomAlertDialog.showAlertDialog(
+                  context,
+                  "This page is used for registered users to sign in. Please return to the previous page if you are not a registered user.",
+                  "Info",
+                  textColor: darkGrey,
+                );
+              },
+              icon: const Icon(Icons.info_outline_rounded,
+                  size: 22, color: Colors.white),
+            ),
+          ],
+          bottom: TabBar(
+            isScrollable: true, // Optional for many tabs
+            tabs: [
+              Tab(
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("For you",
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                      )),
+                ),
+              ),
+              Tab(
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("Following",
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                      )),
+                ),
+              ),
+              Tab(
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("Debt Management Strategies",
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                      )),
+                ),
+              ),
+              Tab(
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("Financial Planning",
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                      )),
+                ),
+              ),
+            ],
+            labelColor: primaryPurple,
+            unselectedLabelColor: darkGrey,
+            indicatorColor: primaryPurple,
+            labelStyle: TextStyle(
+              fontFamily: 'Lexend',
+            ),
+          ),
+        ),
+        drawer: Drawer(
+          child: Container(
+            decoration: BoxDecoration(color: backgroundWhite),
+            child: ListView(
+              children: [
+                DrawerHeader(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      0,
+                      20,
+                      0,
+                      20,
+                    ),
+                    child: Image.asset('lib/images/savvylogowithpets.png'),
                   ),
                 ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Following",
-                        style: TextStyle(
-                          fontFamily: 'Lexend',
-                        )),
+                const SizedBox(height: 10),
+                ListTile(
+                  leading: Icon(
+                    Icons.person_2_rounded,
+                    size: 20,
+                    color: darkBlue,
+                  ),
+                  title: Text(
+                    "Profile Page",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey.withOpacity(
+                        0.8,
+                      ),
+                    ),
                   ),
                 ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Debt Management Strategies",
-                        style: TextStyle(
-                          fontFamily: 'Lexend',
-                        )),
+                ListTile(
+                  leading: Icon(
+                    Icons.people_rounded,
+                    size: 20,
+                    color: darkBlue,
+                  ),
+                  title: Text(
+                    "About Savvy",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey.withOpacity(
+                        0.8,
+                      ),
+                    ),
                   ),
                 ),
-                Tab(
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: Text("Financial Planning",
-                        style: TextStyle(
-                          fontFamily: 'Lexend',
-                        )),
+                ListTile(
+                  leading: Icon(
+                    Icons.privacy_tip_rounded,
+                    size: 20,
+                    color: darkBlue,
                   ),
+                  title: Text(
+                    "Privay Policy",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey.withOpacity(
+                        0.8,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.settings_rounded,
+                    size: 20,
+                    color: darkBlue,
+                  ),
+                  title: Text(
+                    "Settings",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey.withOpacity(
+                        0.8,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.logout_rounded,
+                    size: 20,
+                    color: darkBlue,
+                  ),
+                  title: Text(
+                    "Log Out",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: darkGrey.withOpacity(
+                        0.8,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/onboardingpage');
+                  },
                 ),
               ],
-              labelColor: primaryPurple,
-              unselectedLabelColor: darkGrey,
-              indicatorColor: primaryPurple,
-              labelStyle: TextStyle(
-                fontFamily: 'Lexend',
-              ),
-            )),
+            ),
+          ),
+        ),
         body: const TabBarView(
           children: [
             Center(
