@@ -1,4 +1,4 @@
-![SavvyBanner](https://github.com/ohshuzanne/savvy/blob/main/screenshots/savvybanner.png?raw=true)
+![savvybanner](https://github.com/ohshuzanne/savvy/blob/main/screenshots/savvybanner.png?raw=true)
 
 # Savvy
 ## Taking Control, Building a Brighter Future
