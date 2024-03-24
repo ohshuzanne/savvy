@@ -54,10 +54,12 @@ class _commentPageState extends State<commentPage> {
                   title: const Text(
                     'CommentPage',
                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic),
+                      fontFamily: 'Lexend',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
+                  centerTitle: true,
                   backgroundColor: const Color(0x00cde0ff),
                 ),
 

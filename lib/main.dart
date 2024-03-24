@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/utils/color.dart';
 import 'package:savvy/utils/colors.dart';
+import 'package:savvy/view/debtmanagerpage.dart';
 import 'package:savvy/view/homepage.dart';
 import 'package:savvy/view/onboardingpage.dart';
 import 'package:savvy/view/registerpage.dart';
@@ -48,6 +48,24 @@ class MyApp extends StatelessWidget {
             return PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   const RegisterPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            );
+          case '/debtmanagerpage':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const DebtManagerPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            );
+          case '/onboardingpage':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const OnboardingPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return FadeTransition(opacity: animation, child: child);

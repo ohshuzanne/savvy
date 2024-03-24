@@ -28,35 +28,40 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: backgroundWhite,
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        child: SafeArea(
-          child: Container(
-            height: 56,
-            padding: EdgeInsets.all(12),
-            margin: EdgeInsets.fromLTRB(24, 0, 24, 30),
-            decoration: BoxDecoration(
-              color: lightPurple,
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: darkGrey.withOpacity(0.30),
-                  offset: Offset(0, 6),
-                  blurRadius: 20,
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(Icons.payment_rounded, 0),
-                _buildNavItem(Icons.money_rounded, 1),
-                _buildNavItem(Icons.school_rounded, 2),
-                _buildNavItem(Icons.forum_rounded, 3),
-              ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: _pages[_selectedIndex],
+          ),
+          Positioned(
+            left: 30,
+            right: 30,
+            bottom: 30,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: lightPurple,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: darkGrey.withOpacity(0.40),
+                    offset: Offset(0, 6),
+                    blurRadius: 20,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(Icons.payment_rounded, 0),
+                  _buildNavItem(Icons.money_rounded, 1),
+                  _buildNavItem(Icons.school_rounded, 2),
+                  _buildNavItem(Icons.forum_rounded, 3),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

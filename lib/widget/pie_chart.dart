@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:savvy/dummy.dart';
 import 'package:savvy/utils/categories.dart';
 import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/colors.dart';
 
 class PieChartWidget extends StatefulWidget {
   final double total;
@@ -40,7 +41,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     percentage.sort((a, b) => (a['percentage']).compareTo(b['percentage']));
     return Stack(alignment: Alignment.center, children: [
       Center(
-        child: Text("RM " + widget.total.toStringAsFixed(2),style: TextStyle(fontSize: 12),),
+        child: Text(
+          "RM " + widget.total.toStringAsFixed(2),
+          style: TextStyle(fontSize: 12),
+        ),
       ),
       AspectRatio(
         aspectRatio: 1.3,
@@ -49,7 +53,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             borderData: FlBorderData(
               show: false,
             ),
-            sectionsSpace: 1,
+            sectionsSpace: 2,
             centerSpaceRadius: 40,
             sections: List.generate(
                 4,
@@ -59,11 +63,11 @@ class _PieChartWidgetState extends State<PieChartWidget> {
                     title: "${percentage[index]['percentage']} % ",
                     badgeWidget: Icon(
                       getIcons(percentage[index]['cat']),
-                      color: brightWhite,
-                      size: 20,
+                      color: darkGrey.withOpacity(0.8),
+                      size: 18,
                     ),
-                    radius: 70,
-                    color: mainPurple.withOpacity(0.2 * (cats.length - index)),
+                    radius: 80,
+                    color: darkBlue.withOpacity(0.2 * (cats.length - index)),
                     value: percentage[index]['percentage'])))),
       )
     ]);

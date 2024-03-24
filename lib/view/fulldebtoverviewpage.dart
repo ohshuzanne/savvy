@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:savvy/components/buttons.dart';
 import 'package:savvy/components/gradient_background.dart';
+import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -14,38 +16,73 @@ class FullDebtOverviewPage extends StatefulWidget {
 
 class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
   int _touchedIndex = -1;
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _icNRICController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   void _showLoanTypeChoice(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return Container(
+          decoration: BoxDecoration(
+            color: backgroundWhite,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
+          ),
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Select Loan Type',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Container(
+                    width: 30,
+                    child: Image.asset('lib/images/3dloancoin.png'),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Select Loan Type',
+                    style: TextStyle(
+                        fontSize: 18, fontFamily: 'Lexend', color: darkGrey),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _showSettingsModalSheet(context);
-                },
-                child: Text('DMP Loan'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Other Type of Loan'),
+              Center(
+                child: Column(
+                  children: [
+                    PrimaryButton(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _showSettingsModalSheet(context);
+                      },
+                      buttonText: "DMP loan",
+                      buttonColor: backgroundWhite,
+                      borderColor: backgroundWhite,
+                      textColor: darkGrey,
+                      borderRadius: 25,
+                      splashColor: lightBlue,
+                    ),
+                    const SizedBox(height: 16),
+                    PrimaryButton(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      buttonText: "Other loan type",
+                      buttonColor: backgroundWhite,
+                      borderColor: backgroundWhite,
+                      textColor: darkGrey,
+                      borderRadius: 25,
+                      splashColor: lightBlue,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -60,42 +97,108 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Container(
+            decoration: BoxDecoration(
+              color: backgroundWhite,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+            ),
+            height: MediaQuery.of(context).size.height * 0.8,
             padding: EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Center(
+                  child: Container(
+                    width: 50,
+                    child: Image.asset('lib/images/AKPK_logo.png'),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Center(
+                  child: Text(
+                    'DMP loan application',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Lexend',
+                      color: darkGrey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    "No loan exists under your IC currently.\nPlease fill in the form below to\nstart your application today.",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 14,
+                      color: darkGrey.withOpacity(0.7),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Username',
+                Center(
+                  child: Text(
+                    "Personal Information",
+                    style: TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                      color: darkGrey,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 3),
+                  child: Text(
+                    "Full Name",
+                    style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
                   ),
                 ),
-                SizedBox(height: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                  ),
-                  obscureText: true,
+                PrimaryTextField(
+                  controller: _fullNameController,
+                  hintText: "Full Government Name",
+                  obscureText: false,
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Save'),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 3),
+                  child: Text(
+                    "NRIC",
+                    style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+                  ),
+                ),
+                PrimaryTextField(
+                  controller: _icNRICController,
+                  hintText: "NRIC as per IC",
+                  obscureText: false,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 3),
+                  child: Text(
+                    "E-mail",
+                    style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+                  ),
+                ),
+                PrimaryTextField(
+                  controller: _emailController,
+                  hintText: "E-mail",
+                  obscureText: false,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 3),
+                  child: Text(
+                    "Phone Number",
+                    style: TextStyle(fontFamily: 'Lexend', color: darkGrey),
+                  ),
+                ),
+                PrimaryTextField(
+                  controller: _phoneNumberController,
+                  hintText: "Phone Number",
+                  obscureText: false,
                 ),
               ],
             ),
@@ -108,6 +211,7 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Stack(
           children: [
@@ -183,7 +287,7 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
 
             //card visualization
             Positioned(
-              top: 90,
+              top: 75,
               left: 20,
               child: Container(
                 height: 210,
@@ -351,7 +455,7 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
               ),
             ),
             Positioned(
-              top: 320,
+              top: 305,
               left: 0,
               right: 0,
               child: Column(
