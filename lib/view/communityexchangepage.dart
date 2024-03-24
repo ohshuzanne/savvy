@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../components/Forum/ForumSinglePostWidget.dart';
 import '../utils/colors.dart';
+import 'addpostcommunityexchangepage.dart';
 
 class CommunityExchangePage extends StatefulWidget {
   CommunityExchangePage({super.key});
@@ -91,6 +92,13 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        child: Icon(Icons.add_outlined),
+        onPressed: () {
+          goAddPostPage(context);
+        },
+      ),
       body: Stack(
         children: <Widget>[
           SizedBox(
@@ -146,10 +154,6 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                                               .add(profilePicUrl[ctr]);
                                         }
                                       }
-                                      print("Print nameFilterList Below:");
-                                      print(nameFilterList);
-                                      print(
-                                          "End loop -- current text bar text = { ${_searchTextController.text} }");
 
                                       //当输入的内容不是名字Nor内容， 给提示， 返回全部results
                                       if (nameFilterList.isEmpty &&
@@ -157,11 +161,6 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                                         showAlertDialog(
                                             context, _searchTextController);
                                       }
-
-                                      print("Print contentFilterList Below:");
-                                      print(contentFilterList);
-                                      print(
-                                          "End loop -- current text bar text = { ${_searchTextController.text} }");
 
                                       setState(() {});
                                     },
@@ -197,7 +196,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                             SizedBox(
                                 width: media.size.width * 0.7,
                                 height: media.size.height * 0.05,
-                                // child: const Text("Seach off"),
+                                // child: Extra function
                               ),
 
                         //搜索按钮
@@ -272,7 +271,6 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
   void SearchOff() {
     setState(() {
       searchStatus = false;
-      print("Search off");
 
       nameFilterList = [];
       contentFilterList = [];
@@ -287,7 +285,6 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
   void SearchOn() {
     setState(() {
       searchStatus = true;
-      print("Search on");
     });
   }
 
@@ -301,8 +298,14 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
     numComments = dummyData.numComments;
     numShare = dummyData.numShare;
     profilePicUrl = dummyData.profilePicUrl;
-    print("init");
   }
+}
+
+goAddPostPage(context) {
+  return Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => AddPost(),
+  ));
 }
 
 void showAlertDialog(BuildContext context, _textController) {
