@@ -53,4 +53,4 @@ Savvy is a mobile application designed to empower Malaysians on their journey to
 - flutter_slidable: ^3.1.0
   
 ## License
-- MIT License
+- [MIT License](https://github.com/ohshuzanne/savvy/blob/main/LICENSE)
