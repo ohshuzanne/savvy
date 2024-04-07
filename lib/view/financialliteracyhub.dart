@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/CRUD/newsAPI.dart';
 import 'package:savvy/CRUD/read.dart';
 
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
@@ -17,6 +16,17 @@ class FinancialLiteracyHub extends StatelessWidget {
     return DefaultTabController(
       length: Classifications.values.length,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => pushDataToFirebase(
+                  category: "ForYou",
+                  authorName: 'John Doe',
+                  authorProfilePic:'https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D',
+                  publishedDate: "Jan 23, 2024",
+                  title: "Debt Management Basics",
+                  content:"Introduce the concept of debt management and its importance in financial health.",
+                  hashtag: 'DebtTypes',
+                  pic:'https://images.unsplash.com/photo-1551021794-03be4ddaf67d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGltYWdlfGVufDB8fDB8fHww',
+                )),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: darkGrey,
@@ -245,7 +255,7 @@ class FinancialLiteracyHub extends StatelessWidget {
             Center(
                 child: ArticlesListView(
               classification: Classifications.financialProductsAndServices,
-                )),
+            )),
           ],
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
+
 
 /*
 Widget build(BuildContext context) {
@@ -18,24 +17,44 @@ Widget build(BuildContext context) {
   );
 }*/
 
+
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future<void> writeDataToHub(String title, String content) async {
+
+Future<void> pushDataToFirebase(
+    {
+    required String category,
+    required String authorName,
+    required String authorProfilePic,
+    required String publishedDate,
+    required String title,
+    required String content,
+    required String hashtag,
+    required String pic,}
+    ) async {
   // Create a map to store the data
   Map<String, dynamic> data = {
+    'category': category,
+    'authorName': authorName,
+    'authorProfilePic': authorProfilePic,
+    'publishedDate': publishedDate,
     'title': title,
     'content': content,
-    // You can add more key-value pairs for additional data
+    'hashtag': hashtag,
+    'pic': pic,
   };
 
-  await firestore.collection('hub').add(data);
+  // Add data to the "hub" collection with a randomly generated document ID
+  await firestore.collection('LiteracyHub').add(data);
   print('Data written to Firebase');
 }
 
 
+
+
 Future<dynamic> fetchData() async {
   // Get a reference to the "hub" collection
-  CollectionReference collectionRef = firestore.collection('hub');
+  CollectionReference collectionRef = firestore.collection('LiteracyHub');
 
   // Get all documents in the collection
   QuerySnapshot querySnapshot = await collectionRef.get();
