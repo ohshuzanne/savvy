@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/CRUD/newsAPI.dart';
 
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
 import '../components/Hub/ArticleFull.dart';
@@ -266,24 +267,39 @@ class ArticlesListView extends StatelessWidget {
         children: [
           //检查是否有dummydata 并输出
           dummyArticle.authorName.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.only(top: media.size.height * 0.35),
-                  child: const Center(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Currently No Data here.\nExplore other classification\nor follow some other authors",
-                        style: TextStyle(
-                          fontFamily: 'Lexend',
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Icon(Icons.mobiledata_off_rounded),
-                    ],
-                  )),
-                )
+              ? FutureBuilder(
+            future: fetchData(),
+                builder:
+                (context, snapshot) {
+              if (snapshot.hasData) {
+                // return ArticleOverview(authorName: snapshot,);
+                } else if (snapshot.hasError) {
+                } else {
+                  return CircularProgressIndicator();
+                }
+              return Text("");
+                },
+                //
+                // Padding(
+                //     padding: EdgeInsets.only(top: media.size.height * 0.35),
+                //     child: const Center(
+                //
+                //         child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: [
+                //         Text(
+                //           "Currently No Data here.\nExplore other classification\nor follow some other authors",
+                //           style: TextStyle(
+                //             fontFamily: 'Lexend',
+                //             fontSize: 14,
+                //           ),
+                //           textAlign: TextAlign.center,
+                //         ),
+                //         Icon(Icons.mobiledata_off_rounded),
+                //       ],
+                //     )),
+                //   ),
+              )
               : ListView.builder(
                   itemCount: authorName.length,
                   shrinkWrap: true,
