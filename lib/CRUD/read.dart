@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 /*
 Widget build(BuildContext context) {
   return FutureBuilder(
@@ -16,10 +15,7 @@ Widget build(BuildContext context) {
     },
   );
 }*/
-
-
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-
 
 Future<void> pushDataToFirebase(
     {
@@ -52,21 +48,27 @@ Future<void> pushDataToFirebase(
 
 
 
-Future<dynamic> fetchData() async {
-  // Get a reference to the "hub" collection
+Future getForYouCategories() async {
+
   CollectionReference collectionRef = firestore.collection('LiteracyHub');
 
-  // Get all documents in the collection
-  QuerySnapshot querySnapshot = await collectionRef.get();
+  // Query documents where 'category' field is "ForYou" (case-sensitive)
+  QuerySnapshot querySnapshot = await collectionRef
+      .where('category', isEqualTo: 'ForYou')
+      .get();
 
-  // Process each document
+  // Check if any documents were found
+  if (querySnapshot.docs.isEmpty) {
+    print('No documents found with "ForYou" category');
+    return "no data";
+  }
+
+  // // Loop through matching documents
   // for (var doc in querySnapshot.docs) {
-  //   Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-  //   String title = data['title'];
-  //   String content = data['content'];
-  //
-  //   print('Title: $title, Content: $content');
+  //   String category = doc['category'];
+  //   print('Found category: $category');
   // }
-  return querySnapshot;
 
+  print(querySnapshot.docs);
+  return querySnapshot.docs;
 }
