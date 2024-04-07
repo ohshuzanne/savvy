@@ -66,6 +66,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //adding comment here
+  //add comment
+
   Widget _buildNavItem(IconData icon, int index) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
@@ -80,7 +83,7 @@ class _HomePageState extends State<HomePage> {
         height: 40,
         decoration: BoxDecoration(
           color: isSelected
-              ? backgroundWhite.withOpacity(0.5)
+              ? backgroundWhite.withOpacity(0.55)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(25),
         ),
