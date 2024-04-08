@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/CRUD/read.dart';
-
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
+import '../CRUD/create.dart';
+import '../CRUD/read.dart';
 import '../components/Hub/ArticleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
 import '../dummyData.dart';
