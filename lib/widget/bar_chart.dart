@@ -1,5 +1,9 @@
+import 'dart:ui';
+
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:savvy/dummy.dart';
@@ -19,6 +23,14 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   List<DateTime> selectedDay = [];
   List<Map> data = [];
   List<DateTime> availableDay = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFirstDay(false);
+    getList();
+  }
 
   void getList() {
     for (Map i in expenseList) {
@@ -50,12 +62,10 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     } else {
       max = ((max - (max % 1000)) + 1) * 1000;
     }
-    print("selectedDay $selectedDay");
-    print("availableDay$availableDay");
-    print("data$data");
   }
 
   DateTime getFirstDay(bool isNext) {
+
     DateTime day = selectedDay.isEmpty
         ? DateTime.now()
         : isNext
@@ -80,76 +90,106 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     return monday;
   }
 
+  getSelectedDay(DateTime monday){
+    selectedDay.clear();
+    for (int n = 0; n < 7; n++) {
+      DateTime day = DateTime(monday.year, monday.month, monday.day + n);
+      selectedDay.add(day);
+    }
+    getList();
+  }
+
+  previousWeek(){
+    setState(() {
+      selectedDay[0] =  DateTime(selectedDay[0].year, selectedDay[0].month,
+          selectedDay[0].day - 7);
+      getSelectedDay(selectedDay[0]);
+
+    });
+  }
+
+  nextWeek(){
+    setState(() {
+      selectedDay[0] =  DateTime(selectedDay[0].year, selectedDay[0].month,
+          selectedDay[0].day + 7);
+      getSelectedDay(selectedDay[0]);
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    getFirstDay(false);
-    getList();
+
     return Column(
       children: [
         AspectRatio(
             aspectRatio: 1.3,
-            child: BarChart(BarChartData(
-              barTouchData: BarTouchData(touchTooltipData: BarTouchTooltipData(tooltipBgColor: subPurple.withOpacity(0.5))),
-                gridData: FlGridData(
-                    drawVerticalLine: false,
-                    horizontalInterval: budget / 30,
-                    checkToShowHorizontalLine: (value) => value == budget / 30),
-                titlesData: FlTitlesData(
-                    show: true,
-                    leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                            interval: (max / 2),
-                            reservedSize: 40,
-                            showTitles: true)),
-                    rightTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                      interval: budget / 30,
-                      reservedSize: 50,
-                      showTitles: true,
-                      getTitlesWidget: (value, meta) {
-                        if (value == budget / 30) {
-                          // Show title only at 74
-                          return Text(
-                            "Daily \nBudget",
-                            style: GoogleFonts.lexend(fontSize: 12),
-                          );
-                        } else {
-                          return const Text(''); // Empty text for other values
-                        }
-                      },
-                    )),
-                    topTitles: AxisTitles(
-                        sideTitles:
-                            SideTitles(reservedSize: 40, showTitles: false)),
-                    bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                            interval: 7, reservedSize: 40, showTitles: true))),
-                borderData: FlBorderData(show: false),
-                minY: 0,
-                maxY: max > budget / 30 ? max : budget / 30,
-                barGroups: List.generate(
-                    7,
-                    (index) => selectedDay == []
-                        ? BarChartGroupData(x: 0)
-                        : BarChartGroupData(
-                            x: int.parse(DateFormat("dd").format(
-                                DateTime.parse(selectedDay[index].toString()))),
-                            barRods: [
-                                BarChartRodData(
-                                    backDrawRodData: BackgroundBarChartRodData(
-                                        show: true, toY: max, color: subPurple),
-                                    borderRadius: BorderRadius.circular(4),
-                                    width: 20,
-                                    color: mainPurple,
-                                    toY: (availableDay
-                                            .contains(selectedDay[index])
-                                        ? data
-                                            .where((element) =>
-                                                element['date'] ==
-                                                selectedDay[index])
-                                            .toList()[0]['amount']
-                                        : 0))
-                              ]))))),
+            child: Stack(
+              children: [BarChart(BarChartData(
+
+                barTouchData: BarTouchData(touchTooltipData: BarTouchTooltipData(tooltipBgColor: subPurple.withOpacity(0.5))),
+                  gridData: FlGridData(
+                      drawVerticalLine: false,
+                      horizontalInterval: budget / 30,
+                      checkToShowHorizontalLine: (value) => value == budget / 30),
+                  titlesData: FlTitlesData(
+                      show: true,
+                      leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                              interval: (max / 2),
+                              reservedSize: 40,
+                              showTitles: true)),
+                      rightTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                        interval: budget / 30,
+                        reservedSize: 50,
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          if (value == budget / 30) {
+                            // Show title only at 74
+                            return Text(
+                              "Daily \nBudget",
+                              style: GoogleFonts.lexend(fontSize: 12),
+                            );
+                          } else {
+                            return const Text(''); // Empty text for other values
+                          }
+                        },
+                      )),
+                      topTitles: AxisTitles(
+                          sideTitles:
+                              SideTitles(reservedSize: 40, showTitles: false)),
+                      bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                              interval: 7, reservedSize: 40, showTitles: true))),
+                  borderData: FlBorderData(show: false),
+                  minY: 0,
+
+                  maxY: max > budget / 30 ? max : budget / 30,
+                  barGroups: List.generate(
+                      7,
+                      (index) => selectedDay == []
+                          ? BarChartGroupData(x: 0)
+                          : BarChartGroupData(
+                              x: int.parse(DateFormat("dd").format(
+                                  DateTime.parse(selectedDay[index].toString()))),
+                              barRods: [
+                                  BarChartRodData(
+                                      backDrawRodData: BackgroundBarChartRodData(
+                                          show: true, toY: max, color: subPurple),
+                                      borderRadius: BorderRadius.circular(4),
+                                      width: 20,
+                                      color: mainPurple,
+                                      toY: (availableDay
+                                              .contains(selectedDay[index])
+                                          ? data
+                                              .where((element) =>
+                                                  element['date'] ==
+                                                  selectedDay[index])
+                                              .toList()[0]['amount']
+                                          : 0))
+                                ])))),availableDay.isEmpty ? BackdropFilter(filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),child: Container(height: double.infinity, width: double.infinity,),): SizedBox(),],
+            )),
         SizedBox(
           height: 5,
         ),
@@ -157,7 +197,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.arrow_back_ios_new_rounded),
+            GestureDetector(onTap: previousWeek, child: Icon(Icons.arrow_back_ios_new_rounded)),
             SizedBox(
               width: 5,
             ),
@@ -168,7 +208,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             SizedBox(
               width: 5,
             ),
-            Icon(Icons.arrow_forward_ios_rounded)
+            GestureDetector(onTap: nextWeek, child: Icon(Icons.arrow_forward_ios_rounded))
           ],
         ),
         SizedBox(height: 15,),

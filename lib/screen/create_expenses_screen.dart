@@ -25,34 +25,41 @@ class _CreateExpensesState extends State<CreateExpenses> {
   void selectCat(BuildContext context) {
     showModalBottomSheet(
         context: context,
-        builder: (ctx) => Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ListView.builder(
-                itemCount: cats.length,
-                itemBuilder: (context, index) {
-                  int _selectedIndex = selectedIndex;
-                  String cat = cats[index];
-                  Key tileKey = Key(cat);
-                  return ListTile(
-                      title: Text(
-                        cat,
-                        style: GoogleFonts.lexend(
-                          color: index == _selectedIndex
-                              ? mainPurple
-                              : Colors.black,
-                        ),
-                      ),
-                      selected: index == _selectedIndex,
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      });
-                },
-              ),
-            )));
+        builder: (context) => StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState /*You can rename this!*/) =>
+              Container(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ListView.builder(
+                      itemCount: cats.length,
+                      itemBuilder: (context, index) {
+                        String cat = cats[index];
+                        Key tileKey = Key(cat);
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              print(selectedIndex);
+                              selectedIndex = index;
+                              print(selectedIndex);
+                              setModalState((){});
+                            });
+                          },
+                          child: ListTile(
+                            title: Text(
+                              cat,
+                              style: GoogleFonts.lexend(
+                                color: index == selectedIndex
+                                    ? mainPurple
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )),
+        ));
   }
 
   @override
