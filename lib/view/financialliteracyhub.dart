@@ -16,17 +16,9 @@ class FinancialLiteracyHub extends StatelessWidget {
     return DefaultTabController(
       length: Classifications.values.length,
       child: Scaffold(
+        //TODO: 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
         floatingActionButton: FloatingActionButton(
-            onPressed: () => pushDataToFirebase(
-                  category: "ForYou",
-                  authorName: 'John Doe',
-                  authorProfilePic:'https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D',
-                  publishedDate: "Jan 23, 2024",
-                  title: "Debt Management Basics",
-                  content:"Introduce the concept of debt management and its importance in financial health.",
-                  hashtag: 'DebtTypes',
-                  pic:'https://images.unsplash.com/photo-1551021794-03be4ddaf67d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGltYWdlfGVufDB8fDB8fHww',
-                )),
+            onPressed: () => initialDataToFirebase()),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: darkGrey,
@@ -302,28 +294,6 @@ class ArticlesListView extends StatelessWidget {
             picList.add(doc["pic"]);
             authorProfilePicList.add(doc["authorProfilePic"]);
               }
-
-              /*Padding(
-                    padding: EdgeInsets.only(top: media.size.height * 0.35),
-                    child: const Center(
-
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Currently No Data here.\nExplore other classification\nor follow some other authors",
-                          style: TextStyle(
-                            fontFamily: 'Lexend',
-                            fontSize: 14,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Icon(Icons.mobiledata_off_rounded),
-                      ],
-                    )),
-                  )
-                  : */
-
               return ListView(
                 children: [
                   ListView.builder(
@@ -344,7 +314,30 @@ class ArticlesListView extends StatelessWidget {
                   )
                 ],
               );
-            } else if (snapshot.hasError) {
+            }
+            else if (!snapshot.hasData) {
+              return Padding(
+                    padding: EdgeInsets.only(top: media.size.height * 0.35),
+                    child: const Center(
+
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Currently No Data here.\nExplore other classification\nor follow some other authors",
+                          style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 14,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Icon(Icons.mobiledata_off_rounded),
+                      ],
+                    )),
+                  );
+            }
+
+            else if (snapshot.hasError) {
               print("HAS ERROR");
               return Text("Has Error");
             } else {
