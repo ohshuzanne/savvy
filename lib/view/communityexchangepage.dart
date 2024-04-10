@@ -22,6 +22,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
   bool initializeIsDone = false;
 
   late List<String> name = [];
+  late List<String> docID = [];
   late List<DateTime> publishedDate = [];
   late List<String> content = [];
   late List<int> numLikes = [];
@@ -337,6 +338,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                       final comments = snapshot.data?.docs;
                       if (comments!.isNotEmpty) {
                       for (var comment in comments) {
+                          docID.add(comment.id);
                           name.add(comment['name']);
                           publishedDate.add(comment['publishedDate'].toDate());
                           content.add(comment['content']);
@@ -353,7 +355,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                           physics: const ClampingScrollPhysics(),
                           itemBuilder: (BuildContext context, int ctr) {
                             return ForumSinglePostWidget(
-                              currentctr: ctr,
+                              communityExchangeDocID: docID,
                               name: nameFilterList.isEmpty
                                   ? name[ctr]
                                   : nameFilterList[ctr],

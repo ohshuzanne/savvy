@@ -12,7 +12,7 @@ class ForumSinglePostWidget extends StatelessWidget {
   final content;
   final numLikes;
   final numComments;
-  final currentctr;
+  final communityExchangeDocID;
   final numShare;
   final profilePicUrl;
   @override
@@ -103,7 +103,7 @@ class ForumSinglePostWidget extends StatelessWidget {
                       numLikes: numLikes,
                     ),
                     CommentIcon(
-                        numComments: numComments, currentctr: currentctr),
+                        numComments: numComments, communityExchangedocID: communityExchangeDocID),
                     ShareIcon(numShare: numShare),
                     const SizedBox(),
                   ],
@@ -134,7 +134,7 @@ class ForumSinglePostWidget extends StatelessWidget {
 
   const ForumSinglePostWidget(
       {super.key,
-      this.currentctr,
+      this.communityExchangeDocID,
       this.name,
       this.publishedDate,
       this.content,
@@ -146,9 +146,9 @@ class ForumSinglePostWidget extends StatelessWidget {
 
 class CommentIcon extends StatelessWidget {
   late final numComments;
-  late final currentctr;
+  late final communityExchangedocID;
 
-  CommentIcon({super.key, required this.numComments, required this.currentctr});
+  CommentIcon({super.key, required this.numComments, required this.communityExchangedocID});
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +171,7 @@ class CommentIcon extends StatelessWidget {
   Future<void> goCommentPage(context) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => commentPage(currentctr)),
+      MaterialPageRoute(builder: (context) => commentPage(communityExchangedocID)),
     );
   }
 }

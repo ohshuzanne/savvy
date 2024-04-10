@@ -6,15 +6,25 @@ import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
 import 'dart:math' as math;
 
+import '../../CRUD/read.dart';
+import '../../CRUD/update.dart';
 import '../../dummyData.dart';
-import '../../utils/color.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'ForumSinglePostWidget.dart';
 
 class commentPage extends StatefulWidget {
-  final currentctr;
+  final communityExchangeDocID;
+  final name;
+  final publishedDate;
+  final content;
+  final numLikes;
+  final numComments;
+  final numShare;
+  final profilePicUrl;
 
-  const commentPage(this.currentctr, {super.key});
+  const commentPage(this.communityExchangeDocID, this.name, this.publishedDate, this.content,
+      this.numLikes, this.numComments, this.numShare, this.profilePicUrl,
+      {super.key});
 
   @override
   _commentPageState createState() => _commentPageState();
@@ -23,22 +33,6 @@ class commentPage extends StatefulWidget {
 class _commentPageState extends State<commentPage> {
   final TextEditingController _textController = TextEditingController();
   int numComment = 10; //newdata will be 11
-
-  DummyData dummyData = DummyData();
-  late List<String> name = dummyData.name;
-  late List<DateTime> publishedDate = dummyData.publishedDate;
-  late List<String> content = dummyData.content;
-  late List<int> numLikes = dummyData.numLikes;
-  late List<int> numComments = dummyData.numComments;
-  late List<int> numShare = dummyData.numShare;
-  late List<String> profilePicUrl = dummyData.profilePicUrl;
-
-  DummyComments dummyComments = DummyComments();
-  late List<String> commentName = dummyComments.name;
-  late List<DateTime> commentPublishedDate = dummyComments.publishedDate;
-  late List<String> commentContent = dummyComments.debtManagementComments;
-  late List<int> commentnumLikes = dummyComments.numLikes;
-  late List<String> commentprofilePicUrl = dummyComments.profilePicUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -85,34 +79,62 @@ class _commentPageState extends State<commentPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: ForumSinglePostWidget(
-                      currentctr: widget.currentctr,
-                      name: name[widget.currentctr],
-                      publishedDate: publishedDate[widget.currentctr],
-                      content: content[widget.currentctr],
-                      numLikes: numLikes[widget.currentctr],
-                      numComments: numComments[widget.currentctr],
-                      profilePicUrl: profilePicUrl[widget.currentctr],
-                      numShare: numShare[widget.currentctr],
+                      communityExchangeDocID: widget.communityExchangeDocID,
+                      name: widget.name,
+                      publishedDate: widget.publishedDate,
+                      content: widget.content,
+                      numLikes: widget.numLikes,
+                      numComments: widget.numComments,
+                      profilePicUrl: widget.profilePicUrl,
+                      numShare: widget.numShare,
                     ),
                   ),
                 ),
 
                 //留言区
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: numComment,
-                    itemBuilder: (BuildContext context, int ctr) {
-                      return CommentPostWidget(
-                        name: commentName[ctr],
-                        profilePicUrl: commentprofilePicUrl[ctr],
-                        publishedDate: commentPublishedDate[ctr],
-                        content: commentContent[ctr],
-                        numLikes: commentnumLikes[ctr],
-                      );
-                    }),
-                SizedBox(
-                  height: media.size.height * 0.1,
+                FutureBuilder(
+                  future: fetchComments(widget.communityExchangeDocID),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final comments = snapshot;
+                      if(comments.data!.isNotEmpty){
+                        for (var comment in comments.data) {
+                          Column(
+                            children: [
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: numComment,
+                                  itemBuilder: (BuildContext context, int ctr) {
+                                    return CommentPostWidget(
+
+                                      name: comment['name'],
+                                      profilePicUrl: comment['profilePicUrl'],
+                                      publishedDate: comment['publishedDate'],
+                                      content: comment['content'],
+                                      numLikes: comment['numLikes'],
+                                    );
+                                  }),
+                              SizedBox(
+                                height: media.size.height * 0.1,
+                              ),
+                            ],
+                          );
+                        }
+                      }
+                        return const Center(child: Column(
+                          children: [
+                            Icon(Icons.comments_disabled_outlined),
+                            Text("No comment Yet, Be the 1st one to comment!"),
+                          ],
+                        ));
+
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ]),
             ),
@@ -157,7 +179,7 @@ class _commentPageState extends State<commentPage> {
                   onPressed: () {
                     // Access the entered text using the controller
                     String enteredText = _textController.text;
-                    reRender();
+                    reRender(commentDocumentId: widget.communityExchangeDocID);
                     print('Entered Text: $enteredText');
                   },
                   child: Transform(
@@ -184,39 +206,30 @@ class _commentPageState extends State<commentPage> {
   @override
   void initState() {
     super.initState();
-    name = dummyData.name;
-    dummyData.publishedDate;
-    content = dummyData.content;
-    numLikes = dummyData.numLikes;
-    numComments = dummyData.numComments;
-    numShare = dummyData.numShare;
-    profilePicUrl = dummyData.profilePicUrl;
-
-    commentName = dummyComments.name;
-    commentPublishedDate = dummyComments.publishedDate;
-    commentContent = dummyComments.debtManagementComments;
-    commentnumLikes = dummyComments.numLikes;
-    commentprofilePicUrl = dummyComments.profilePicUrl;
   }
 
-  void reRender() {
+  void reRender({required commentDocumentId}) {
     setState(() {
       numComment += 1;
-      commentName.add("NewCommentName");
-      commentprofilePicUrl.add(
-          "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
-      commentPublishedDate.add(DateTime.now());
-      commentContent.add(_textController.text);
-      commentnumLikes.add(0);
-      _textController.text = "";
-      print("Re-rendered");
+      modifyCommentField(communityExchangeDocumentId:'' , commentDocumentId:commentDocumentId , fieldToUpdate: 'numLikes', newValue: numComment);
+      //TODO
+      // commentName.add("NewCommentName");
+      // commentprofilePicUrl.add(
+      //     "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
+      // commentPublishedDate.add(DateTime.now());
+      // commentContent.add(_textController.text);
+      // commentnumLikes.add(0);
+      // _textController.text = "";
+      // print("Re-rendered");
     });
   }
 }
 
 class CommentPostWidget extends StatelessWidget {
+
   const CommentPostWidget(
       {super.key,
+      this.docID,
       this.name,
       this.publishedDate,
       this.content,
@@ -224,6 +237,7 @@ class CommentPostWidget extends StatelessWidget {
       this.numComments,
       this.profilePicUrl});
 
+  final docID;
   final name;
   final publishedDate;
   final content;
@@ -245,126 +259,108 @@ class CommentPostWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        top: media.size.height * 0.01,
+        top: media.size.height * 0.025,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0), // Adjust corner radius
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 2.0, // Adjust shadow spread
-              blurRadius: 4.0, // Adjust shadow blur
-              offset: Offset(0.0, 4.0), // Adjust shadow offset
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top:media.size.height * 0.015)),
-            SizedBox(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //最左边的padding
-                  SizedBox(
-                    width: media.size.width * screenLeftPaddingRatio,
-                  ),
+      child: Column(
+        children: [
+          SizedBox(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //最左边的padding
+                SizedBox(
+                  width: media.size.width * screenLeftPaddingRatio,
+                ),
 
-                  //头像
-                  SizedBox(
-                      child: ProfilePicture(
-                    picUrl: profilePicUrl,
-                    width: media.size.width * profilePicRatioSize,
-                    height: media.size.width * profilePicRatioSize,
-                  )),
+                //头像
+                SizedBox(
+                    child: ProfilePicture(
+                  picUrl: profilePicUrl,
+                  width: media.size.width * profilePicRatioSize,
+                  height: media.size.width * profilePicRatioSize,
+                )),
 
-                  //Space between Profile and content
-                  SizedBox(
-                    width: media.size.width * spaceBetweenProfileAndContent,
-                  ),
+                //Space between Profile and content
+                SizedBox(
+                  width: media.size.width * spaceBetweenProfileAndContent,
+                ),
 
-                  //名字&内容
-                  Column(
-                    children: [
-                      //名字&Post Date
-                      SizedBox(
-                          width: media.size.width * contentRatioSizeAndLikes,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "$name",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: nameAndTimeFontSize),
-                              ),
-                              publishedDate.month == DateTime.now().month &&
-                                      publishedDate.day == DateTime.now().day
-                                  ? Text(
-                                      "${publishedDate.hour}h ${publishedDate.minute}m ago",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: nameAndTimeFontSize,
-                                      ))
-                                  : Text(
-                                      "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: nameAndTimeFontSize,
-                                      ),
-                                    ),
-                            ],
-                          )),
-
-                      // Like and Comment
-                      SizedBox(
+                //名字&内容
+                Column(
+                  children: [
+                    //名字&Post Date
+                    SizedBox(
                         width: media.size.width * contentRatioSizeAndLikes,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                                //无限内容
-                                width: media.size.width * contentRatioSize,
-                                child: Text(
-                                  "$content",
-                                  style: TextStyle(
-                                    fontSize: contentFontSize,
-                                  ),
-                                )),
-                            FavouritedIcon(
-                              numLikes: numLikes,
+                            Text(
+                              "$name",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: nameAndTimeFontSize),
                             ),
+                            publishedDate.month == DateTime.now().month &&
+                                    publishedDate.day == DateTime.now().day
+                                ? Text(
+                                    "${publishedDate.hour}h ${publishedDate.minute}m ago",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: nameAndTimeFontSize,
+                                    ))
+                                : Text(
+                                    "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: nameAndTimeFontSize,
+                                    ),
+                                  ),
                           ],
-                        ),
-                      ),
+                        )),
 
-                      Padding(
-                          padding: EdgeInsets.only(
-                        top: media.size.height * 0.03,
-                      )),
-                    ],
-                  )
-                ],
-              ),
+                    // Like and Comment
+                    SizedBox(
+                      width: media.size.width * contentRatioSizeAndLikes,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                              //无限内容
+                              width: media.size.width * contentRatioSize,
+                              child: Text(
+                                "$content",
+                                style: TextStyle(
+                                  fontSize: contentFontSize,
+                                ),
+                              )),
+                          FavouritedIcon(
+                            numLikes: numLikes,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                        padding: EdgeInsets.only(
+                      top: media.size.height * 0.03,
+                    )),
+                  ],
+                )
+              ],
             ),
-            //下划线
-            Center(
-              child: SizedBox(
-                width: media.size.width*0.7, // Adjust width as needed
-                height: 1.0, // Set height for a thin line
-                child: const ColoredBox(
-                  color: Colors.white12, // Set line color
-                ),
-              ),
+          ),
+          SizedBox(
+            width: media.size.width, // Adjust width as needed
+            height: 1.0, // Set height for a thin line
+            child: const ColoredBox(
+              color: Colors.grey, // Set line color
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -397,7 +393,6 @@ class _bottomInputBarState extends State<bottomInputBar> {
             padding: EdgeInsets.zero, // Remove default padding
           ),
           onPressed: () {
-            // Access the entered text using the controller
             String enteredText = widget.textController.text;
 
             print('Entered Text: $enteredText');
