@@ -60,19 +60,24 @@ class ForumSinglePostWidget extends StatelessWidget {
                       Text(
                         "$name",
                         textAlign: TextAlign.left,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const  TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold),
                       ),
                       publishedDate.month == DateTime.now().month &&
                               publishedDate.day == DateTime.now().day
                           ? Text(
                               "${publishedDate.hour}h ${publishedDate.minute}m ago",
                               style: const TextStyle(
+                                fontFamily: 'Lexend',
                                 fontWeight: FontWeight.w300,
                                 fontStyle: FontStyle.italic,
                               ))
                           : Text(
                               "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
                               style: const TextStyle(
+                                fontFamily: 'Lexend',
                                 fontWeight: FontWeight.w300,
                                 fontStyle: FontStyle.italic,
                               ),
@@ -83,7 +88,9 @@ class ForumSinglePostWidget extends StatelessWidget {
               //无限内容
               SizedBox(
                   width: media.size.width * contentRatioSize,
-                  child: Text("$content")),
+                  child: Text("$content",style: const TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 11),)),
 
               // Like, Comment and share
               SizedBox(
@@ -114,10 +121,10 @@ class ForumSinglePostWidget extends StatelessWidget {
                     height: 0.5,
                     width: media.size.width * 0.5,
                   )),
-              Padding(
-                  padding: EdgeInsets.only(
-                top: media.size.height * 0.02,
-              )),
+              // Padding(
+              //     padding: EdgeInsets.only(
+              //   top: media.size.height * 0.02,
+              // )),
             ],
           )
         ],
