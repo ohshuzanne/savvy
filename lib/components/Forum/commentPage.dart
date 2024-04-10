@@ -7,6 +7,7 @@ import 'package:savvy/utils/colors.dart';
 import 'dart:math' as math;
 
 import '../../dummyData.dart';
+import '../../utils/color.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'ForumSinglePostWidget.dart';
 
@@ -244,108 +245,126 @@ class CommentPostWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        top: media.size.height * 0.025,
+        top: media.size.height * 0.01,
       ),
-      child: Column(
-        children: [
-          SizedBox(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                //最左边的padding
-                SizedBox(
-                  width: media.size.width * screenLeftPaddingRatio,
-                ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0), // Adjust corner radius
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 2.0, // Adjust shadow spread
+              blurRadius: 4.0, // Adjust shadow blur
+              offset: Offset(0.0, 4.0), // Adjust shadow offset
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top:media.size.height * 0.015)),
+            SizedBox(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //最左边的padding
+                  SizedBox(
+                    width: media.size.width * screenLeftPaddingRatio,
+                  ),
 
-                //头像
-                SizedBox(
-                    child: ProfilePicture(
-                  picUrl: profilePicUrl,
-                  width: media.size.width * profilePicRatioSize,
-                  height: media.size.width * profilePicRatioSize,
-                )),
+                  //头像
+                  SizedBox(
+                      child: ProfilePicture(
+                    picUrl: profilePicUrl,
+                    width: media.size.width * profilePicRatioSize,
+                    height: media.size.width * profilePicRatioSize,
+                  )),
 
-                //Space between Profile and content
-                SizedBox(
-                  width: media.size.width * spaceBetweenProfileAndContent,
-                ),
+                  //Space between Profile and content
+                  SizedBox(
+                    width: media.size.width * spaceBetweenProfileAndContent,
+                  ),
 
-                //名字&内容
-                Column(
-                  children: [
-                    //名字&Post Date
-                    SizedBox(
+                  //名字&内容
+                  Column(
+                    children: [
+                      //名字&Post Date
+                      SizedBox(
+                          width: media.size.width * contentRatioSizeAndLikes,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "$name",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: nameAndTimeFontSize),
+                              ),
+                              publishedDate.month == DateTime.now().month &&
+                                      publishedDate.day == DateTime.now().day
+                                  ? Text(
+                                      "${publishedDate.hour}h ${publishedDate.minute}m ago",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: nameAndTimeFontSize,
+                                      ))
+                                  : Text(
+                                      "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: nameAndTimeFontSize,
+                                      ),
+                                    ),
+                            ],
+                          )),
+
+                      // Like and Comment
+                      SizedBox(
                         width: media.size.width * contentRatioSizeAndLikes,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "$name",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: nameAndTimeFontSize),
-                            ),
-                            publishedDate.month == DateTime.now().month &&
-                                    publishedDate.day == DateTime.now().day
-                                ? Text(
-                                    "${publishedDate.hour}h ${publishedDate.minute}m ago",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: nameAndTimeFontSize,
-                                    ))
-                                : Text(
-                                    "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: nameAndTimeFontSize,
-                                    ),
+                            SizedBox(
+                                //无限内容
+                                width: media.size.width * contentRatioSize,
+                                child: Text(
+                                  "$content",
+                                  style: TextStyle(
+                                    fontSize: contentFontSize,
                                   ),
+                                )),
+                            FavouritedIcon(
+                              numLikes: numLikes,
+                            ),
                           ],
-                        )),
-
-                    // Like and Comment
-                    SizedBox(
-                      width: media.size.width * contentRatioSizeAndLikes,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                              //无限内容
-                              width: media.size.width * contentRatioSize,
-                              child: Text(
-                                "$content",
-                                style: TextStyle(
-                                  fontSize: contentFontSize,
-                                ),
-                              )),
-                          FavouritedIcon(
-                            numLikes: numLikes,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
 
-                    Padding(
-                        padding: EdgeInsets.only(
-                      top: media.size.height * 0.03,
-                    )),
-                  ],
-                )
-              ],
+                      Padding(
+                          padding: EdgeInsets.only(
+                        top: media.size.height * 0.03,
+                      )),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: media.size.width, // Adjust width as needed
-            height: 1.0, // Set height for a thin line
-            child: const ColoredBox(
-              color: Colors.grey, // Set line color
+            //下划线
+            Center(
+              child: SizedBox(
+                width: media.size.width*0.7, // Adjust width as needed
+                height: 1.0, // Set height for a thin line
+                child: const ColoredBox(
+                  color: Colors.white12, // Set line color
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -392,36 +411,3 @@ class _bottomInputBarState extends State<bottomInputBar> {
     );
   }
 }
-
-
-//帖子留言的Straight Line
-/*
-class MinimalistLinePainter extends CustomPainter {
-  final double thickness;
-  final Color color;
-  final context;
-  final screenLeftPaddingRatio;
-
-  MinimalistLinePainter({required this.thickness, required this.color, required this.context, required this.screenLeftPaddingRatio });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint linePaint = Paint()
-      ..color = color
-      ..strokeWidth = thickness
-      ..style = PaintingStyle.stroke; // Ensure stroke for a line
-
-    var media = MediaQuery.of(context);
-
-    canvas.drawLine(
-      Offset((media.size.width * screenLeftPaddingRatio)/ 2, 0), // Start at middle minus half-width
-      Offset((media.size.width * screenLeftPaddingRatio)/ 2 , size.height), // End at middle minus half-width
-      linePaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}
-*/
-
