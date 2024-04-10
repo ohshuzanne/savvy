@@ -42,7 +42,7 @@ Future getForYouCategories(Classifications classification) async {
 
   if (querySnapshot.docs.isEmpty) {
     print('No documents found with $category category');
-    return "no data";
+    return null;
   }
 
   print(querySnapshot.docs);

@@ -6,7 +6,7 @@ import 'package:savvy/dummyData.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future<void> pushDataToFirebase({
+Future<void> pushArticleToFirebase({
   required String category,
   required String authorName,
   required String authorProfilePic,
@@ -55,7 +55,7 @@ Future<void> initialDataToFirebase() async {
     dummyArticle.getData(classification);
 
     for (int i = 0; i < dummyArticle.title.length; i++) {
-      await pushDataToFirebase(
+      await pushArticleToFirebase(
           category: category,
           authorName: dummyArticle.authorName[i],
           authorProfilePic: dummyArticle.authorProfilePic[i],
