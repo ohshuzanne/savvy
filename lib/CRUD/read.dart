@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 /*
 Widget build(BuildContext context) {
@@ -17,37 +15,23 @@ Widget build(BuildContext context) {
     },
   );
 }*/
-
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future<void> writeDataToHub(String title, String content) async {
-  // Create a map to store the data
-  Map<String, dynamic> data = {
-    'title': title,
-    'content': content,
-    // You can add more key-value pairs for additional data
-  };
+Future getForYouCategories() async {
 
-  await firestore.collection('hub').add(data);
-  print('Data written to Firebase');
-}
+  CollectionReference collectionRef = firestore.collection('LiteracyHub');
 
+  // Query documents where 'category' field is "ForYou" (case-sensitive)
+  QuerySnapshot querySnapshot = await collectionRef
+      .where('category', isEqualTo: 'ForYou')
+      .get();
 
-Future<dynamic> fetchData() async {
-  // Get a reference to the "hub" collection
-  CollectionReference collectionRef = firestore.collection('hub');
+  // Check if any documents were found
+  if (querySnapshot.docs.isEmpty) {
+    print('No documents found with "ForYou" category');
+    return "no data";
+  }
 
-  // Get all documents in the collection
-  QuerySnapshot querySnapshot = await collectionRef.get();
-
-  // Process each document
-  // for (var doc in querySnapshot.docs) {
-  //   Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-  //   String title = data['title'];
-  //   String content = data['content'];
-  //
-  //   print('Title: $title, Content: $content');
-  // }
-  return querySnapshot;
-
+  print(querySnapshot.docs);
+  return querySnapshot.docs;
 }
