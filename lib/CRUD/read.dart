@@ -18,27 +18,25 @@ Widget build(BuildContext context) {
 }*/
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future getForYouCategories(Classifications classification) async {
-
+Future getArticlesByCategorie(Classifications classification) async {
   CollectionReference collectionRef = firestore.collection('literacyHub');
   late String category;
 
-  switch (classification){
+  switch (classification) {
     case Classifications.forYou:
-      category="ForYou";
+      category = "ForYou";
     case Classifications.followong:
-      category="Followong";
+      category = "Followong";
     case Classifications.debtManageStractegies:
-      category="DebtManageStractegies";
+      category = "DebtManageStractegies";
     case Classifications.financialPlanning:
-      category="FinancialPlanning";
+      category = "FinancialPlanning";
     case Classifications.financialProductsAndServices:
-      category="FinancialProductsAndServices";
+      category = "FinancialProductsAndServices";
   }
 
-  QuerySnapshot querySnapshot = await collectionRef
-      .where('category', isEqualTo: category)
-      .get();
+  QuerySnapshot querySnapshot =
+      await collectionRef.where('category', isEqualTo: category).get();
 
   if (querySnapshot.docs.isEmpty) {
     print('No documents found with $category category');
@@ -47,4 +45,13 @@ Future getForYouCategories(Classifications classification) async {
 
   print(querySnapshot.docs);
   return querySnapshot.docs;
+}
+
+getComment() {
+  CollectionReference communityExchangeCollection =
+      firestore.collection('communityExchange');
+
+  try {
+    return communityExchangeCollection.snapshots();
+  } catch (error) {print(error);}
 }
