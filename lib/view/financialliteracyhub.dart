@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:savvy/CRUD/newsAPI.dart';
-
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
+import '../CRUD/create.dart';
+import '../CRUD/read.dart';
 import '../components/Hub/ArticleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
 import '../dummyData.dart';
@@ -14,8 +14,11 @@ class FinancialLiteracyHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: Classifications.values.length,
       child: Scaffold(
+        //TODO: 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => initialDataToFirebase()),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: darkGrey,
@@ -52,7 +55,8 @@ class FinancialLiteracyHub extends StatelessWidget {
             ),
           ],
           bottom: TabBar(
-            isScrollable: true, // Optional for many tabs
+            isScrollable: true,
+            // Optional for many tabs
             tabs: [
               Tab(
                 icon: Padding(
@@ -85,6 +89,15 @@ class FinancialLiteracyHub extends StatelessWidget {
                 icon: Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Text("Financial Planning",
+                      style: TextStyle(
+                        fontFamily: 'Lexend',
+                      )),
+                ),
+              ),
+              Tab(
+                icon: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("financial Products And Services",
                       style: TextStyle(
                         fontFamily: 'Lexend',
                       )),
@@ -213,7 +226,7 @@ class FinancialLiteracyHub extends StatelessWidget {
             ),
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             Center(
                 child: ArticlesListView(
@@ -231,6 +244,10 @@ class FinancialLiteracyHub extends StatelessWidget {
                 child: ArticlesListView(
               classification: Classifications.financialPlanning,
             )),
+            Center(
+                child: ArticlesListView(
+              classification: Classifications.financialProductsAndServices,
+            )),
           ],
         ),
       ),
@@ -241,84 +258,93 @@ class FinancialLiteracyHub extends StatelessWidget {
 class ArticlesListView extends StatelessWidget {
   final classification;
 
-  const ArticlesListView({
+  ArticlesListView({
     super.key,
     this.classification,
   });
+
+  late List authorNameList = [];
+  late List authorProfilePicList = [];
+  late List publishedDateList = [];
+  late List titleList = [];
+  late List contentList = [];
+  late List hashtagList = [];
+  late List picList = [];
 
   @override
   Widget build(BuildContext context) {
     DummyArticle dummyArticle = DummyArticle();
     dummyArticle.getData(classification);
 
-    late List authorName = dummyArticle.authorName;
-    late List authorProfilePic = dummyArticle.authorProfilePic;
-    late List publishedDate = dummyArticle.publishedDate;
-    late List title = dummyArticle.title;
-    late List content = dummyArticle.content;
-    late List hashtag = dummyArticle.hashtag;
-    late List pic = dummyArticle.pic;
 
     MediaQueryData media = MediaQuery.of(context);
 
     return SizedBox(
-      height: media.size.height,
-      child: ListView(
-        children: [
-          //检查是否有dummydata 并输出
-          dummyArticle.authorName.isEmpty
-              ? FutureBuilder(
-            future: fetchData(),
-                builder:
-                (context, snapshot) {
-              if (snapshot.hasData) {
-                // return ArticleOverview(authorName: snapshot,);
-                } else if (snapshot.hasError) {
-                } else {
-                  return CircularProgressIndicator();
-                }
-              return Text("");
-                },
-                //
-                // Padding(
-                //     padding: EdgeInsets.only(top: media.size.height * 0.35),
-                //     child: const Center(
-                //
-                //         child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           "Currently No Data here.\nExplore other classification\nor follow some other authors",
-                //           style: TextStyle(
-                //             fontFamily: 'Lexend',
-                //             fontSize: 14,
-                //           ),
-                //           textAlign: TextAlign.center,
-                //         ),
-                //         Icon(Icons.mobiledata_off_rounded),
-                //       ],
-                //     )),
-                //   ),
-              )
-              : ListView.builder(
-                  itemCount: authorName.length,
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int ctr) {
-                    return ArticleOverview(
-                      authorName: authorName[ctr],
-                      authorProfilePic: authorProfilePic[ctr],
-                      publishedDate: publishedDate[ctr],
-                      title: title[ctr],
-                      content: content[ctr],
-                      hashtag: hashtag[ctr],
-                      pic: pic[ctr],
-                    );
-                  },
-                ),
-        ],
-      ),
-    );
+        height: media.size.height,
+        child: FutureBuilder(
+          future: getForYouCategories(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              for (var doc in snapshot.data){
+            authorNameList.add(doc["authorName"]);
+            publishedDateList.add(doc["publishedDate"]);
+            contentList.add(doc["title"]);
+            titleList.add(doc["publishedDate"]);
+            hashtagList.add(doc["hashtag"]);
+            picList.add(doc["pic"]);
+            authorProfilePicList.add(doc["authorProfilePic"]);
+              }
+              return ListView(
+                children: [
+                  ListView.builder(
+                    itemCount: authorNameList.length,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int ctr) {
+                      return ArticleOverview(
+                        authorName: authorNameList[ctr],
+                        authorProfilePic: authorProfilePicList[ctr],
+                        publishedDate: publishedDateList[ctr],
+                        title: titleList[ctr],
+                        content: contentList[ctr],
+                        hashtag: hashtagList[ctr],
+                        pic: picList[ctr],
+                      );
+                    },
+                  )
+                ],
+              );
+            }
+            else if (!snapshot.hasData) {
+              return Padding(
+                    padding: EdgeInsets.only(top: media.size.height * 0.35),
+                    child: const Center(
+
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Currently No Data here.\nExplore other classification\nor follow some other authors",
+                          style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 14,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Icon(Icons.mobiledata_off_rounded),
+                      ],
+                    )),
+                  );
+            }
+
+            else if (snapshot.hasError) {
+              print("HAS ERROR");
+              return Text("Has Error");
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ));
   }
 }
 
