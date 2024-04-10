@@ -21,17 +21,11 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
 
   DummyData dummyData = DummyData();
   late List<String> name;
-
   late List<DateTime> publishedDate;
-
   late List<String> content;
-
   late List<int> numLikes;
-
   late List<int> numComments;
-
   late List<int> numShare;
-
   late List<String> profilePicUrl;
 
   List<String> nameFilterList = [];

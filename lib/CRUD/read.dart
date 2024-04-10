@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:savvy/dummyData.dart';
 
 /*
 Widget build(BuildContext context) {
@@ -17,19 +18,31 @@ Widget build(BuildContext context) {
 }*/
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future getForYouCategories() async {
+Future getForYouCategories(Classifications classification) async {
 
-  CollectionReference collectionRef = firestore.collection('LiteracyHub');
+  CollectionReference collectionRef = firestore.collection('literacyHub');
+  late String category;
 
-  // Query documents where 'category' field is "ForYou" (case-sensitive)
+  switch (classification){
+    case Classifications.forYou:
+      category="ForYou";
+    case Classifications.followong:
+      category="Followong";
+    case Classifications.debtManageStractegies:
+      category="DebtManageStractegies";
+    case Classifications.financialPlanning:
+      category="FinancialPlanning";
+    case Classifications.financialProductsAndServices:
+      category="FinancialProductsAndServices";
+  }
+
   QuerySnapshot querySnapshot = await collectionRef
-      .where('category', isEqualTo: 'ForYou')
+      .where('category', isEqualTo: category)
       .get();
 
-  // Check if any documents were found
   if (querySnapshot.docs.isEmpty) {
-    print('No documents found with "ForYou" category');
-    return "no data";
+    print('No documents found with $category category');
+    return null;
   }
 
   print(querySnapshot.docs);
