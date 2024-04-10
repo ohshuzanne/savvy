@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 /*
 Widget build(BuildContext context) {
   return FutureBuilder(
@@ -16,57 +15,23 @@ Widget build(BuildContext context) {
     },
   );
 }*/
-
-
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+Future getForYouCategories() async {
 
-Future<void> pushDataToFirebase(
-    {
-    required String category,
-    required String authorName,
-    required String authorProfilePic,
-    required String publishedDate,
-    required String title,
-    required String content,
-    required String hashtag,
-    required String pic,}
-    ) async {
-  // Create a map to store the data
-  Map<String, dynamic> data = {
-    'category': category,
-    'authorName': authorName,
-    'authorProfilePic': authorProfilePic,
-    'publishedDate': publishedDate,
-    'title': title,
-    'content': content,
-    'hashtag': hashtag,
-    'pic': pic,
-  };
-
-  // Add data to the "hub" collection with a randomly generated document ID
-  await firestore.collection('LiteracyHub').add(data);
-  print('Data written to Firebase');
-}
-
-
-
-
-Future<dynamic> fetchData() async {
-  // Get a reference to the "hub" collection
   CollectionReference collectionRef = firestore.collection('LiteracyHub');
 
-  // Get all documents in the collection
-  QuerySnapshot querySnapshot = await collectionRef.get();
+  // Query documents where 'category' field is "ForYou" (case-sensitive)
+  QuerySnapshot querySnapshot = await collectionRef
+      .where('category', isEqualTo: 'ForYou')
+      .get();
 
-  // Process each document
-  // for (var doc in querySnapshot.docs) {
-  //   Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-  //   String title = data['title'];
-  //   String content = data['content'];
-  //
-  //   print('Title: $title, Content: $content');
-  // }
-  return querySnapshot;
+  // Check if any documents were found
+  if (querySnapshot.docs.isEmpty) {
+    print('No documents found with "ForYou" category');
+    return "no data";
+  }
 
+  print(querySnapshot.docs);
+  return querySnapshot.docs;
 }
