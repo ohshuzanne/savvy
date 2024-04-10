@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:savvy/components/gradient_background.dart';
-import 'package:savvy/dummy.dart';
 import 'package:savvy/screen/create_expenses_screen.dart';
 import 'package:savvy/screen/transaction_overview_screen.dart';
 import 'package:savvy/utils/categories.dart';
@@ -11,6 +11,7 @@ import 'package:savvy/widget/create_button.dart';
 import 'package:savvy/widget/total_expenses.dart';
 import 'package:savvy/widget/transaction_log.dart';
 
+import '../provider/user_provider.dart';
 import '../utils/colors.dart';
 
 class ExpensesDashboard extends StatelessWidget {
@@ -30,7 +31,10 @@ class ExpensesDashboard extends StatelessWidget {
                   children: [
                     Text("Balance",
                         style: GoogleFonts.lexend(color: Colors.black)),
-                    Text("\$ ${balance}")
+                    Consumer<UserProvider>(builder: (context,data,child) {
+                      return Text(data.balance.toString());
+
+                    },),
                   ],
                 ),
               ),
@@ -40,7 +44,10 @@ class ExpensesDashboard extends StatelessWidget {
                   children: [
                     Text("Monthly Income",
                         style: GoogleFonts.lexend(color: Colors.black)),
-                    Text("\$ ${income}"),
+                    Consumer<UserProvider>(builder: (context,data,child) {
+                     return Text(data.income.toString());
+
+                    },),
                     Row(
                       children: [
                         Text("Edit Monthly Income",

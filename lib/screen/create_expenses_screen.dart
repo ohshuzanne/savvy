@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,11 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/utils/color.dart';
 import 'package:savvy/utils/colors.dart';
+import 'package:savvy/CRUD/expenses.dart';
 
 import '../utils/categories.dart';
 
 class CreateExpenses extends StatefulWidget {
-  const CreateExpenses({super.key});
+  final Expenses expenses;
+  const CreateExpenses({super.key, required this.expenses});
 
   @override
   State<CreateExpenses> createState() => _CreateExpensesState();
@@ -25,41 +28,52 @@ class _CreateExpensesState extends State<CreateExpenses> {
   void selectCat(BuildContext context) {
     showModalBottomSheet(
         context: context,
-        builder: (context) => StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState /*You can rename this!*/) =>
-              Container(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListView.builder(
-                      itemCount: cats.length,
-                      itemBuilder: (context, index) {
-                        String cat = cats[index];
-                        Key tileKey = Key(cat);
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              print(selectedIndex);
-                              selectedIndex = index;
-                              print(selectedIndex);
-                              setModalState((){});
-                            });
-                          },
-                          child: ListTile(
-                            title: Text(
-                              cat,
-                              style: GoogleFonts.lexend(
-                                color: index == selectedIndex
-                                    ? mainPurple
-                                    : Colors.black,
+        builder: (context) =>
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setModalState
+                  /*You can rename this!*/) =>
+                  Container(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ListView.builder(
+                          itemCount: cats.length,
+                          itemBuilder: (context, index) {
+                            String cat = cats[index];
+                            Key tileKey = Key(cat);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  print(selectedIndex);
+                                  selectedIndex = index;
+                                  print(selectedIndex);
+                                  setModalState(() {});
+                                });
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  cat,
+                                  style: GoogleFonts.lexend(
+                                    color: index == selectedIndex
+                                        ? mainPurple
+                                        : Colors.black,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  )),
-        ));
+                            );
+                          },
+                        ),
+                      )),
+            ));
+  }
+
+  createTransaction() {
+    Expenses newExpenses = Expenses(title: _titleController.text,
+        amount: double.parse(_amountController.text),
+        timestamp: selectedDay,
+    category: cats[selectedIndex]);
+    ExpensesController().createExpenses(newExpenses);
+
   }
 
   @override
@@ -145,18 +159,19 @@ class _CreateExpensesState extends State<CreateExpenses> {
                               ),
                               onTap: () {
                                 showDatePicker(
-                                        firstDate: DateTime(1985),
-                                        lastDate: DateTime(2050),
-                                        context: context,
-                                        initialDate: DateTime.now())
-                                    .then((value) => setState(() {
-                                          selectedDay = DateTime(
-                                              value!.year,
-                                              value.month,
-                                              value.day,
-                                              selectedDay.hour,
-                                              selectedDay.minute);
-                                        }));
+                                    firstDate: DateTime(1985),
+                                    lastDate: DateTime(2050),
+                                    context: context,
+                                    initialDate: DateTime.now())
+                                    .then((value) =>
+                                    setState(() {
+                                      selectedDay = DateTime(
+                                          value!.year,
+                                          value.month,
+                                          value.day,
+                                          selectedDay.hour,
+                                          selectedDay.minute);
+                                    }));
                               },
                             ),
                             SizedBox(
@@ -169,16 +184,17 @@ class _CreateExpensesState extends State<CreateExpenses> {
                               ),
                               onTap: () {
                                 showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay.now())
-                                    .then((value) => setState(() {
-                                          selectedDay = DateTime(
-                                              selectedDay.year,
-                                              selectedDay.month,
-                                              selectedDay.day,
-                                              value!.hour,
-                                              value.minute);
-                                        }));
+                                    context: context,
+                                    initialTime: TimeOfDay.now())
+                                    .then((value) =>
+                                    setState(() {
+                                      selectedDay = DateTime(
+                                          selectedDay.year,
+                                          selectedDay.month,
+                                          selectedDay.day,
+                                          value!.hour,
+                                          value.minute);
+                                    }));
                               },
                             ),
                           ],
@@ -264,9 +280,12 @@ class _CreateExpensesState extends State<CreateExpenses> {
                         SizedBox(
                           width: 30,
                         ),
-                        Text("Create",
-                            style: GoogleFonts.lexend(
-                                fontWeight: FontWeight.w500, fontSize: 17)),
+                        GestureDetector(
+                          onTap: createTransaction,
+                          child: Text("Create",
+                              style: GoogleFonts.lexend(
+                                  fontWeight: FontWeight.w500, fontSize: 17)),
+                        ),
                       ],
                     ),
                   ],

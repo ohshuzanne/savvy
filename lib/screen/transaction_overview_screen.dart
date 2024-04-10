@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:savvy/dummy.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/widget/month_dropdown.dart';
 import 'package:savvy/widget/pie_chart.dart';

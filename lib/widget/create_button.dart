@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:savvy/screen/create_expenses_screen.dart';
 import 'package:savvy/utils/color.dart';
 
+import '../CRUD/expenses.dart';
+
 class CreateButton extends StatefulWidget {
   const CreateButton({super.key});
 
@@ -23,7 +25,7 @@ class _CreateButtonState extends State<CreateButton> {
         Navigator.push(
             context,
             MaterialPageRoute<void>(
-                builder: (BuildContext context) => CreateExpenses()));
+                builder: (BuildContext context) => CreateExpenses(expenses: Expenses.empty(),)));
       }),
     );
   }
