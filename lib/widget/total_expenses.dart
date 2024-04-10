@@ -16,7 +16,6 @@ class TotalExpenses extends StatefulWidget {
 
 class _TotalExpensesState extends State<TotalExpenses> {
   bool _isLoading = false;
-  double budget = 0;
 
 
   void getBudget() async {
@@ -30,11 +29,9 @@ class _TotalExpensesState extends State<TotalExpenses> {
 
     setState(() {
       _isLoading = false;
-      Provider.of<UserProvider>(context, listen: false).setBudget( (snap.data() as Map<String, dynamic>)['budget']);
       Provider.of<UserProvider>(context, listen: false).setBalance( (snap.data() as Map<String, dynamic>)['balance']);
       Provider.of<UserProvider>(context, listen: false).setIncome( (snap.data() as Map<String, dynamic>)['monthlyIncome']);
 
-      budget = (snap.data() as Map<String, dynamic>)['budget'];
     });
   }
 
@@ -46,6 +43,7 @@ class _TotalExpensesState extends State<TotalExpenses> {
         total += i.amount;
       }
     }
+    Provider.of<UserProvider>(context, listen: false).setTotal(total);
     return (total).toStringAsFixed(2);
   }
 
@@ -120,10 +118,13 @@ class _TotalExpensesState extends State<TotalExpenses> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 7.0),
-                          child: Text(
-                            "/RM $budget",
-                            style: TextStyle(fontSize: 12),
-                          ),
+                          child: Consumer<UserProvider>(builder: (context,data,child) {
+                            return Text(
+                              "/RM ${data.budget}",
+                              style: TextStyle(fontSize: 12),
+                            );
+
+                          },),
                         ),
                       ],
                     ),

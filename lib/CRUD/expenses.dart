@@ -31,7 +31,7 @@ class Expenses {
         title: snapshot['title'],
         category: snapshot['category'],
         amount: snapshot['amount'],
-        timestamp: snapshot['timestamp']);
+        timestamp: snapshot['timestamp'].toDate());
   }
 }
 

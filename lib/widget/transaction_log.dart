@@ -27,7 +27,7 @@ class _TransactionLogState extends State<TransactionLog> {
   String previousDate = "";
   bool isSameDay = false;
 
-  Padding getLog(var transaction) {
+  Padding getLog(Expenses transaction) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Slidable(
@@ -72,7 +72,7 @@ class _TransactionLogState extends State<TransactionLog> {
                 Row(
                   children: [
                     Icon(
-                      getIcons(transaction['categories']),
+                      getIcons(transaction.category),
                       color: Color(0xff7A7D79),
                     ),
                     Padding(
@@ -81,7 +81,7 @@ class _TransactionLogState extends State<TransactionLog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            transaction['description'],
+                            transaction.title,
                             style: GoogleFonts.lexend(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500),
@@ -89,14 +89,14 @@ class _TransactionLogState extends State<TransactionLog> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(DateFormat('d MMM y')
-                                .format(DateTime.parse(transaction['date']))),
+                                .format(transaction.timestamp)),
                           )
                         ],
                       ),
                     ),
                   ],
                 ),
-                Text("RM " + transaction['amount'].toStringAsFixed(2)),
+                Text("RM " + transaction.amount.toStringAsFixed(2)),
               ],
             ),
           ),
@@ -146,10 +146,11 @@ class _TransactionLogState extends State<TransactionLog> {
             return (expenses.isEmpty)
                 ? const Center(child: Text("No record is available!"))
                 : ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: widget.isLatest? 10: expenses.length,
               itemBuilder: (context, index) {
-                var transaction = expenses[index];
+                Expenses transaction = expenses[index];
                 Key tileKey = Key(snapshot.data!.docs[index].id);
                 return widget.isLatest
                         ? getLog(transaction)

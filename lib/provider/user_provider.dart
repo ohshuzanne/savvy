@@ -6,14 +6,9 @@ class UserProvider extends ChangeNotifier {
 
   String get userId => _userId;
 
-  double _budget = 0;
+  double _budget = 3000;
 
   double get budget => _budget;
-
-  void setBudget(double budget){
-    _budget=budget;
-    notifyListeners();
-  }
 
   double _balance = 0;
 
@@ -30,7 +25,16 @@ class UserProvider extends ChangeNotifier {
 
   void setIncome(double income){
     _income = income;
+    print(income.toString());
     notifyListeners();
+  }
+
+  double _total = 0;
+
+  double get total => _total;
+
+  void setTotal(double total){
+    _total = total;
   }
 
 

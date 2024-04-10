@@ -14,7 +14,6 @@ class CategoriesDetails extends StatefulWidget {
 }
 
 class _CategoriesDetailsState extends State<CategoriesDetails> {
-  String selectedMonth = DateFormat("MMM y").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +36,7 @@ class _CategoriesDetailsState extends State<CategoriesDetails> {
                   padding:
                       const EdgeInsets.only(top: 20.0, bottom: 10, right: 10),
                   child: LineChartWidget(
-                    month: selectedMonth,
-                    cat: widget.cat,
+                                       cat: widget.cat,
                   ),
                 ),
                 TransactionLog(
