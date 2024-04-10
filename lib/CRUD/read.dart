@@ -20,7 +20,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future getForYouCategories(Classifications classification) async {
 
-  CollectionReference collectionRef = firestore.collection('LiteracyHub');
+  CollectionReference collectionRef = firestore.collection('literacyHub');
   late String category;
 
   switch (classification){

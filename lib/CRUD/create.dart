@@ -14,7 +14,8 @@ Future<void> pushDataToFirebase({
   required String title,
   required String content,
   required String hashtag,
-  required String pic,}) async {
+  required String pic,
+}) async {
   // Create a map to store the data
   Map<String, dynamic> data = {
     'category': category,
@@ -28,10 +29,9 @@ Future<void> pushDataToFirebase({
   };
 
   // Add data to the "hub" collection with a randomly generated document ID
-  await firestore.collection('LiteracyHub').add(data);
+  await firestore.collection('literacyHub').add(data);
   print('Data written to Firebase');
 }
-
 
 Future<void> initialDataToFirebase() async {
   DummyArticle dummyArticle = DummyArticle();
@@ -39,19 +39,20 @@ Future<void> initialDataToFirebase() async {
   late String category;
 
   for (var classification in Classifications.values) {
-
-    switch (classification){
+    switch (classification) {
       case Classifications.forYou:
-        category="ForYou";
+        category = "ForYou";
       case Classifications.followong:
-        category="Followong";
+        category = "Followong";
       case Classifications.debtManageStractegies:
-        category="DebtManageStractegies";
+        category = "DebtManageStractegies";
       case Classifications.financialPlanning:
-        category="FinancialPlanning";
+        category = "FinancialPlanning";
       case Classifications.financialProductsAndServices:
-        category="FinancialProductsAndServices";
+        category = "FinancialProductsAndServices";
     }
+
+    dummyArticle.getData(classification);
 
     for (int i = 0; i < dummyArticle.title.length; i++) {
       await pushDataToFirebase(
