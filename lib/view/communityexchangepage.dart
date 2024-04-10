@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savvy/CRUD/read.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/components/showdialog.dart';
 import 'package:savvy/dummyData.dart';
@@ -18,15 +19,15 @@ class CommunityExchangePage extends StatefulWidget {
 class _CommunityExchangePageState extends State<CommunityExchangePage> {
   int postNumber = 10;
   bool searchStatus = false;
+  bool initializeIsDone = false;
 
-  DummyData dummyData = DummyData();
-  late List<String> name;
-  late List<DateTime> publishedDate;
-  late List<String> content;
-  late List<int> numLikes;
-  late List<int> numComments;
-  late List<int> numShare;
-  late List<String> profilePicUrl;
+  late List<String> name = [];
+  late List<DateTime> publishedDate = [];
+  late List<String> content = [];
+  late List<int> numLikes = [];
+  late List<int> numComments = [];
+  late List<int> numShare = [];
+  late List<String> profilePicUrl = [];
 
   List<String> nameFilterList = [];
   List<String> contentFilterList = [];
@@ -245,20 +246,14 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                                       for (var nameItem in name) {
                                         ctr += 1;
                                         var contentItem = content[ctr];
-                                        if (nameItem.contains(
-                                                _searchTextController.text) ||
-                                            contentItem.contains(
-                                                _searchTextController.text)) {
+                                        if (nameItem.contains(_searchTextController.text) ||contentItem.contains(_searchTextController.text)) {
                                           nameFilterList.add(nameItem);
                                           contentFilterList.add(content[ctr]);
-                                          publishedDateFilterList
-                                              .add(publishedDate[ctr]);
+                                          publishedDateFilterList.add(publishedDate[ctr]);
                                           numLikesFilterList.add(numLikes[ctr]);
-                                          numCommentsFilterList
-                                              .add(numComments[ctr]);
+                                          numCommentsFilterList.add(numComments[ctr]);
                                           numShareFilterList.add(numShare[ctr]);
-                                          profilePicUrlFilterList
-                                              .add(profilePicUrl[ctr]);
+                                          profilePicUrlFilterList.add(profilePicUrl[ctr]);
                                         }
                                       }
 
@@ -335,38 +330,66 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                 }),
 
                 //内容
-                ListView.builder(
-                    itemCount: nameFilterList.isEmpty
-                        ? name.length
-                        : nameFilterList.length,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int ctr) {
-                      return ForumSinglePostWidget(
-                        currentctr: ctr,
-                        name: nameFilterList.isEmpty
-                            ? name[ctr]
-                            : nameFilterList[ctr],
-                        publishedDate: publishedDateFilterList.isEmpty
-                            ? publishedDate[ctr]
-                            : publishedDateFilterList[ctr],
-                        content: contentFilterList.isEmpty
-                            ? content[ctr]
-                            : contentFilterList[ctr],
-                        numLikes: numLikesFilterList.isEmpty
-                            ? numLikes[ctr]
-                            : numLikesFilterList[ctr],
-                        numComments: numCommentsFilterList.isEmpty
-                            ? numComments[ctr]
-                            : numCommentsFilterList[ctr],
-                        profilePicUrl: profilePicUrlFilterList.isEmpty
-                            ? profilePicUrl[ctr]
-                            : profilePicUrlFilterList[ctr],
-                        numShare: numShareFilterList.isEmpty
-                            ? numShare[ctr]
-                            : numShareFilterList[ctr],
-                      );
-                    }),
+                StreamBuilder(
+                  stream:firestore.collection('communityExchange').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final comments = snapshot.data?.docs;
+                      if (comments!.isNotEmpty) {
+                      for (var comment in comments) {
+                          name.add(comment['name']);
+                          publishedDate.add(comment['publishedDate'].toDate());
+                          content.add(comment['content']);
+                          numLikes.add(comment['numLikes']);
+                          numComments.add(comment['numComments']);
+                          numShare.add(comment['numShare']);
+                          profilePicUrl.add(comment['profilePicUrl']);
+                      }
+                      return ListView.builder(
+                          itemCount: nameFilterList.isEmpty
+                              ? name.length
+                              : nameFilterList.length,
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int ctr) {
+                            return ForumSinglePostWidget(
+                              currentctr: ctr,
+                              name: nameFilterList.isEmpty
+                                  ? name[ctr]
+                                  : nameFilterList[ctr],
+                              publishedDate: publishedDateFilterList.isEmpty
+                                  ? publishedDate[ctr]
+                                  : publishedDateFilterList[ctr],
+                              content: contentFilterList.isEmpty
+                                  ? content[ctr]
+                                  : contentFilterList[ctr],
+                              numLikes: numLikesFilterList.isEmpty
+                                  ? numLikes[ctr]
+                                  : numLikesFilterList[ctr],
+                              numComments: numCommentsFilterList.isEmpty
+                                  ? numComments[ctr]
+                                  : numCommentsFilterList[ctr],
+                              profilePicUrl: profilePicUrlFilterList.isEmpty
+                                  ? profilePicUrl[ctr]
+                                  : profilePicUrlFilterList[ctr],
+                              numShare: numShareFilterList.isEmpty
+                                  ? numShare[ctr]
+                                  : numShareFilterList[ctr],
+                            );
+                          });
+
+                      }
+                      else{
+                        print('Done Loading but no data');
+                        return Center(child: Text('Done Loading but no data'));
+                      }
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('Error fetching comments'));
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -398,13 +421,6 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
   @override
   void initState() {
     searchStatus = false;
-    name = dummyData.name;
-    publishedDate = dummyData.publishedDate;
-    content = dummyData.content;
-    numLikes = dummyData.numLikes;
-    numComments = dummyData.numComments;
-    numShare = dummyData.numShare;
-    profilePicUrl = dummyData.profilePicUrl;
   }
 }
 

@@ -67,3 +67,31 @@ Future<void> initialDataToFirebase() async {
     }
   }
 }
+
+
+
+Future<void> pushCommentToFirebase() async {
+
+  DummyData dummyData = DummyData();
+
+  try {
+    for (int i = 0; i < dummyData.name.length; i++) {
+      // Create a map to store the data for each forum post
+      Map<String, dynamic> data = {
+        'name': dummyData.name[i],
+        'publishedDate': dummyData.publishedDate[i],
+        'content': dummyData.content[i],
+        'numLikes': dummyData.numLikes[i],
+        'numComments': dummyData.numComments[i],
+        'numShare': dummyData.numShare[i],
+        'profilePicUrl': dummyData.profilePicUrl[i],
+      };
+
+      // Add the data to the "Forum" collection with a randomly generated document ID
+      await firestore.collection('communityExchange').add(data);
+      print('Post ${i + 1} added to Firebase');
+    }
+  } catch (error) {
+    print('Error adding posts to Firebase: $error');
+  }
+}

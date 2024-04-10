@@ -282,7 +282,7 @@ class ArticlesListView extends StatelessWidget {
     return SizedBox(
         height: media.size.height,
         child: FutureBuilder(
-          future: getForYouCategories(classification),
+          future: getArticlesByCategorie(classification),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               for (var doc in snapshot.data){
