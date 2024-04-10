@@ -273,8 +273,8 @@ class ArticlesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DummyArticle dummyArticle = DummyArticle();
-    dummyArticle.getData(classification);
+    // DummyArticle dummyArticle = DummyArticle();
+    // dummyArticle.getData(classification);
 
 
     MediaQueryData media = MediaQuery.of(context);
@@ -282,7 +282,7 @@ class ArticlesListView extends StatelessWidget {
     return SizedBox(
         height: media.size.height,
         child: FutureBuilder(
-          future: getForYouCategories(),
+          future: getForYouCategories(classification),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               for (var doc in snapshot.data){

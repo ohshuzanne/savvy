@@ -39,8 +39,6 @@ Future<void> initialDataToFirebase() async {
   late String category;
 
   for (var classification in Classifications.values) {
-    dummyArticle.getData(classification);
-
 
     switch (classification){
       case Classifications.forYou:
@@ -56,7 +54,8 @@ Future<void> initialDataToFirebase() async {
     }
 
     for (int i = 0; i < dummyArticle.title.length; i++) {
-      await pushDataToFirebase(category: category,
+      await pushDataToFirebase(
+          category: category,
           authorName: dummyArticle.authorName[i],
           authorProfilePic: dummyArticle.authorProfilePic[i],
           publishedDate: dummyArticle.publishedDate[i],
