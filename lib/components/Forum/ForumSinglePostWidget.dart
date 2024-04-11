@@ -15,6 +15,18 @@ class ForumSinglePostWidget extends StatelessWidget {
   final communityExchangeDocID;
   final numShare;
   final profilePicUrl;
+
+  const ForumSinglePostWidget(
+      {super.key,
+        this.communityExchangeDocID,
+        this.name,
+        this.publishedDate,
+        this.content,
+        this.numLikes,
+        this.numComments,
+        this.numShare,
+        this.profilePicUrl});
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
@@ -103,7 +115,7 @@ class ForumSinglePostWidget extends StatelessWidget {
                       numLikes: numLikes,
                     ),
                     CommentIcon(
-                        numComments: numComments, communityExchangedocID: communityExchangeDocID),
+                        numComments: numComments, communityExchangeDocID: communityExchangeDocID, name: name, publishedDate: publishedDate, content: content, numLikes: numLikes, numShare: numShare, profilePicUrl: profilePicUrl,),
                     ShareIcon(numShare: numShare),
                     const SizedBox(),
                   ],
@@ -132,23 +144,20 @@ class ForumSinglePostWidget extends StatelessWidget {
     );
   }
 
-  const ForumSinglePostWidget(
-      {super.key,
-      this.communityExchangeDocID,
-      this.name,
-      this.publishedDate,
-      this.content,
-      this.numLikes,
-      this.numComments,
-      this.numShare,
-      this.profilePicUrl});
+
 }
 
 class CommentIcon extends StatelessWidget {
+  late final name;
+  late final publishedDate;
+  late final content;
+  late final numLikes;
   late final numComments;
-  late final communityExchangedocID;
+  late final numShare;
+  late final communityExchangeDocID;
+  late final profilePicUrl;
 
-  CommentIcon({super.key, required this.numComments, required this.communityExchangedocID});
+  CommentIcon({super.key, required this.name, required this.publishedDate, required this.content, required this.numLikes, required this.numShare, required this.profilePicUrl, required this.numComments, required this.communityExchangeDocID});
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +165,14 @@ class CommentIcon extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
+            print("communityExchangeDocID type: ${communityExchangeDocID.runtimeType}");
+            print("name type: ${name.runtimeType}");
+            print("publishedDate type: ${publishedDate.runtimeType}");
+            print("content type: ${content.runtimeType}");
+            print("numLikes type: ${numLikes.runtimeType}");
+            print("numComments type: ${numComments.runtimeType}");
+            print("numShare type: ${numShare.runtimeType}");
+            print("profilePicUrl type: ${profilePicUrl.runtimeType}");
             goCommentPage(context);
           },
           child: const Icon(Icons.mode_comment_outlined, color: darkBlue),
@@ -168,10 +185,11 @@ class CommentIcon extends StatelessWidget {
     );
   }
 
+
   Future<void> goCommentPage(context) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => commentPage(communityExchangedocID)),
+      MaterialPageRoute(builder: (context) => commentPage(communityExchangeDocID,name,publishedDate,content,numLikes,numComments,numShare,profilePicUrl)),
     );
   }
 }

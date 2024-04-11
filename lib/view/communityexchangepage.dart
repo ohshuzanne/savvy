@@ -355,7 +355,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                           physics: const ClampingScrollPhysics(),
                           itemBuilder: (BuildContext context, int ctr) {
                             return ForumSinglePostWidget(
-                              communityExchangeDocID: docID,
+                              communityExchangeDocID: docID[ctr],
                               name: nameFilterList.isEmpty
                                   ? name[ctr]
                                   : nameFilterList[ctr],

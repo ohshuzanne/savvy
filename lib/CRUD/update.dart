@@ -20,3 +20,21 @@ Future<void> modifyCommentField(
     print('Error updating comment: $error');
   }
 }
+
+
+Future<void> modifyLikesNumber(
+    String communityExchangeDocumentId, String commentDocumentId, String fieldToUpdate, newValue) async {
+  try {
+    DocumentReference documentRef = firestore
+        .collection('communityExchange')
+        .doc(communityExchangeDocumentId)
+        .collection('comments')
+        .doc(commentDocumentId);
+
+    await documentRef.update({fieldToUpdate: newValue});
+
+    print('Likes Number updated successfully!');
+  } catch (error) {
+    print('Error updating likes umber: $error');
+  }
+}

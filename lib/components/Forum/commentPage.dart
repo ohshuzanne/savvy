@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:savvy/components/InteractedWidget/FavouriteIcon.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
@@ -8,7 +9,6 @@ import 'dart:math' as math;
 
 import '../../CRUD/read.dart';
 import '../../CRUD/update.dart';
-import '../../dummyData.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'ForumSinglePostWidget.dart';
 
@@ -93,13 +93,15 @@ class _commentPageState extends State<commentPage> {
 
                 //留言区
                 FutureBuilder(
-                  future: fetchComments(widget.communityExchangeDocID),
+                  future: fetchComments(documentId: widget.communityExchangeDocID),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final comments = snapshot;
-                      if(comments.data!.isNotEmpty){
+                      // if(comments.data!.isNotEmpty){
                         for (var comment in comments.data) {
-                          Column(
+                          print("PRINTING comment.id");
+                          print(comment.id);
+                          return Column(
                             children: [
                               ListView.builder(
                                   shrinkWrap: true,
@@ -107,10 +109,11 @@ class _commentPageState extends State<commentPage> {
                                   itemCount: numComment,
                                   itemBuilder: (BuildContext context, int ctr) {
                                     return CommentPostWidget(
-
+                                      commentDocID: comment.id,
+                                      communityExchangeDocID: widget.communityExchangeDocID,
                                       name: comment['name'],
                                       profilePicUrl: comment['profilePicUrl'],
-                                      publishedDate: comment['publishedDate'],
+                                      publishedDate: comment['publishedDate'].toDate(),
                                       content: comment['content'],
                                       numLikes: comment['numLikes'],
                                     );
@@ -121,7 +124,7 @@ class _commentPageState extends State<commentPage> {
                             ],
                           );
                         }
-                      }
+                      // }
                         return const Center(child: Column(
                           children: [
                             Icon(Icons.comments_disabled_outlined),
@@ -229,7 +232,8 @@ class CommentPostWidget extends StatelessWidget {
 
   const CommentPostWidget(
       {super.key,
-      this.docID,
+      this.communityExchangeDocID,
+      this.commentDocID,
       this.name,
       this.publishedDate,
       this.content,
@@ -237,7 +241,8 @@ class CommentPostWidget extends StatelessWidget {
       this.numComments,
       this.profilePicUrl});
 
-  final docID;
+  final communityExchangeDocID;
+  final commentDocID;
   final name;
   final publishedDate;
   final content;
@@ -339,6 +344,7 @@ class CommentPostWidget extends StatelessWidget {
                               )),
                           FavouritedIcon(
                             numLikes: numLikes,
+                            commentDocID: commentDocID, communityExchangeDocID: communityExchangeDocID,
                           ),
                         ],
                       ),

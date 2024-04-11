@@ -56,7 +56,7 @@ getCommunityExchangePost() {
   } catch (error) {print(error);}
 }
 
-Future<List<Object>> fetchComments(String documentId) async {
+Future fetchComments({required String documentId}) async {
   try {
     // Reference to the specific document
     DocumentReference documentRef = firestore
