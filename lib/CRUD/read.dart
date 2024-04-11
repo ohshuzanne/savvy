@@ -47,7 +47,7 @@ Future getArticlesByCategorie(Classifications classification) async {
   return querySnapshot.docs;
 }
 
-getComment() {
+getCommunityExchangePost() {
   CollectionReference communityExchangeCollection =
       firestore.collection('communityExchange');
 
@@ -55,3 +55,24 @@ getComment() {
     return communityExchangeCollection.snapshots();
   } catch (error) {print(error);}
 }
+
+Future fetchComments({required String documentId}) async {
+  try {
+    // Reference to the specific document
+    DocumentReference documentRef = firestore
+        .collection('communityExchange')
+        .doc(documentId);
+
+    // Get the comments subcollection
+    CollectionReference commentsCollection = documentRef.collection('comments');
+
+    // Get all documents in the subcollection
+    QuerySnapshot querySnapshot = await commentsCollection.get();
+
+    return querySnapshot.docs;
+  } catch (error) {
+    print('Error fetching comments: $error');
+    return []; // Return empty list on error
+  }
+}
+
