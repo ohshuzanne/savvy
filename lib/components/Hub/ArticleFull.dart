@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -8,17 +6,15 @@ import '../InteractedWidget/FavouriteIcon.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import '../InteractedWidget/ShareIcon.dart';
 import '../InteractedWidget/YoutubeIcon.dart';
+import 'articleSummuryAI.dart';
 
 class Articlefull extends StatelessWidget {
   final String authorName;
   final String authorProfilePic;
   final String publishedDate;
   final String title;
-
   final String content;
-
   final String hashtag;
-
   final String pic;
 
   const Articlefull({
@@ -192,6 +188,50 @@ class Articlefull extends StatelessWidget {
                       )),
                 ),
 
+
+                //TODO: GENERATIVE AI
+
+        Container(
+          decoration: BoxDecoration(
+            // ... other decorations (optional)
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), // Shadow color (adjustable)
+                blurRadius: 1.0, // Adjust shadow blur
+                spreadRadius: -3.0, // Negative spread for inner shadow effect
+                offset: Offset(-1.0, -1.0), // No offset for centered shadow
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FutureBuilder(
+              future: getResponeFromGemini(contentToBeSummarized: content),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      const Text('This is a **test** string with **bold** formatting.'),
+                      Text('Summary:${snapshot.data?.text}'),
+                      const Text("applyMarkdownBold"),
+                      Text.rich(parseMarkdownBold('${snapshot.data?.text}')),
+
+
+                ],
+                  );
+                }
+                // else if (snapshot.hasError) {
+                //   print(snapshot.error);
+                //   return Text('Sorry, AI Function does not work in this moment, Try again later..');
+                // }
+                else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          ),
+        ),
+
                 //内容
                 Container(
                     width: 200,
@@ -209,17 +249,7 @@ class Articlefull extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30),
-                      Text(
-//                           """
-// Debt can feel like a heavy weight on your shoulders, but it doesn't have to control your life. Debt management is the process of taking charge of your outstanding balances and developing a plan to pay them off. By implementing effective strategies and maintaining discipline, you can achieve financial freedom and peace of mind.
-//
-// The first step to successful debt management is understanding your financial situation. Create a comprehensive list of all your debts, including the amount owed, interest rates, and minimum payments. This will give you a clear picture of your financial obligations and help you prioritize your repayment efforts.
-//
-// Once you have a grasp of your debt situation, you can explore various debt management strategies. Popular methods include the snowball and avalanche methods. The snowball method focuses on paying off the smallest debts first, regardless of interest rate, to gain momentum and achieve quick wins. The avalanche method prioritizes paying off debts with the highest interest rates first to minimize the total amount of interest paid over time.
-//                 """
-                          content,
-                          style: TextStyle(fontFamily: 'Lexend'),
-                          textAlign: TextAlign.justify),
+                      Text(content,style: TextStyle(fontFamily: 'Lexend'),textAlign: TextAlign.justify),
 
                       //总结
                       const Padding(

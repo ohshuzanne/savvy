@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
