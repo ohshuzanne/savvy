@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
+import 'package:savvy/view/chatwithpetpage.dart';
 import 'package:savvy/view/debtmanagerpage.dart';
 import 'package:savvy/view/homepage.dart';
 import 'package:savvy/view/onboardingpage.dart';
@@ -10,8 +11,7 @@ import 'package:savvy/view/pagenotfound.dart';
 
 import 'firebase_options.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -74,6 +74,15 @@ class MyApp extends StatelessWidget {
             return PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   const OnboardingPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            );
+          case '/chatwithpetpage':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const ChatWithPetPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return FadeTransition(opacity: animation, child: child);

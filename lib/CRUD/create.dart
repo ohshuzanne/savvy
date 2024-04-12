@@ -1,6 +1,3 @@
-import 'dart:html';
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savvy/dummyData.dart';
 
@@ -68,10 +65,7 @@ Future<void> initialDataToFirebase() async {
   }
 }
 
-
-
 Future<void> pushCommentToFirebase() async {
-
   DummyData dummyData = DummyData();
 
   try {
@@ -95,6 +89,3 @@ Future<void> pushCommentToFirebase() async {
     print('Error adding posts to Firebase: $error');
   }
 }
-
-
-
