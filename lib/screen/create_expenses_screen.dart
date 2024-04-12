@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/utils/color.dart';
@@ -28,6 +31,60 @@ class _CreateExpensesState extends State<CreateExpenses> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
+  final model = GenerativeModel(
+    model: 'gemini-pro',
+    apiKey: "AIzaSyDsGu2nuHzb6ZeknDxDFMXQzimahaiVekQ",
+  );
+
+  Future<GenerateContentResponse> validateCategory(String title) async {
+    final prompt = 'You are a worker in a finance company..'
+        'You have been given title of expenses: $title.'
+        'Determine which category are the expenses belong to with the provided choices including Foods, Shopping, Transports, and Others .'
+        'Some of the example of transport can be grab, lrt, brt, ktm, ets, and any title related to bus'
+        'Provide your response as a JSON object with the following schema: {"category": category of item}.'
+        'Do not return your result as Markdown.';
+
+    final response = await model.generateContent([
+      Content.text(prompt),
+    ]);
+    print(response);
+    return response;
+  }
+
+  Future<String?> _onCategory(String title) async {
+    Map result = {};
+    final category = await validateCategory(title);
+    final response =
+        category.text!.replaceAll("```json", "").replaceAll("```", "");
+    result = json.decode(response);
+    setState(() {
+      print(result);
+      switch (result['category']) {
+        case ("Foods"):
+          {
+            selectedIndex = 0;
+            break;
+          }
+        case ("Transports"):
+          {
+            selectedIndex = 1;
+            break;
+          }
+        case ("Shopping"):
+          {
+            selectedIndex = 2;
+            break;
+          }
+        default:
+          {
+            selectedIndex = 3;
+            break;
+          }
+      }
+    });
+    return null;
+  }
+
   void selectCat(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -46,9 +103,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  print(selectedIndex);
                                   selectedIndex = index;
-                                  print(selectedIndex);
                                   setModalState(() {});
                                 });
                               },
@@ -71,7 +126,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
 
   createTransaction() {
     Expenses newExpenses = Expenses(
-      id: widget.isUpdate? widget.expenses.id: "",
+        id: widget.isUpdate ? widget.expenses.id : "",
         title: _titleController.text,
         amount: double.parse(_amountController.text),
         timestamp: selectedDay,
@@ -80,7 +135,6 @@ class _CreateExpensesState extends State<CreateExpenses> {
         ? ExpensesController().editExpenses(newExpenses)
         : ExpensesController().createExpenses(newExpenses);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +147,8 @@ class _CreateExpensesState extends State<CreateExpenses> {
     }
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool didPop){
-        if (didPop){
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
           return;
         }
         showBackDialog('Discard report and leave?', context);
@@ -133,6 +187,11 @@ class _CreateExpensesState extends State<CreateExpenses> {
                         height: 10,
                       ),
                       TextField(
+                        onChanged: (String title) {
+                          setState(() {
+                            _onCategory(title);
+                          });
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         style: GoogleFonts.lexend(),
                         controller: _titleController,
@@ -292,7 +351,10 @@ class _CreateExpensesState extends State<CreateExpenses> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: (){showBackDialog('Discard record and leave?', context);},
+                            onTap: () {
+                              showBackDialog(
+                                  'Discard record and leave?', context);
+                            },
                             child: Text(
                               "Cancel",
                               style: GoogleFonts.lexend(
