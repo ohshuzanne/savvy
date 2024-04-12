@@ -279,8 +279,6 @@ packages:
       sha256: "5b1726fee554d1cc9db1baef8061b126567ff0a1140a03ed7de936e62f2ab98b"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.0"
-
     version: "6.2.1"
   google_generative_ai:
     dependency: "direct main"
@@ -290,7 +288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
-
   google_nav_bar:
     dependency: "direct main"
     description:
