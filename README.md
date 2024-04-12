@@ -27,6 +27,7 @@ Savvy is a mobile application designed to empower Malaysians on their journey to
 ## Screenshots
 ![firstpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/2.png?raw=true)
 ![secondpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/3.png?raw=true)
+![chatpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/9.png?raw=true)
 ![thirdpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/4.png?raw=true)
 ![fourthpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/5.png?raw=true)
 ![fifthpage](https://github.com/ohshuzanne/savvy/blob/main/screenshots/6.png?raw=true)
