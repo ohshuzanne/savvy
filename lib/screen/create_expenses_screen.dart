@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,9 @@ import 'package:savvy/utils/colors.dart';
 import 'package:savvy/CRUD/expenses.dart';
 
 import '../utils/categories.dart';
+
+final String? GeminiAPIKey = dotenv.env['GeminiAPIKey'];
+
 
 class CreateExpenses extends StatefulWidget {
   final bool isUpdate;
@@ -30,10 +34,9 @@ class _CreateExpensesState extends State<CreateExpenses> {
   int selectedIndex = 0;
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-
   final model = GenerativeModel(
     model: 'gemini-pro',
-    apiKey: "AIzaSyDsGu2nuHzb6ZeknDxDFMXQzimahaiVekQ",
+    apiKey: GeminiAPIKey,
   );
 
   Future<GenerateContentResponse> validateCategory(String title) async {
