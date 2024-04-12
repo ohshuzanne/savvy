@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
 
+import '../../CRUD/update.dart';
+
 class FavouritedIcon extends StatefulWidget {
   late int numLikes;
+  var commentDocID;
+  var communityExchangeDocID;
 
-  FavouritedIcon({super.key, required this.numLikes});
+  FavouritedIcon({super.key, required this.numLikes, this.commentDocID, this.communityExchangeDocID});
 
   @override
   State<FavouritedIcon> createState() => _FavouritedIconState();
@@ -24,13 +28,17 @@ class _FavouritedIconState extends State<FavouritedIcon> {
     setState(() {
       liked = true;
       widget.numLikes += 1;
+      modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
     });
   }
+
+
 
   unlike() {
     setState(() {
       liked = false;
       widget.numLikes -= 1;
+      modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
     });
   }
 
@@ -50,21 +58,5 @@ class _FavouritedIconState extends State<FavouritedIcon> {
         ),
       ],
     );
-
-    /*
-    return StreamBuilder(  //持续聆听User里面的likes[]，搜索有没有增加or减少post的id
-      stream: FirebaseFirestore.instance
-          .collection('user')
-          .doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        // likes.add(Set.from(snapshot.data?["likes"]));
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else {}
-        return const Text("data");
-
-      },
-    );
-*/
   }
 }
