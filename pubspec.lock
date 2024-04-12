@@ -287,26 +287,15 @@ packages:
       sha256: b1ac0fe2832c9cc95e5e88b57d627c5e68c223b9657f4b96e1487aa9098c7b82
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
-    version: "6.2.0"
-=======
     version: "6.2.1"
->>>>>>> AddGeminiIntoLiteracyHub
   google_generative_ai:
     dependency: "direct main"
     description:
       name: google_generative_ai
-<<<<<<< HEAD
       sha256: "942900cd97ad497bc74e8661f3fad5d5dbef4e36850ee9d92fc8b196e3128e92"
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
-=======
-      sha256: f666a8c09225630a9ab366296407b38c6dab87ba7b1bce15a7db35e9411c17d3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
->>>>>>> AddGeminiIntoLiteracyHub
   google_nav_bar:
     dependency: "direct main"
     description:
