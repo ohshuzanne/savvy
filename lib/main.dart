@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savvy/provider/user_provider.dart';
 import 'package:savvy/utils/colors.dart';
+import 'package:savvy/view/chatwithpetpage.dart';
 import 'package:savvy/view/debtmanagerpage.dart';
 import 'package:savvy/view/homepage.dart';
 import 'package:savvy/view/onboardingpage.dart';
@@ -12,8 +13,7 @@ import 'package:savvy/view/pagenotfound.dart';
 
 import 'firebase_options.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

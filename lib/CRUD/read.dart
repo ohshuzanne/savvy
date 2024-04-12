@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:savvy/dummyData.dart';
 
 /*
 Widget build(BuildContext context) {
@@ -17,21 +18,61 @@ Widget build(BuildContext context) {
 }*/
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future getForYouCategories() async {
+Future getArticlesByCategorie(Classifications classification) async {
+  CollectionReference collectionRef = firestore.collection('literacyHub');
+  late String category;
 
-  CollectionReference collectionRef = firestore.collection('LiteracyHub');
+  switch (classification) {
+    case Classifications.forYou:
+      category = "ForYou";
+    case Classifications.followong:
+      category = "Followong";
+    case Classifications.debtManageStractegies:
+      category = "DebtManageStractegies";
+    case Classifications.financialPlanning:
+      category = "FinancialPlanning";
+    case Classifications.financialProductsAndServices:
+      category = "FinancialProductsAndServices";
+  }
 
-  // Query documents where 'category' field is "ForYou" (case-sensitive)
-  QuerySnapshot querySnapshot = await collectionRef
-      .where('category', isEqualTo: 'ForYou')
-      .get();
+  QuerySnapshot querySnapshot =
+      await collectionRef.where('category', isEqualTo: category).get();
 
-  // Check if any documents were found
   if (querySnapshot.docs.isEmpty) {
-    print('No documents found with "ForYou" category');
-    return "no data";
+    print('No documents found with $category category');
+    return null;
   }
 
   print(querySnapshot.docs);
   return querySnapshot.docs;
 }
+
+getCommunityExchangePost() {
+  CollectionReference communityExchangeCollection =
+      firestore.collection('communityExchange');
+
+  try {
+    return communityExchangeCollection.snapshots();
+  } catch (error) {print(error);}
+}
+
+Future fetchComments({required String documentId}) async {
+  try {
+    // Reference to the specific document
+    DocumentReference documentRef = firestore
+        .collection('communityExchange')
+        .doc(documentId);
+
+    // Get the comments subcollection
+    CollectionReference commentsCollection = documentRef.collection('comments');
+
+    // Get all documents in the subcollection
+    QuerySnapshot querySnapshot = await commentsCollection.get();
+
+    return querySnapshot.docs;
+  } catch (error) {
+    print('Error fetching comments: $error');
+    return []; // Return empty list on error
+  }
+}
+

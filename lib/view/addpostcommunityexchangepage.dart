@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
 import 'package:savvy/utils/colors.dart';
 
+import '../CRUD/create.dart';
+
 class AddPost extends StatelessWidget {
   const AddPost({super.key});
 
@@ -23,7 +25,7 @@ class AddPost extends StatelessWidget {
             child: Container(
                 decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
+                    onPressed: () {pushCommentToFirebase();}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
           )
         ],
       ),

@@ -12,9 +12,21 @@ class ForumSinglePostWidget extends StatelessWidget {
   final content;
   final numLikes;
   final numComments;
-  final currentctr;
+  final communityExchangeDocID;
   final numShare;
   final profilePicUrl;
+
+  const ForumSinglePostWidget(
+      {super.key,
+        this.communityExchangeDocID,
+        this.name,
+        this.publishedDate,
+        this.content,
+        this.numLikes,
+        this.numComments,
+        this.numShare,
+        this.profilePicUrl});
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
@@ -60,19 +72,24 @@ class ForumSinglePostWidget extends StatelessWidget {
                       Text(
                         "$name",
                         textAlign: TextAlign.left,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const  TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold),
                       ),
                       publishedDate.month == DateTime.now().month &&
                               publishedDate.day == DateTime.now().day
                           ? Text(
                               "${publishedDate.hour}h ${publishedDate.minute}m ago",
                               style: const TextStyle(
+                                fontFamily: 'Lexend',
                                 fontWeight: FontWeight.w300,
                                 fontStyle: FontStyle.italic,
                               ))
                           : Text(
                               "${publishedDate.year}/${publishedDate.month}/${publishedDate.day}",
                               style: const TextStyle(
+                                fontFamily: 'Lexend',
                                 fontWeight: FontWeight.w300,
                                 fontStyle: FontStyle.italic,
                               ),
@@ -83,7 +100,9 @@ class ForumSinglePostWidget extends StatelessWidget {
               //无限内容
               SizedBox(
                   width: media.size.width * contentRatioSize,
-                  child: Text("$content")),
+                  child: Text("$content",style: const TextStyle(
+                      fontFamily: 'Lexend',
+                      fontSize: 11),)),
 
               // Like, Comment and share
               SizedBox(
@@ -96,7 +115,7 @@ class ForumSinglePostWidget extends StatelessWidget {
                       numLikes: numLikes,
                     ),
                     CommentIcon(
-                        numComments: numComments, currentctr: currentctr),
+                        numComments: numComments, communityExchangeDocID: communityExchangeDocID, name: name, publishedDate: publishedDate, content: content, numLikes: numLikes, numShare: numShare, profilePicUrl: profilePicUrl,),
                     ShareIcon(numShare: numShare),
                     const SizedBox(),
                   ],
@@ -114,10 +133,10 @@ class ForumSinglePostWidget extends StatelessWidget {
                     height: 0.5,
                     width: media.size.width * 0.5,
                   )),
-              Padding(
-                  padding: EdgeInsets.only(
-                top: media.size.height * 0.02,
-              )),
+              // Padding(
+              //     padding: EdgeInsets.only(
+              //   top: media.size.height * 0.02,
+              // )),
             ],
           )
         ],
@@ -125,23 +144,20 @@ class ForumSinglePostWidget extends StatelessWidget {
     );
   }
 
-  const ForumSinglePostWidget(
-      {super.key,
-      this.currentctr,
-      this.name,
-      this.publishedDate,
-      this.content,
-      this.numLikes,
-      this.numComments,
-      this.numShare,
-      this.profilePicUrl});
+
 }
 
 class CommentIcon extends StatelessWidget {
+  late final name;
+  late final publishedDate;
+  late final content;
+  late final numLikes;
   late final numComments;
-  late final currentctr;
+  late final numShare;
+  late final communityExchangeDocID;
+  late final profilePicUrl;
 
-  CommentIcon({super.key, required this.numComments, required this.currentctr});
+  CommentIcon({super.key, required this.name, required this.publishedDate, required this.content, required this.numLikes, required this.numShare, required this.profilePicUrl, required this.numComments, required this.communityExchangeDocID});
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +165,14 @@ class CommentIcon extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
+            print("communityExchangeDocID type: ${communityExchangeDocID.runtimeType}");
+            print("name type: ${name.runtimeType}");
+            print("publishedDate type: ${publishedDate.runtimeType}");
+            print("content type: ${content.runtimeType}");
+            print("numLikes type: ${numLikes.runtimeType}");
+            print("numComments type: ${numComments.runtimeType}");
+            print("numShare type: ${numShare.runtimeType}");
+            print("profilePicUrl type: ${profilePicUrl.runtimeType}");
             goCommentPage(context);
           },
           child: const Icon(Icons.mode_comment_outlined, color: darkBlue),
@@ -161,10 +185,11 @@ class CommentIcon extends StatelessWidget {
     );
   }
 
+
   Future<void> goCommentPage(context) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => commentPage(currentctr)),
+      MaterialPageRoute(builder: (context) => commentPage(communityExchangeDocID,name,publishedDate,content,numLikes,numComments,numShare,profilePicUrl)),
     );
   }
 }
