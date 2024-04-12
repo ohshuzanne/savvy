@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:savvy/dummy.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/widget/bar_chart.dart';
 import 'package:savvy/widget/transaction_log.dart';
