@@ -13,7 +13,7 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   void navigateToSignInPage() {
-    Navigator.pushNamed(context, '/signinpage');
+    Navigator.pushNamed(context, '/homepage');
   }
 
   void navigateToRegisterPage() {
