@@ -83,6 +83,15 @@ class MyApp extends StatelessWidget {
                   return FadeTransition(opacity: animation, child: child);
                 },
               );
+            case '/chatwithpetpage':
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                  const ChatWithPetPage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+               );
             default:
               return MaterialPageRoute(
                   builder: (context) => UndefinedPage(name: settings.name));
