@@ -1,19 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:savvy/components/InteractedWidget/FavouriteIcon.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
 import 'dart:math' as math;
 
-import '../../dummyData.dart';
+import '../../CRUD/read.dart';
+import '../../CRUD/update.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'ForumSinglePostWidget.dart';
 
 class commentPage extends StatefulWidget {
-  final currentctr;
+  final communityExchangeDocID;
+  final name;
+  final publishedDate;
+  final content;
+  final numLikes;
+  final numComments;
+  final numShare;
+  final profilePicUrl;
 
-  const commentPage(this.currentctr, {super.key});
+  const commentPage(this.communityExchangeDocID, this.name, this.publishedDate, this.content,
+      this.numLikes, this.numComments, this.numShare, this.profilePicUrl,
+      {super.key});
 
   @override
   _commentPageState createState() => _commentPageState();
@@ -22,22 +33,6 @@ class commentPage extends StatefulWidget {
 class _commentPageState extends State<commentPage> {
   final TextEditingController _textController = TextEditingController();
   int numComment = 10; //newdata will be 11
-
-  DummyData dummyData = DummyData();
-  late List<String> name = dummyData.name;
-  late List<DateTime> publishedDate = dummyData.publishedDate;
-  late List<String> content = dummyData.content;
-  late List<int> numLikes = dummyData.numLikes;
-  late List<int> numComments = dummyData.numComments;
-  late List<int> numShare = dummyData.numShare;
-  late List<String> profilePicUrl = dummyData.profilePicUrl;
-
-  DummyComments dummyComments = DummyComments();
-  late List<String> commentName = dummyComments.name;
-  late List<DateTime> commentPublishedDate = dummyComments.publishedDate;
-  late List<String> commentContent = dummyComments.debtManagementComments;
-  late List<int> commentnumLikes = dummyComments.numLikes;
-  late List<String> commentprofilePicUrl = dummyComments.profilePicUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -84,34 +79,65 @@ class _commentPageState extends State<commentPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: ForumSinglePostWidget(
-                      currentctr: widget.currentctr,
-                      name: name[widget.currentctr],
-                      publishedDate: publishedDate[widget.currentctr],
-                      content: content[widget.currentctr],
-                      numLikes: numLikes[widget.currentctr],
-                      numComments: numComments[widget.currentctr],
-                      profilePicUrl: profilePicUrl[widget.currentctr],
-                      numShare: numShare[widget.currentctr],
+                      communityExchangeDocID: widget.communityExchangeDocID,
+                      name: widget.name,
+                      publishedDate: widget.publishedDate,
+                      content: widget.content,
+                      numLikes: widget.numLikes,
+                      numComments: widget.numComments,
+                      profilePicUrl: widget.profilePicUrl,
+                      numShare: widget.numShare,
                     ),
                   ),
                 ),
 
                 //留言区
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: numComment,
-                    itemBuilder: (BuildContext context, int ctr) {
-                      return CommentPostWidget(
-                        name: commentName[ctr],
-                        profilePicUrl: commentprofilePicUrl[ctr],
-                        publishedDate: commentPublishedDate[ctr],
-                        content: commentContent[ctr],
-                        numLikes: commentnumLikes[ctr],
-                      );
-                    }),
-                SizedBox(
-                  height: media.size.height * 0.1,
+                FutureBuilder(
+                  future: fetchComments(documentId: widget.communityExchangeDocID),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final comments = snapshot;
+                      // if(comments.data!.isNotEmpty){
+                        for (var comment in comments.data) {
+                          print("PRINTING comment.id");
+                          print(comment.id);
+                          return Column(
+                            children: [
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: numComment,
+                                  itemBuilder: (BuildContext context, int ctr) {
+                                    return CommentPostWidget(
+                                      commentDocID: comment.id,
+                                      communityExchangeDocID: widget.communityExchangeDocID,
+                                      name: comment['name'],
+                                      profilePicUrl: comment['profilePicUrl'],
+                                      publishedDate: comment['publishedDate'].toDate(),
+                                      content: comment['content'],
+                                      numLikes: comment['numLikes'],
+                                    );
+                                  }),
+                              SizedBox(
+                                height: media.size.height * 0.1,
+                              ),
+                            ],
+                          );
+                        }
+                      // }
+                        return const Center(child: Column(
+                          children: [
+                            Icon(Icons.comments_disabled_outlined),
+                            Text("No comment Yet, Be the 1st one to comment!"),
+                          ],
+                        ));
+
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ]),
             ),
@@ -156,7 +182,7 @@ class _commentPageState extends State<commentPage> {
                   onPressed: () {
                     // Access the entered text using the controller
                     String enteredText = _textController.text;
-                    reRender();
+                    reRender(commentDocumentId: widget.communityExchangeDocID);
                     print('Entered Text: $enteredText');
                   },
                   child: Transform(
@@ -183,39 +209,31 @@ class _commentPageState extends State<commentPage> {
   @override
   void initState() {
     super.initState();
-    name = dummyData.name;
-    dummyData.publishedDate;
-    content = dummyData.content;
-    numLikes = dummyData.numLikes;
-    numComments = dummyData.numComments;
-    numShare = dummyData.numShare;
-    profilePicUrl = dummyData.profilePicUrl;
-
-    commentName = dummyComments.name;
-    commentPublishedDate = dummyComments.publishedDate;
-    commentContent = dummyComments.debtManagementComments;
-    commentnumLikes = dummyComments.numLikes;
-    commentprofilePicUrl = dummyComments.profilePicUrl;
   }
 
-  void reRender() {
+  void reRender({required commentDocumentId}) {
     setState(() {
       numComment += 1;
-      commentName.add("NewCommentName");
-      commentprofilePicUrl.add(
-          "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
-      commentPublishedDate.add(DateTime.now());
-      commentContent.add(_textController.text);
-      commentnumLikes.add(0);
-      _textController.text = "";
-      print("Re-rendered");
+      modifyCommentField(communityExchangeDocumentId:'' , commentDocumentId:commentDocumentId , fieldToUpdate: 'numLikes', newValue: numComment);
+      //TODO
+      // commentName.add("NewCommentName");
+      // commentprofilePicUrl.add(
+      //     "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
+      // commentPublishedDate.add(DateTime.now());
+      // commentContent.add(_textController.text);
+      // commentnumLikes.add(0);
+      // _textController.text = "";
+      // print("Re-rendered");
     });
   }
 }
 
 class CommentPostWidget extends StatelessWidget {
+
   const CommentPostWidget(
       {super.key,
+      this.communityExchangeDocID,
+      this.commentDocID,
       this.name,
       this.publishedDate,
       this.content,
@@ -223,6 +241,8 @@ class CommentPostWidget extends StatelessWidget {
       this.numComments,
       this.profilePicUrl});
 
+  final communityExchangeDocID;
+  final commentDocID;
   final name;
   final publishedDate;
   final content;
@@ -324,6 +344,7 @@ class CommentPostWidget extends StatelessWidget {
                               )),
                           FavouritedIcon(
                             numLikes: numLikes,
+                            commentDocID: commentDocID, communityExchangeDocID: communityExchangeDocID,
                           ),
                         ],
                       ),
@@ -378,7 +399,6 @@ class _bottomInputBarState extends State<bottomInputBar> {
             padding: EdgeInsets.zero, // Remove default padding
           ),
           onPressed: () {
-            // Access the entered text using the controller
             String enteredText = widget.textController.text;
 
             print('Entered Text: $enteredText');
@@ -392,36 +412,3 @@ class _bottomInputBarState extends State<bottomInputBar> {
     );
   }
 }
-
-
-//帖子留言的Straight Line
-/*
-class MinimalistLinePainter extends CustomPainter {
-  final double thickness;
-  final Color color;
-  final context;
-  final screenLeftPaddingRatio;
-
-  MinimalistLinePainter({required this.thickness, required this.color, required this.context, required this.screenLeftPaddingRatio });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint linePaint = Paint()
-      ..color = color
-      ..strokeWidth = thickness
-      ..style = PaintingStyle.stroke; // Ensure stroke for a line
-
-    var media = MediaQuery.of(context);
-
-    canvas.drawLine(
-      Offset((media.size.width * screenLeftPaddingRatio)/ 2, 0), // Start at middle minus half-width
-      Offset((media.size.width * screenLeftPaddingRatio)/ 2 , size.height), // End at middle minus half-width
-      linePaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}
-*/
-

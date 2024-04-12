@@ -5,6 +5,7 @@ import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/goalcontainer.dart';
+import 'package:savvy/components/buttons.dart';
 import 'package:savvy/components/showdialog.dart';
 
 class VirtualPetPage extends StatefulWidget {
@@ -26,17 +27,22 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
     });
   }
 
+  void navigateToChatWithPetPage() {
+    Navigator.pushNamed(context, '/chatwithpetpage');
+  }
+
   void _showPurchaseDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(
-            'Purchase Cat',
+            'Purchase Meowie',
             style:
                 TextStyle(fontFamily: 'Lexend', fontSize: 16, color: darkGrey),
           ),
-          content: Text('Do you want to purchase this cat for 200 coins?',
+          content: Text(
+              '\"Hi... My name is Meowie.\"\n\nAge: 2 months\nPersonality type: Shy and introverted\nHobbies: reading and napping\n\nWould you like to adopt Meowie for 200 coins?',
               style: TextStyle(fontFamily: 'Lexend', color: darkGrey)),
           actions: [
             TextButton(
@@ -237,9 +243,28 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
 
                     //pet image
                     Center(
-                      child: Container(
-                        width: 320,
-                        child: Image.asset(roomImagePath),
+                      child: GestureDetector(
+                        child: Container(
+                          width: 320,
+                          child: Image.asset(roomImagePath),
+                        ),
+                        onTap: navigateToChatWithPetPage,
+                      ),
+                    ),
+
+                    //button to chat with pet
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Center(
+                        child: PrimaryButton(
+                          onTap: navigateToChatWithPetPage,
+                          buttonText: "Chat with me!",
+                          buttonColor: darkBlue,
+                          borderColor: darkBlue,
+                          textColor: backgroundWhite,
+                          borderRadius: 25,
+                          splashColor: lightPink,
+                        ),
                       ),
                     ),
 
@@ -484,7 +509,7 @@ class _VirtualPetPageState extends State<VirtualPetPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 60),
                   ],
                 ),
               ),

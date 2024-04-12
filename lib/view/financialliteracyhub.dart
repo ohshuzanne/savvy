@@ -273,8 +273,8 @@ class ArticlesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DummyArticle dummyArticle = DummyArticle();
-    dummyArticle.getData(classification);
+    // DummyArticle dummyArticle = DummyArticle();
+    // dummyArticle.getData(classification);
 
 
     MediaQueryData media = MediaQuery.of(context);
@@ -282,7 +282,7 @@ class ArticlesListView extends StatelessWidget {
     return SizedBox(
         height: media.size.height,
         child: FutureBuilder(
-          future: getForYouCategories(),
+          future: getArticlesByCategorie(classification),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               for (var doc in snapshot.data){
@@ -315,33 +315,33 @@ class ArticlesListView extends StatelessWidget {
                 ],
               );
             }
-            else if (!snapshot.hasData) {
-              return Padding(
-                    padding: EdgeInsets.only(top: media.size.height * 0.35),
-                    child: const Center(
-
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Currently No Data here.\nExplore other classification\nor follow some other authors",
-                          style: TextStyle(
-                            fontFamily: 'Lexend',
-                            fontSize: 14,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Icon(Icons.mobiledata_off_rounded),
-                      ],
-                    )),
-                  );
-            }
+            // else if (!snapshot.hasData) {
+            //   return Padding(
+            //         padding: EdgeInsets.only(top: media.size.height * 0.35),
+            //         child: const Center(
+            //
+            //             child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.center,
+            //           children: [
+            //             Text(
+            //               "Currently No Data here.\nExplore other classification\nor follow some other authors",
+            //               style: TextStyle(
+            //                 fontFamily: 'Lexend',
+            //                 fontSize: 14,
+            //               ),
+            //               textAlign: TextAlign.center,
+            //             ),
+            //             Icon(Icons.mobiledata_off_rounded),
+            //           ],
+            //         )),
+            //       );
+            // }
 
             else if (snapshot.hasError) {
               print("HAS ERROR");
-              return Text("Has Error");
+              return const Text("Has Error");
             } else {
-              return CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ));
