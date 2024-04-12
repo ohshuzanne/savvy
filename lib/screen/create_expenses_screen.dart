@@ -36,7 +36,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
   final _amountController = TextEditingController();
   final model = GenerativeModel(
     model: 'gemini-pro',
-    apiKey: GeminiAPIKey,
+    apiKey: GeminiAPIKey!,
   );
 
   Future<GenerateContentResponse> validateCategory(String title) async {
