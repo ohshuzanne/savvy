@@ -284,7 +284,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
       _isTyping = true;
     });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 4), () {
       final Message petResponse = Message(
           sender: "Pet",
           text:
