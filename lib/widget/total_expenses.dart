@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:savvy/CRUD/expenses.dart';
 import 'package:savvy/provider/user_provider.dart';
 import 'package:savvy/screen/budget_screen.dart';
+import 'package:savvy/utils/color.dart';
 
 class TotalExpenses extends StatefulWidget {
   const TotalExpenses({super.key});
@@ -16,6 +20,12 @@ class TotalExpenses extends StatefulWidget {
 
 class _TotalExpensesState extends State<TotalExpenses> {
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getBudget();
+  }
 
 
   void getBudget() async {
@@ -29,8 +39,8 @@ class _TotalExpensesState extends State<TotalExpenses> {
 
     setState(() {
       _isLoading = false;
-      Provider.of<UserProvider>(context, listen: false).setBalance( (snap.data() as Map<String, dynamic>)['balance']);
-      Provider.of<UserProvider>(context, listen: false).setIncome( (snap.data() as Map<String, dynamic>)['monthlyIncome']);
+      Provider.of<UserProvider>(context, listen: false).setBalance((snap.data() as Map<String, dynamic>)['balance'],null);
+      Provider.of<UserProvider>(context, listen: false).setIncome((snap.data() as Map<String, dynamic>)['monthlyIncome'].toDouble());
 
     });
   }
@@ -88,50 +98,68 @@ class _TotalExpensesState extends State<TotalExpenses> {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, right: 25, left: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Total Expenses",
-                            style: GoogleFonts.lexend(color: Colors.black)),
-                        Text("/Budget",
-                            style: GoogleFonts.lexend(
-                                color: Colors.black, fontSize: 8))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "RM ${getTotal(expenses)}",
-                          style: TextStyle(fontSize: 25),
+                        Row(
+                          children: [
+                            Text("Total Expenses",
+                                style: GoogleFonts.lexend(color: Colors.black)),
+                            Text("/Budget",
+                                style: GoogleFonts.lexend(
+                                    color: Colors.black, fontSize: 8))
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 7.0),
-                          child: Consumer<UserProvider>(builder: (context,data,child) {
-                            return Text(
-                              "/RM ${data.budget}",
-                              style: TextStyle(fontSize: 12),
-                            );
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "RM ${getTotal(expenses)}",
+                              style: GoogleFonts.lexend(fontSize :25),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 7.0),
+                              child: Consumer<UserProvider>(builder: (context,data,child) {
+                                return Text(
+                                  "/RM ${data.budget}",
+                                  style: GoogleFonts.lexend(fontSize :12),
+                                );
 
-                          },),
+                              },),
+                            ),
+                          ],
                         ),
-                      ],
+
+                        ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0, right: 15, top:10, bottom: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Consumer<UserProvider>(builder: (context,data,child) {
+                    return LinearPercentIndicator(barRadius: Radius.circular(10),backgroundColor: subPurple,lineHeight: 20,progressColor: mainPurple,percent: (double.parse(getTotal(expenses))/data.budget),);
+
+                  }
+
+                  ),
+                ),
+              )],
           ),
         ),
       ),

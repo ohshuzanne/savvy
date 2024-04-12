@@ -34,14 +34,12 @@ class _CategoriesDetailsState extends State<CategoriesDetails> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 20.0, bottom: 10, right: 10),
+                      const EdgeInsets.only(top: 20.0, bottom: 10),
                   child: LineChartWidget(
                                        cat: widget.cat,
                   ),
                 ),
-                TransactionLog(
-                  isCat: widget.cat,
-                )
+
               ],
             ),
           ),

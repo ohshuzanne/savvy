@@ -37,7 +37,7 @@ class TransactionOverview extends StatelessWidget {
                   child: PieChartWidget(),
                 ),
                 ]),
-              TransactionLog()
+
             ],
           )),
         ),

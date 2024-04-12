@@ -14,8 +14,17 @@ class UserProvider extends ChangeNotifier {
 
   double get balance => _balance;
 
-  void setBalance(double balance){
-    _balance = balance;
+  void setBalance(double balance, var isAdd){
+    if(isAdd == true){
+      _balance += balance;
+    }
+    else if (isAdd == null){
+      _balance = balance;
+    }
+    else{
+      _balance -= balance;
+    }
+
     notifyListeners();
   }
 

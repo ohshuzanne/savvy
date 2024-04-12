@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:savvy/CRUD/expenses.dart';
 import 'package:savvy/utils/categories.dart';
 import 'package:savvy/utils/color.dart';
+
+import '../provider/user_provider.dart';
+import '../screen/create_expenses_screen.dart';
 
 class TransactionLog extends StatefulWidget {
   final bool isLatest;
@@ -35,13 +39,20 @@ class _TransactionLogState extends State<TransactionLog> {
           motion: DrawerMotion(),
           children: [
             SlidableAction(
-
-              onPressed: (context) {},
+              onPressed: (context) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) => CreateExpenses(isUpdate: true,expenses: transaction,)));
+              },
               icon: Icons.edit,
               backgroundColor: subPurple,
             ),
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                ExpensesController().deleteExpenses(transaction);
+                Provider.of<UserProvider>(context, listen: false).setBalance(transaction.amount,false);
+              },
               icon: Icons.delete,
               backgroundColor: Colors.red,
               borderRadius: BorderRadius.only(
@@ -89,14 +100,14 @@ class _TransactionLogState extends State<TransactionLog> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(DateFormat('d MMM y')
-                                .format(transaction.timestamp)),
+                                .format(transaction.timestamp), style: GoogleFonts.lexend(color:Colors.grey),),
                           )
                         ],
                       ),
                     ),
                   ],
                 ),
-                Text("RM " + transaction.amount.toStringAsFixed(2)),
+                Text("RM " + transaction.amount.toStringAsFixed(2), style: GoogleFonts.lexend(),),
               ],
             ),
           ),
@@ -139,77 +150,118 @@ class _TransactionLogState extends State<TransactionLog> {
             var expenses = snapshot.data!.docs.map((doc) {
               return Expenses.expensesFromSnap(doc);
             }).toList();
-
             expenses.sort((a, b) => (b!.timestamp).compareTo(a!.timestamp));
 
+            if (widget.isCat != "false") {
+              List<Expenses> temp = [];
+              for (Expenses i in expenses) {
+                if (i.category == widget.isCat) {
+                  temp.add(i);
+                }
+                expenses = temp;
+              }
+            }
+            ;
+            if (widget.date.isNotEmpty) {
+              List<Expenses> temp = [];
+              for (Expenses i in expenses) {
+                if (widget.date.contains(DateTime(
+                    i.timestamp.year, i.timestamp.month, i.timestamp.day))) {
+                  temp.add(i);
+                }
+              }
+              expenses = temp;
+            }
 
             return (expenses.isEmpty)
-                ? const Center(child: Text("No record is available!"))
+                ?  Column(
+                  children: [
+                    SizedBox(height: 150,),
+                    Center(child: Text("No record is available!", style: GoogleFonts.lexend(),)),
+                  ],
+                )
                 : ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: widget.isLatest? 10: expenses.length,
-              itemBuilder: (context, index) {
-                Expenses transaction = expenses[index];
-                Key tileKey = Key(snapshot.data!.docs[index].id);
-                return widget.isLatest
-                        ? getLog(transaction)
-                        : isSameDay
-                            ? getLog(transaction)
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 20.0, bottom: 5),
-                                    child: Text(
-                                      DateFormat('d MMM y')
-                                          .format(transaction.timestamp),
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: darkColor),
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: widget.isLatest
+                        ? expenses.length >= 10
+                            ? 10
+                            : expenses.length
+                        : expenses.length,
+                    itemBuilder: (context, index) {
+                      Expenses transaction = expenses[index];
+                      isSameDay = previousDate ==
+                          DateTime(
+                                  transaction.timestamp.year,
+                                  transaction.timestamp.month,
+                                  transaction.timestamp.day)
+                              .toString();
+                      previousDate = DateTime(
+                              transaction.timestamp.year,
+                              transaction.timestamp.month,
+                              transaction.timestamp.day)
+                          .toString();
+                      return widget.isLatest
+                          ? getLog(transaction)
+                          : isSameDay
+                              ? getLog(transaction)
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20.0, bottom: 5),
+                                      child: Text(
+                                        DateFormat('d MMM y')
+                                            .format(transaction.timestamp),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkColor),
+                                      ),
                                     ),
-                                  ),
-                                  getLog(transaction)
-                                ],
-                              );
-              },
-            );
+                                    getLog(
+                                      transaction,
+                                    )
+                                  ],
+                                );
+                    },
+                  );
           }
         });
-
-    // return ListView.builder(
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   shrinkWrap: true,
-    //   itemCount: widget.isLatest ? 10 : transactionLog.length,
-    //   itemBuilder: (context, index) {
-    //     transactionLog.sort((a, b) => (DateTime.parse(b['date'].toString()))
-    //         .compareTo(DateTime.parse(a['date'].toString())));
-    //     var transaction = transactionLog[index];
-    //     isSameDay = previousDate == transaction['date'];
-    //     previousDate = transaction['date'];
-    //     return widget.isLatest
-    //         ? getLog(transaction)
-    //         : isSameDay
-    //             ? getLog(transaction)
-    //             : Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: [
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(top: 20.0, bottom: 5),
-    //                     child: Text(
-    //                       DateFormat('d MMM y')
-    //                           .format(DateTime.parse(transaction['date'])),
-    //                       style: TextStyle(
-    //                           fontSize: 15,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: darkColor),
-    //                     ),
-    //                   ),
-    //                   getLog(transaction)
-    //                 ],
-    //               );
-    //   },
-    // );
   }
+
+// return ListView.builder(
+//   physics: const NeverScrollableScrollPhysics(),
+//   shrinkWrap: true,
+//   itemCount: widget.isLatest ? 10 : transactionLog.length,
+//   itemBuilder: (context, index) {
+//     transactionLog.sort((a, b) => (DateTime.parse(b['date'].toString()))
+//         .compareTo(DateTime.parse(a['date'].toString())));
+//     var transaction = transactionLog[index];
+//     isSameDay = previousDate == transaction['date'];
+//     previousDate = transaction['date'];
+//     return widget.isLatest
+//         ? getLog(transaction)
+//         : isSameDay
+//             ? getLog(transaction)
+//             : Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.only(top: 20.0, bottom: 5),
+//                     child: Text(
+//                       DateFormat('d MMM y')
+//                           .format(DateTime.parse(transaction['date'])),
+//                       style: TextStyle(
+//                           fontSize: 15,
+//                           fontWeight: FontWeight.w500,
+//                           color: darkColor),
+//                     ),
+//                   ),
+//                   getLog(transaction)
+//                 ],
+//               );
+//   },
+// );
 }

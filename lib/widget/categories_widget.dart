@@ -87,7 +87,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Text("RM " + getTotal(expenses)),
+                        Text("RM " + getTotal(expenses), style: GoogleFonts.lexend(fontSize :15)),
                       ],
                     ),
                   ),

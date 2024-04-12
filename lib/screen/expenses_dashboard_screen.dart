@@ -14,47 +14,68 @@ import 'package:savvy/widget/transaction_log.dart';
 import '../provider/user_provider.dart';
 import '../utils/colors.dart';
 
-class ExpensesDashboard extends StatelessWidget {
+class ExpensesDashboard extends StatefulWidget {
   const ExpensesDashboard({super.key});
 
+  @override
+  State<ExpensesDashboard> createState() => _ExpensesDashboardState();
+}
+
+class _ExpensesDashboardState extends State<ExpensesDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: Drawer(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ListView(
             children: [
+              DrawerHeader(child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  0,
+                  20,
+                  0,
+                  20,
+                ),
+                child: Image.asset('lib/images/savvylogowithpets.png'),
+              ),),
               ListTile(
+
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Balance",
                         style: GoogleFonts.lexend(color: Colors.black)),
+                    SizedBox(height: 10,),
                     Consumer<UserProvider>(builder: (context,data,child) {
-                      return Text(data.balance.toString());
+                      return Text("RM ${data.balance.toStringAsFixed(2)}",style: GoogleFonts.lexend(color: Colors.black, fontSize: 20));
 
                     },),
                   ],
                 ),
               ),
+              SizedBox(height: 10,),
               ListTile(
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Monthly Income",
                         style: GoogleFonts.lexend(color: Colors.black)),
+                    SizedBox(height: 10,),
                     Consumer<UserProvider>(builder: (context,data,child) {
-                     return Text(data.income.toString());
+                     return Text("RM ${data.income.toStringAsFixed(2)}", style: GoogleFonts.lexend(fontSize: 20), );
 
                     },),
                     Row(
                       children: [
                         Text("Edit Monthly Income",
-                            style: GoogleFonts.lexend(color: Colors.black)),
+                            style: GoogleFonts.lexend(color: Colors.grey, fontSize: 12, decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed, decorationColor: Colors.grey)),
+                        SizedBox(width: 5,),
                         Icon(
                           Icons.edit_rounded,
-                          color: darkGrey,
+                          color: Colors.grey,
+                          size: 15,
                         )
                       ],
                     )
