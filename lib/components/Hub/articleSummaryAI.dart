@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -111,10 +112,11 @@ class summuryArticle extends StatelessWidget {
 
   final content;
 
-  const summuryArticle({required this.content, super.key});
+  summuryArticle({required this.content, super.key});
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData media = MediaQuery.of(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: FutureBuilder(

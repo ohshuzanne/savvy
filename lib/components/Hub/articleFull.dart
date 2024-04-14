@@ -76,7 +76,7 @@ class _articlefullState extends State<articlefull> {
               height: 23,
               child: Image.asset('lib/images/savvylogo.png'),
             ),
-            Text(
+            const Text(
               "avvy",
               style: TextStyle(
                 fontFamily: 'Lexend',
@@ -229,15 +229,18 @@ class _articlefullState extends State<articlefull> {
                       ),
                       child: widget.summaryYes
                           ? summuryArticle(content: widget.content)
-                          : SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: Padding(
+                          : media.size.width > 400
+                              ?
+
+                              // Fixing Overflow
+
+                              Padding(
                                 padding: const EdgeInsets.only(
                                   left: 30.0,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.start,
                                   children: [
                                     Image.asset(
                                       "lib/images/3dcat.png",
@@ -251,7 +254,8 @@ class _articlefullState extends State<articlefull> {
                                           if (snapshot.hasData) {
                                             return Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
                                               children: [
                                                 const Text(
                                                   "\t  Meow..! Do You Want Maomi To \n\t  Summarise this article for you?",
@@ -260,27 +264,32 @@ class _articlefullState extends State<articlefull> {
                                                       fontSize: 11),
                                                 ),
                                                 const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10)),
+                                                    padding:
+                                                        EdgeInsets.only(
+                                                            left: 10)),
                                                 PrimaryButton(
                                                   onTap: () {
                                                     setState(() {
-                                                      widget.summaryYes = true;
+                                                      widget.summaryYes =
+                                                          true;
                                                     });
                                                   },
                                                   buttonText: 'Yes',
                                                   buttonColor: darkBlue,
-                                                  borderColor: primaryPurple,
+                                                  borderColor:
+                                                      primaryPurple,
                                                   textColor: lightBlue,
                                                   borderRadius: 4,
-                                                  splashColor: lighterYellow,
+                                                  splashColor:
+                                                      lighterYellow,
                                                 ),
                                               ],
                                             );
                                           } else {
                                             return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5.0),
+                                              padding:
+                                                  const EdgeInsets.only(
+                                                      left: 5.0),
                                               child: SizedBox(
                                                   width: 40,
                                                   height: 40,
@@ -291,7 +300,62 @@ class _articlefullState extends State<articlefull> {
                                         })
                                   ],
                                 ),
-                              ))),
+                              )
+                              :
+
+
+                              // Phone layout
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 20,bottom: 20
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "lib/images/3dcat.png",
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                        FutureBuilder(
+                                            future: fakeDelay(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot snapshot) {
+                                              if (snapshot.hasData) {
+                                                return const Text(
+                                                  "\t  Meow..! Do You Want Maomi To \n\t  Summarise this article for you?",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Lexend',
+                                                      fontSize: 11),
+                                                );
+                                              } else {
+                                                return Lottie.asset(
+                                                    "lib/images/chat.json",width: 40,height: 40);
+                                              }
+
+                                            })
+                                      ],
+                                    ),
+                                    const Padding(padding: EdgeInsets.only(bottom: 10)),
+                                    PrimaryButton(
+                                      onTap: () {
+                                        setState(() {
+                                          widget.summaryYes = true;
+                                        });
+                                      },
+                                      buttonText: 'Yes',
+                                      buttonColor: darkBlue,
+                                      borderColor: primaryPurple,
+                                      textColor: lightBlue,
+                                      borderRadius: 40,
+                                      splashColor: lighterYellow,
+                                    ),
+                                  ],
+                                ),
+                              )),
                 ),
 
                 //内容
