@@ -5,7 +5,6 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 Future<void> modifyCommentField(
 {required String communityExchangeDocumentId,required String commentDocumentId,required String fieldToUpdate,required newValue}) async {
   try {
-    // Reference to the specific document in the subcollection
     DocumentReference documentRef = firestore
         .collection('communityExchange')
         .doc(communityExchangeDocumentId)

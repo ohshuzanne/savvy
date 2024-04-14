@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -14,7 +10,7 @@ import '../InteractedWidget/YoutubeIcon.dart';
 import '../buttons.dart';
 import 'articleSummaryAI.dart';
 
-class Articlefull extends StatefulWidget {
+class articlefull extends StatefulWidget {
   final String authorName;
   final String authorProfilePic;
   final String publishedDate;
@@ -23,7 +19,7 @@ class Articlefull extends StatefulWidget {
   final String hashtag;
   final String pic;
 
-  Articlefull({
+  articlefull({
     required this.authorName,
     required this.publishedDate,
     required this.content,
@@ -42,10 +38,10 @@ class Articlefull extends StatefulWidget {
   late bool summaryYes = false;
 
   @override
-  State<Articlefull> createState() => _ArticlefullState();
+  State<articlefull> createState() => _articlefullState();
 }
 
-class _ArticlefullState extends State<Articlefull> {
+class _articlefullState extends State<articlefull> {
   @override
   void initState() {
     widget.summaryYes = false;
@@ -80,7 +76,7 @@ class _ArticlefullState extends State<Articlefull> {
               height: 23,
               child: Image.asset('lib/images/savvylogo.png'),
             ),
-            Text(
+            const Text(
               "avvy",
               style: TextStyle(
                 fontFamily: 'Lexend',
@@ -110,7 +106,7 @@ class _ArticlefullState extends State<Articlefull> {
         children: [
           //左Indent
           SizedBox(
-            width: media.size.width * Articlefull.left_Padding,
+            width: media.size.width * articlefull.left_Padding,
           ),
 
           //主要内容
@@ -137,8 +133,8 @@ class _ArticlefullState extends State<Articlefull> {
                     ProfilePicture(
                       picUrl: widget.authorProfilePic,
                       //头像
-                      width: media.size.width * Articlefull.profilePix_Ratio,
-                      height: media.size.width * Articlefull.profilePix_Ratio,
+                      width: media.size.width * articlefull.profilePix_Ratio,
+                      height: media.size.width * articlefull.profilePix_Ratio,
                     ),
 
                     //space between profile pic and name/time
@@ -149,7 +145,7 @@ class _ArticlefullState extends State<Articlefull> {
 
                     //名字和时间
                     SizedBox(
-                      height: media.size.width * Articlefull.profilePix_Ratio,
+                      height: media.size.width * articlefull.profilePix_Ratio,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,16 +228,19 @@ class _ArticlefullState extends State<Articlefull> {
                         ],
                       ),
                       child: widget.summaryYes
-                          ? summuryArticle(content: widget.content)
-                          : SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: Padding(
+                          ? SummuryArticle(content: widget.content)
+                          : media.size.width > 400
+                              ?
+
+                              // Fixing Overflow
+
+                              Padding(
                                 padding: const EdgeInsets.only(
                                   left: 30.0,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.start,
                                   children: [
                                     Image.asset(
                                       "lib/images/3dcat.png",
@@ -255,7 +254,8 @@ class _ArticlefullState extends State<Articlefull> {
                                           if (snapshot.hasData) {
                                             return Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
                                               children: [
                                                 const Text(
                                                   "\t  Meow..! Do You Want Maomi To \n\t  Summarise this article for you?",
@@ -264,27 +264,32 @@ class _ArticlefullState extends State<Articlefull> {
                                                       fontSize: 11),
                                                 ),
                                                 const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10)),
+                                                    padding:
+                                                        EdgeInsets.only(
+                                                            left: 10)),
                                                 PrimaryButton(
                                                   onTap: () {
                                                     setState(() {
-                                                      widget.summaryYes = true;
+                                                      widget.summaryYes =
+                                                          true;
                                                     });
                                                   },
                                                   buttonText: 'Yes',
                                                   buttonColor: darkBlue,
-                                                  borderColor: primaryPurple,
+                                                  borderColor:
+                                                      primaryPurple,
                                                   textColor: lightBlue,
                                                   borderRadius: 4,
-                                                  splashColor: lighterYellow,
+                                                  splashColor:
+                                                      lighterYellow,
                                                 ),
                                               ],
                                             );
                                           } else {
                                             return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5.0),
+                                              padding:
+                                                  const EdgeInsets.only(
+                                                      left: 5.0),
                                               child: SizedBox(
                                                   width: 40,
                                                   height: 40,
@@ -295,7 +300,62 @@ class _ArticlefullState extends State<Articlefull> {
                                         })
                                   ],
                                 ),
-                              ))),
+                              )
+                              :
+
+
+                              // Phone layout
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 20,bottom: 20
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "lib/images/3dcat.png",
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                        FutureBuilder(
+                                            future: fakeDelay(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot snapshot) {
+                                              if (snapshot.hasData) {
+                                                return const Text(
+                                                  "\t  Meow..! Do You Want Maomi To \n\t  Summarise this article for you?",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Lexend',
+                                                      fontSize: 11),
+                                                );
+                                              } else {
+                                                return Lottie.asset(
+                                                    "lib/images/chat.json",width: 40,height: 40);
+                                              }
+
+                                            })
+                                      ],
+                                    ),
+                                    const Padding(padding: EdgeInsets.only(bottom: 10)),
+                                    PrimaryButton(
+                                      onTap: () {
+                                        setState(() {
+                                          widget.summaryYes = true;
+                                        });
+                                      },
+                                      buttonText: 'Yes',
+                                      buttonColor: darkBlue,
+                                      borderColor: primaryPurple,
+                                      textColor: lightBlue,
+                                      borderRadius: 40,
+                                      splashColor: lighterYellow,
+                                    ),
+                                  ],
+                                ),
+                              )),
                 ),
 
                 //内容
@@ -309,16 +369,16 @@ class _ArticlefullState extends State<Articlefull> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: media.size.width *
-                          Articlefull.context_lect_right_Padding,
+                          articlefull.context_lect_right_Padding,
                       right: media.size.width *
-                          Articlefull.context_lect_right_Padding),
+                          articlefull.context_lect_right_Padding),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30),
                       Text(widget.content,
-                          style: const TextStyle(fontFamily: 'Lexend'),
+                          style: const TextStyle(fontSize: 12,fontFamily: 'Lexend'),
                           textAlign: TextAlign.justify),
 
                       //总结
@@ -328,13 +388,13 @@ class _ArticlefullState extends State<Articlefull> {
                           "Summary",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              fontSize: 14,
                               fontFamily: 'Lexend'),
                         ),
                       ),
                       const Text(
                           "list all your debts with amounts owed and interest rates. This will help you prioritize your repayment plan. There are different strategies, like the snowball method (pay off smallest debts first for quick wins) or the avalanche method (prioritize high-interest debts to save money).",
-                          style: TextStyle(fontFamily: 'Lexend'),
+                          style: TextStyle(fontFamily: 'Lexend',fontSize: 12),
                           textAlign: TextAlign.justify),
                     ],
                   ),
@@ -348,7 +408,7 @@ class _ArticlefullState extends State<Articlefull> {
 
           //右Indent
           SizedBox(
-            width: media.size.width * Articlefull.right_Padding,
+            width: media.size.width * articlefull.right_Padding,
           ),
         ],
       ),

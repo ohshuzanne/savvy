@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:savvy/CRUD/read.dart';
-import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/components/showdialog.dart';
-import 'package:savvy/dummyData.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../components/Forum/ForumSinglePostWidget.dart';
+import '../components/communityExchangeForum/communityExchangeForumSingleWidget.dart';
 import '../utils/colors.dart';
 import 'addpostcommunityexchangepage.dart';
 

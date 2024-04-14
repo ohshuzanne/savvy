@@ -41,7 +41,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
               height: 23,
               child: Image.asset('lib/images/savvylogo.png'),
             ),
-            Text(
+            const Text(
               "avvy",
               style: TextStyle(
                 fontFamily: 'Lexend',
@@ -70,7 +70,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            SecondPurpleBackgroundShapesState(),
+            const SecondPurpleBackgroundShapesState(),
             Column(
               children: <Widget>[
                 //pet card
@@ -86,7 +86,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.4),
                           blurRadius: 7,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -107,8 +107,8 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                           Expanded(
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(
                                     25,
                                     18,
                                     10,
@@ -130,7 +130,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                                   ),
                                   child: Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Status:  ",
                                         style: TextStyle(
                                           fontFamily: 'Lexend',
@@ -143,7 +143,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                                         child: Image.asset(
                                             'lib/images/3dheart.png'),
                                       ),
-                                      Text(
+                                      const Text(
                                         "  Besties!",
                                         style: TextStyle(
                                           fontFamily: 'Lexend',
@@ -221,7 +221,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
 
                 //send message
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: SizedBox(
                     height: 80,
                     child: Row(
@@ -236,18 +236,18 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                             },
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: backgroundWhite),
+                                borderSide: const BorderSide(color: backgroundWhite),
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: darkBlue),
+                                borderSide: const BorderSide(color: darkBlue),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               fillColor: backgroundWhite,
                               filled: true,
                               hintText: 'Send a message',
                               hintStyle:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
+                                  const TextStyle(color: Colors.grey, fontSize: 14),
                               labelText: _isFilled ? null : 'Send a message',
                               labelStyle: TextStyle(
                                 color: Colors.grey.withOpacity(0.8),
@@ -259,7 +259,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.send, color: darkBlue),
+                          icon: const Icon(Icons.send, color: darkBlue),
                           onPressed: _isFilled ? _sendMessage : null,
                         ),
                       ],
@@ -284,7 +284,7 @@ class _ChatWithPetPageState extends State<ChatWithPetPage>
       _isTyping = true;
     });
 
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       final Message petResponse = Message(
           sender: "Pet",
           text:

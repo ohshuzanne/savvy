@@ -1,21 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savvy/dummyData.dart';
 
-/*
-Widget build(BuildContext context) {
-  return FutureBuilder(
-    future: fetchData(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return Text('User name: ${snapshot.data}');
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else {
-        return CircularProgressIndicator();
-      }
-    },
-  );
-}*/
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future getArticlesByCategorie(Classifications classification) async {

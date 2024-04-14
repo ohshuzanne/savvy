@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:savvy/utils/colors.dart';
-import 'package:savvy/components/showdialog.dart';
-import 'package:savvy/components/textfield.dart';
 import 'package:savvy/components/buttons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/components/panelwidget.dart';
 
 class RegisterPage extends StatefulWidget {

@@ -1,6 +1,3 @@
-
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savvy/dummyData.dart';
 
@@ -68,7 +65,7 @@ Future<void> initialDataToFirebase() async {
   }
 }
 
-Future<void> pushCommentToFirebase() async {
+Future<void> pushInitialCommentToFirebase() async {
   DummyData dummyData = DummyData();
 
   try {
@@ -88,6 +85,29 @@ Future<void> pushCommentToFirebase() async {
       await firestore.collection('communityExchange').add(data);
       print('Post ${i + 1} added to Firebase');
     }
+  } catch (error) {
+    print('Error adding posts to Firebase: $error');
+  }
+}
+
+Future<void> pushCommentToFirebase(content) async {
+  DummyData dummyData = DummyData();
+  print("content : $content");
+  int i = 5;
+  try {
+      Map<String, dynamic> data = {
+        'name': dummyData.name[i],
+        'publishedDate': dummyData.publishedDate[i],
+        'content': content,
+        'numLikes': dummyData.numLikes[i],
+        'numComments': dummyData.numComments[i],
+        'numShare': dummyData.numShare[i],
+        'profilePicUrl': dummyData.profilePicUrl[i],
+      };
+      // Add the data to the "Forum" collection with a randomly generated document ID
+      await firestore.collection('communityExchange').add(data);
+      print('Post ${i + 1} added to Firebase');
+
   } catch (error) {
     print('Error adding posts to Firebase: $error');
   }

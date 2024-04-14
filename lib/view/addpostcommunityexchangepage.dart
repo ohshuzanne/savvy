@@ -6,7 +6,9 @@ import 'package:savvy/utils/colors.dart';
 import '../CRUD/create.dart';
 
 class AddPost extends StatelessWidget {
-  const AddPost({super.key});
+  AddPost({super.key});
+
+  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class AddPost extends StatelessWidget {
             child: Container(
                 decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: IconButton(
-                    onPressed: () {pushCommentToFirebase();}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
+                    onPressed: () {pushCommentToFirebase(_controller.text);}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
           )
         ],
       ),
@@ -68,9 +70,10 @@ class AddPost extends StatelessWidget {
                 SizedBox(
                     width: media.size.width * 0.9 - 36,
                     height: media.size.height,
-                    child: const TextField(
-                      decoration: InputDecoration(hintText: "What would you like to post today..."),
+                    child: TextField(
+                      decoration: const InputDecoration(hintText: "What would you like to post today..."),
                       maxLines: 100,
+                      controller: _controller,
                     ))
               ]),
             ),

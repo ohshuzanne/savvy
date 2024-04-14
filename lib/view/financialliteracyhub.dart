@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
-import '../CRUD/create.dart';
 import '../CRUD/read.dart';
-import '../components/Hub/ArticleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
+import '../components/literacyHub/articleFull.dart';
 import '../dummyData.dart';
 import '../utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -16,9 +15,9 @@ class FinancialLiteracyHub extends StatelessWidget {
     return DefaultTabController(
       length: Classifications.values.length,
       child: Scaffold(
-        //TODO: 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
-        floatingActionButton: FloatingActionButton(
-            onPressed: () => initialDataToFirebase()),
+        // 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
+        // floatingActionButton: FloatingActionButton(
+        //     onPressed: () => initialDataToFirebase()),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: darkGrey,
@@ -29,7 +28,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                 height: 23,
                 child: Image.asset('lib/images/savvylogo.png'),
               ),
-              Text(
+              const Text(
                 "avvy",
                 style: TextStyle(
                   fontFamily: 'Lexend',
@@ -54,7 +53,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   size: 22, color: Colors.white),
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             isScrollable: true,
             // Optional for many tabs
             tabs: [
@@ -114,7 +113,7 @@ class FinancialLiteracyHub extends StatelessWidget {
         ),
         drawer: Drawer(
           child: Container(
-            decoration: BoxDecoration(color: backgroundWhite),
+            decoration: const BoxDecoration(color: backgroundWhite),
             child: ListView(
               children: [
                 DrawerHeader(
@@ -130,7 +129,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.person_2_rounded,
                     size: 20,
                     color: darkBlue,
@@ -148,7 +147,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.people_rounded,
                     size: 20,
                     color: darkBlue,
@@ -166,7 +165,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.privacy_tip_rounded,
                     size: 20,
                     color: darkBlue,
@@ -184,7 +183,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.settings_rounded,
                     size: 20,
                     color: darkBlue,
@@ -202,7 +201,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.logout_rounded,
                     size: 20,
                     color: darkBlue,
@@ -288,8 +287,8 @@ class ArticlesListView extends StatelessWidget {
               for (var doc in snapshot.data){
             authorNameList.add(doc["authorName"]);
             publishedDateList.add(doc["publishedDate"]);
-            contentList.add(doc["title"]);
-            titleList.add(doc["publishedDate"]);
+            contentList.add(doc["content"]);
+            titleList.add(doc["title"]);
             hashtagList.add(doc["hashtag"]);
             picList.add(doc["pic"]);
             authorProfilePicList.add(doc["authorProfilePic"]);
@@ -371,7 +370,7 @@ class ArticleOverview extends StatelessWidget {
   static const double right_padding = 0.0;
   static const double content_Ratio = 0.8;
   static const double image_Ratio = 0.115;
-  static const double padding_between_content_and_image = 0.017;
+  static const double padding_between_content_and_image = 0.015;
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +381,7 @@ class ArticleOverview extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Articlefull(
+            builder: (context) => articlefull(
                 authorName: authorName,
                 publishedDate: publishedDate,
                 content: content,
@@ -397,64 +396,66 @@ class ArticleOverview extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SizedBox(
-                  height: 200, //Fixed Height as Medium
-                  child: Row(
+                height: 200,
+                width: media.size.width - left_padding,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: media.size.width * left_padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      //文章and 其他
-                      SizedBox(
-                        width: media.size.width * content_Ratio,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: media.size.width * left_padding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              //头像 \t 名字 \t 日期
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ProfilePicture(
-                                    picUrl: authorProfilePic,
-                                    width: media.size.width * 0.075,
-                                    height: media.size.width * 0.075,
-                                  ),
-                                  SizedBox(
-                                    width: media.size.width * 0.02,
-                                  ),
-                                  Text(
-                                    authorName,
-                                    style: const TextStyle(
-                                        fontFamily: 'Lexend',
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: media.size.width * 0.02,
-                                  ),
-                                  Text(
-                                    publishedDate,
-                                    style: const TextStyle(
-                                        fontFamily: 'Lexend',
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                ],
-                              ),
+                      //头像 \t 名字 \t 日期
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          ProfilePicture(
+                            picUrl: authorProfilePic,
+                            width: media.size.width * 0.075,
+                            height: media.size.width * 0.075,
+                          ),
+                          SizedBox(
+                            width: media.size.width * 0.02,
+                          ),
+                          Text(
+                            authorName,
+                            style: const TextStyle(
+                                fontFamily: 'Lexend',
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: media.size.width * 0.02,
+                          ),
+                          Text(
+                            publishedDate,
+                            style: const TextStyle(
+                                fontFamily: 'Lexend',
+                                fontSize: 11,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
 
-                              // 标题 \H1
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 4.0,
-                                  bottom: 4.0,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
+                      SizedBox(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+
+                            SizedBox(
+                              width: media.size.width * (content_Ratio - left_padding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  // 标题 \H1
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 4.0,
+                                    ),
+                                    child: SizedBox(
                                       width: media.size.width *
                                           (content_Ratio - left_padding),
                                       child: Text(
@@ -463,69 +464,80 @@ class ArticleOverview extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontFamily: 'Lexend',
-                                          fontSize: 14,
+                                          fontSize: 12.5,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
 
-                              //文章 \p1
-                              Text(
-                                truncateString(content),
-                                style: const TextStyle(
-                                    fontFamily: 'Lexend',
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w400),
-                              ),
 
-                              // #tag 标签 ... more 按钮
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //标签 大类
-                                  Text("#$hashtag",
+                                  //文章 \p1
+                                  SizedBox(
+                                    child: Text(
+                                      truncateString(content),
+                                      maxLines: 3, // Limit to 2 lines
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontFamily: 'Lexend',
-                                          color: darkGrey,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle: FontStyle.italic)),
-
-                                  //按钮 大类
-                                  BookmarkIcon(
-                                    numBookmarked: 1,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   ),
+                                  const Text(""),
+                                  // #tag 标签 ... more 按钮
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      //标签 大类
+                                      Text("#$hashtag",
+                                          style: const TextStyle(
+                                              fontFamily: 'Lexend',
+                                              color: darkGrey,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.italic)),
+
+                                      //按钮 大类
+                                      BookmarkIcon(
+                                        numBookmarked: 1,
+                                      ),
+                                    ],
+                                  ),
+
+
                                 ],
                               ),
+                            ),
 
-                              //padding and 下滑线
-                            ],
-                          ),
+                            //TODO
+
+                            //Padding between 内容和照片
+                            SizedBox(
+                              width: media.size.width *
+                                  padding_between_content_and_image,
+                            ),
+
+                            //照片 最右边padding
+                            SizedBox(
+                              width: media.size.width * (image_Ratio + right_padding),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: media.size.width * right_padding,
+                                ),
+                                child: Image.network(pic),
+                              ),
+                            ),
+
+                          ],
                         ),
                       ),
-
-                      //Padding between 内容和照片
-                      SizedBox(
-                        width: media.size.width *
-                            padding_between_content_and_image,
-                      ),
-
-                      //照片 最右边padding
-                      SizedBox(
-                        width: media.size.width * (image_Ratio + right_padding),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: media.size.width * right_padding,
-                          ),
-                          child: Image.network(pic),
-                        ),
-                      ),
+                      //padding and 下滑线
                     ],
-                  )),
+                  ),
+                ),
+              ),
             ),
             //下划线
             Container(
