@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:savvy/utils/colors.dart';
 
 const mainPurple = Color(0xff6101FA);
 const darkColor = Color(0xff272839);
@@ -51,4 +53,14 @@ void showBackDialog(String confirmation, context) {
       );
     },
   );
+}
+
+showSnackBar(String message, context) {
+  final snackbar = SnackBar(
+    content: Text(message, style: GoogleFonts.lexend(),),
+    duration: Duration(seconds: 1),
+    backgroundColor: darkBlue,
+  );
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }

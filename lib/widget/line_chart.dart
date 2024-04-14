@@ -24,30 +24,29 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   DateTime selectedMonth = DateTime.now();
   List<DateTime> selectedDate = [];
 
-
   double getLastDay() {
     selectedDate = [];
     int lastDay = DateTime(selectedMonth.year, selectedMonth.month + 1, 0).day;
-    for (int n=1; n <= lastDay; n++){
-      selectedDate.add(DateTime(selectedMonth.year, selectedMonth.month,n));
+    for (int n = 1; n <= lastDay; n++) {
+      selectedDate.add(DateTime(selectedMonth.year, selectedMonth.month, n));
     }
     return lastDay.toDouble();
   }
 
   Map<int, double> getList(List expenseList) {
     max = 0;
-    Map<int,double> catList = {};
+    Map<int, double> catList = {};
     List<int> temp = [];
     for (Expenses i in expenseList) {
       if (i.category == widget.cat) {
-        if(temp.contains(i.timestamp.day)){
-          catList[i.timestamp.day] = (catList[i.timestamp.day]!+i.amount)!;
-        }else{
+        if (temp.contains(i.timestamp.day)) {
+          catList[i.timestamp.day] = (catList[i.timestamp.day]! + i.amount)!;
+        } else {
           catList[i.timestamp.day] = i.amount;
           temp.add(i.timestamp.day);
         }
-        if ( catList[i.timestamp.day]! > max) {
-          max =  catList[i.timestamp.day]!;
+        if (catList[i.timestamp.day]! > max) {
+          max = catList[i.timestamp.day]!;
         }
       }
     }
@@ -61,19 +60,16 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       max = 750;
     } else if (max < 1000) {
       max = 1000;
-    } else{
-      max = ((max/1000)+1).toInt()*1000;
+    } else {
+      max = ((max / 1000) + 1).toInt() * 1000;
     }
     return catList;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder(
-        stream: ExpensesController()
-            .expensesCollection
-            .snapshots(),
+        stream: ExpensesController().expensesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -83,39 +79,50 @@ class _LineChartWidgetState extends State<LineChartWidget> {
             }).toList();
             getLastDay();
             List<Expenses> temp = [];
-            for(Expenses i in expenses){
-              if(selectedDate.contains(DateTime(i.timestamp.year, i.timestamp.month, i.timestamp.day))){
+            for (Expenses i in expenses) {
+              if (selectedDate.contains(DateTime(
+                  i.timestamp.year, i.timestamp.month, i.timestamp.day))) {
                 temp.add(i);
               }
             }
             expenses = temp;
+            expenses.sort((a, b) => (b!.timestamp).compareTo(a!.timestamp));
             Map catList = getList(expenses);
             return Column(
               children: [
                 AspectRatio(
                   aspectRatio: 1.3,
-                  child: Stack(
-                    children: [Padding(
+                  child: Stack(children: [
+                    Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child: LineChart(LineChartData(lineTouchData: LineTouchData(touchTooltipData: LineTouchTooltipData(tooltipBgColor: subPurple)),
+                      child: LineChart(LineChartData(
+                          lineTouchData: LineTouchData(
+                              touchTooltipData: LineTouchTooltipData(
+                                  tooltipBgColor: subPurple)),
                           backgroundColor: subPurple.withOpacity(0.3),
-                          borderData: FlBorderData(border: Border.all(color: subPurple)),
+                          borderData: FlBorderData(
+                              border: Border.all(color: subPurple)),
                           gridData: FlGridData(
-                              horizontalInterval: max /2, drawVerticalLine: false),
+                              horizontalInterval: max / 2,
+                              drawVerticalLine: false),
                           titlesData: FlTitlesData(
                               show: true,
                               leftTitles: AxisTitles(
                                   sideTitles: SideTitles(
-                                      interval: (max/2),
+                                      interval: (max / 2),
                                       reservedSize: 40,
                                       showTitles: true)),
                               rightTitles: AxisTitles(
-                                  sideTitles: SideTitles(reservedSize: 40, showTitles: false)),
+                                  sideTitles: SideTitles(
+                                      reservedSize: 40, showTitles: false)),
                               topTitles: AxisTitles(
-                                  sideTitles: SideTitles(reservedSize: 40, showTitles: false)),
+                                  sideTitles: SideTitles(
+                                      reservedSize: 40, showTitles: false)),
                               bottomTitles: AxisTitles(
                                   sideTitles: SideTitles(
-                                      interval: 7, reservedSize: 40, showTitles: true))),
+                                      interval: 7,
+                                      reservedSize: 40,
+                                      showTitles: true))),
                           maxY: max.toDouble(),
                           minY: 0,
                           minX: 0,
@@ -126,21 +133,28 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                 color: mainPurple,
                                 spots: List.generate(
                                     catList.length,
-                                        (index) => FlSpot(
-                                            catList.keys.elementAt(index).toDouble(),
-                                        catList[catList.keys.elementAt(index)])))
+                                    (index) => FlSpot(
+                                        catList.keys
+                                            .elementAt(index)
+                                            .toDouble(),
+                                        catList[
+                                            catList.keys.elementAt(index)])))
                           ])),
-                    ),catList.isEmpty? BackdropFilter(
-                      filter: ImageFilter.blur(
-                          sigmaX: 5.0, sigmaY: 5.0),
-                      child: Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                      ),
-                    ): SizedBox()]
-                  ),
+                    ),
+                    catList.isEmpty
+                        ? BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                            child: Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                            ),
+                          )
+                        : SizedBox()
+                  ]),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +162,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            selectedMonth = DateTime(selectedMonth.year, selectedMonth.month-1);
+                            selectedMonth = DateTime(
+                                selectedMonth.year, selectedMonth.month - 1);
                           });
                         },
                         child: Icon(Icons.arrow_back_ios_new_rounded)),
@@ -170,21 +185,23 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            selectedMonth = DateTime(selectedMonth.year, selectedMonth.month+1);
-
+                            selectedMonth = DateTime(
+                                selectedMonth.year, selectedMonth.month + 1);
                           });
                         },
                         child: Icon(Icons.arrow_forward_ios_rounded))
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 TransactionLog(
                   isCat: widget.cat,
                   selectedDate: selectedDate,
                 )
               ],
             );
-          }});
-
+          }
+        });
   }
 }

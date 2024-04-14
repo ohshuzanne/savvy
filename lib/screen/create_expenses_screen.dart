@@ -30,10 +30,26 @@ class _CreateExpensesState extends State<CreateExpenses> {
   int selectedIndex = 0;
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      if (widget.isUpdate == true) {
+        _titleController.text = widget.expenses.title;
+        _amountController.text = widget.expenses.amount.toString();
+        selectedDay = widget.expenses.timestamp;
+        selectedIndex =
+            cats.indexWhere((element) => element == widget.expenses.category);
+      }
+    });
+  }
   final model = GenerativeModel(
     model: 'gemini-pro',
     apiKey: geminiAPIKey!,
   );
+
 
   Future<GenerateContentResponse> validateCategory(String title) async {
     final prompt = 'You are a worker in a finance company..'
@@ -133,24 +149,20 @@ class _CreateExpensesState extends State<CreateExpenses> {
     widget.isUpdate
         ? ExpensesController().editExpenses(newExpenses)
         : ExpensesController().createExpenses(newExpenses);
+    showSnackBar(widget.isUpdate? "Record updated":"Record created", context);
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isUpdate == true) {
-      _titleController.text = widget.expenses.title;
-      _amountController.text = widget.expenses.amount.toString();
-      selectedDay = widget.expenses.timestamp;
-      selectedIndex =
-          cats.indexWhere((element) => element == widget.expenses.category);
-    }
+
     return PopScope(
       canPop: false,
       onPopInvoked: (bool didPop) {
         if (didPop) {
           return;
         }
-        showBackDialog('Discard report and leave?', context);
+        showBackDialog(widget.isUpdate? "Discard changes and leave?":'Discard report and leave?', context);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -364,7 +376,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
                             width: 30,
                           ),
                           GestureDetector(
-                            onTap: createTransaction,
+                            onTap:createTransaction,
                             child: Text(
                                 widget.isUpdate ? "Save Changes" : "Create",
                                 style: GoogleFonts.lexend(
