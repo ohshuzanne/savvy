@@ -5,6 +5,6 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(height: 200, width: 200, child: Text("budget"),);
+    return const Placeholder();
   }
 }

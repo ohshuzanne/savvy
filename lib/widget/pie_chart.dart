@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savvy/utils/categories.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/widget/transaction_log.dart';
 
@@ -127,7 +127,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
                       ),
                     )
                   ]),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 35,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

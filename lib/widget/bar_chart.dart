@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:quiver/time.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -7,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savvy/CRUD/expenses.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
 import 'package:savvy/widget/transaction_log.dart';
 
 import '../provider/user_provider.dart';
@@ -163,6 +164,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
                                     reservedSize: 50,
                                     showTitles: true,
                                     getTitlesWidget: (value, meta) {
+
                                       if (value == dt.budget / 30) {
 
                                         // Show title only at 74

@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savvy/CRUD/expenses.dart';
 import 'package:savvy/utils/categories.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
+import 'package:savvy/utils/colors.dart';
 
 import '../provider/user_provider.dart';
 import '../screen/create_expenses_screen.dart';
@@ -84,7 +85,7 @@ class _TransactionLogState extends State<TransactionLog> {
                   children: [
                     Icon(
                       getIcons(transaction.category),
-                      color: Color(0xff7A7D79),
+                      color: darkBlue,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),

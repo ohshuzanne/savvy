@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:savvy/CRUD/expenses.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
 import 'package:savvy/widget/transaction_log.dart';
 
 class LineChartWidget extends StatefulWidget {

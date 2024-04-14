@@ -33,7 +33,7 @@ class TransactionOverview extends StatelessWidget {
             children: [
               Stack(children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 20),
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                   child: PieChartWidget(),
                 ),
                 ]),

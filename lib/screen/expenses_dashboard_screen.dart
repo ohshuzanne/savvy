@@ -5,7 +5,7 @@ import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/screen/create_expenses_screen.dart';
 import 'package:savvy/screen/transaction_overview_screen.dart';
 import 'package:savvy/utils/categories.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
 import 'package:savvy/widget/categories_widget.dart';
 import 'package:savvy/widget/create_button.dart';
 import 'package:savvy/widget/total_expenses.dart';
@@ -235,7 +235,7 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 70),
+        padding: EdgeInsets.only(bottom: 80),
         child: CreateButton(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -339,7 +339,7 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
                     TransactionLog(
                       isLatest: true,
                     ),
-                    const SizedBox(height: 140),
+                    const SizedBox(height: 110),
                   ],
                 ),
               ),

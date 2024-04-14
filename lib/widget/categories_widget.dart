@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:savvy/screen/categories_details_screen.dart';
 import 'package:savvy/utils/categories.dart';
-import 'package:savvy/utils/color.dart';
+import 'package:savvy/utils/utilities.dart';
 import 'package:savvy/utils/colors.dart';
 
 import '../CRUD/expenses.dart';

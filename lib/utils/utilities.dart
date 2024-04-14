@@ -2,6 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_widget/home_widget.dart';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/cupertino.dart';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:widgets_to_image/widgets_to_image.dart';
 
 const mainPurple = Color(0xff6101FA);
 const darkColor = Color(0xff272839);
@@ -51,4 +59,13 @@ void showBackDialog(String confirmation, context) {
       );
     },
   );
+}
+
+showSnackBar(String message, context) {
+  final snackbar = SnackBar(
+    content: Text(message),
+    duration: Duration(seconds: 1),
+  );
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
