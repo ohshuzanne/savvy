@@ -172,7 +172,9 @@ class summuryArticle extends StatelessWidget {
               'Sorry, AI Function does not work at this moment, Try again later..', style: TextStyle(
                 fontFamily: 'Lexend', fontSize: 12),);
           } else {
-            return SizedBox(
+            return
+              media.size.width > 400?
+              SizedBox(
                 width: 70,
                 height: 70,
                 child: Row(
@@ -192,7 +194,34 @@ class summuryArticle extends StatelessWidget {
                     ),
                     Lottie.asset('lib/images/typing_lottie.json'),
                   ],
-                ));
+                )):
+              SizedBox(
+                  width: 70,
+                  height: 95,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30,top: 5),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "lib/images/3dcat.png",
+                              width: 40,
+                              height: 40,
+                            ),
+                            const Text(
+                              "\t  Maomi is summarizing for you",
+                              style: TextStyle(
+                                  fontFamily: 'Lexend', fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Lottie.asset('lib/images/typing_lottie.json',width: 60,height: 50),
+                    ],
+                  ))
+
+            ;
           }
         },
       ),

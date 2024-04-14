@@ -378,7 +378,7 @@ class _articlefullState extends State<articlefull> {
                     children: [
                       const SizedBox(height: 30),
                       Text(widget.content,
-                          style: const TextStyle(fontFamily: 'Lexend'),
+                          style: const TextStyle(fontSize: 12,fontFamily: 'Lexend'),
                           textAlign: TextAlign.justify),
 
                       //总结
