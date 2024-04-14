@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -14,7 +10,7 @@ import '../InteractedWidget/YoutubeIcon.dart';
 import '../buttons.dart';
 import 'articleSummaryAI.dart';
 
-class Articlefull extends StatefulWidget {
+class articlefull extends StatefulWidget {
   final String authorName;
   final String authorProfilePic;
   final String publishedDate;
@@ -23,7 +19,7 @@ class Articlefull extends StatefulWidget {
   final String hashtag;
   final String pic;
 
-  Articlefull({
+  articlefull({
     required this.authorName,
     required this.publishedDate,
     required this.content,
@@ -42,10 +38,10 @@ class Articlefull extends StatefulWidget {
   late bool summaryYes = false;
 
   @override
-  State<Articlefull> createState() => _ArticlefullState();
+  State<articlefull> createState() => _articlefullState();
 }
 
-class _ArticlefullState extends State<Articlefull> {
+class _articlefullState extends State<articlefull> {
   @override
   void initState() {
     widget.summaryYes = false;
@@ -110,7 +106,7 @@ class _ArticlefullState extends State<Articlefull> {
         children: [
           //左Indent
           SizedBox(
-            width: media.size.width * Articlefull.left_Padding,
+            width: media.size.width * articlefull.left_Padding,
           ),
 
           //主要内容
@@ -137,8 +133,8 @@ class _ArticlefullState extends State<Articlefull> {
                     ProfilePicture(
                       picUrl: widget.authorProfilePic,
                       //头像
-                      width: media.size.width * Articlefull.profilePix_Ratio,
-                      height: media.size.width * Articlefull.profilePix_Ratio,
+                      width: media.size.width * articlefull.profilePix_Ratio,
+                      height: media.size.width * articlefull.profilePix_Ratio,
                     ),
 
                     //space between profile pic and name/time
@@ -149,7 +145,7 @@ class _ArticlefullState extends State<Articlefull> {
 
                     //名字和时间
                     SizedBox(
-                      height: media.size.width * Articlefull.profilePix_Ratio,
+                      height: media.size.width * articlefull.profilePix_Ratio,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,9 +305,9 @@ class _ArticlefullState extends State<Articlefull> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: media.size.width *
-                          Articlefull.context_lect_right_Padding,
+                          articlefull.context_lect_right_Padding,
                       right: media.size.width *
-                          Articlefull.context_lect_right_Padding),
+                          articlefull.context_lect_right_Padding),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,7 +344,7 @@ class _ArticlefullState extends State<Articlefull> {
 
           //右Indent
           SizedBox(
-            width: media.size.width * Articlefull.right_Padding,
+            width: media.size.width * articlefull.right_Padding,
           ),
         ],
       ),

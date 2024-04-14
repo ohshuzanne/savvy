@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
 import '../CRUD/create.dart';
 import '../CRUD/read.dart';
-import '../components/Hub/ArticleFull.dart';
+import '../components/Hub/articleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
 import '../dummyData.dart';
 import '../utils/colors.dart';
@@ -382,7 +382,7 @@ class ArticleOverview extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Articlefull(
+            builder: (context) => articlefull(
                 authorName: authorName,
                 publishedDate: publishedDate,
                 content: content,
