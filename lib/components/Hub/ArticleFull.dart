@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
 import '../InteractedWidget/BookmarkIcon.dart';
@@ -188,49 +191,86 @@ class Articlefull extends StatelessWidget {
                       )),
                 ),
 
-
                 //TODO: GENERATIVE AI
 
-        Container(
-          decoration: BoxDecoration(
-            // ... other decorations (optional)
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Shadow color (adjustable)
-                blurRadius: 1.0, // Adjust shadow blur
-                spreadRadius: -3.0, // Negative spread for inner shadow effect
-                offset: Offset(-1.0, -1.0), // No offset for centered shadow
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder(
-              future: getResponeFromGemini(contentToBeSummarized: content),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      const Text('This is a **test** string with **bold** formatting.'),
-                      Text('Summary:${snapshot.data?.text}'),
-                      const Text("applyMarkdownBold"),
-                      Text.rich(parseMarkdownBold('${snapshot.data?.text}')),
-
-
-                ],
-                  );
-                }
-                // else if (snapshot.hasError) {
-                //   print(snapshot.error);
-                //   return Text('Sorry, AI Function does not work in this moment, Try again later..');
-                // }
-                else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-          ),
-        ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: lightBlue.withOpacity(0.5),
+                        // Shadow color (adjustable)
+                        blurRadius: 1.0,
+                        // Adjust shadow blur
+                        spreadRadius: -3.0,
+                        // Negative spread for inner shadow effect
+                        offset: const Offset(
+                            -1.0, -1.0), // No offset for centered shadow
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FutureBuilder(
+                      future:
+                          getResponeFromGemini(contentToBeSummarized: content),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var jsonResponse = jsonDecode(snapshot.data);
+                          int responseLength = jsonResponse.length;
+                          print("Genimi respone : $jsonResponse");
+                          print("Genimi respone : ${jsonResponse.length}");
+                          return ListView.builder(
+                            itemCount: responseLength,
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int ctr) {
+                              print("Genimi respone in list view : ${jsonResponse[ctr]['title']},");
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 5, right: 5),
+                                child: Column(children: [
+                                  Text(
+                                    "${jsonResponse[ctr]['title']}",
+                                    style: const TextStyle(
+                                        fontFamily: 'Legend', fontSize: 12, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("${jsonResponse[ctr]['content']}",textAlign: TextAlign.justify, style: const TextStyle(
+                                      fontFamily: 'Lexend', fontSize: 12),),
+                                  const Text('\n'),
+                                ]),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return const Text(
+                              'Sorry, AI Function does not work at this moment, Try again later..', style: TextStyle(
+                              fontFamily: 'Lexend', fontSize: 12),);
+                        } else {
+                          // return const CircularProgressIndicator();
+                          return SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "lib/images/3dcat.png",
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  const Text(
+                                    "\t  Maomi is summarizing for you",
+                                    style: TextStyle(
+                                        fontFamily: 'Lexend', fontSize: 12),
+                                  ),
+                                  Lottie.asset('lib/images/typing_lottie.json'),
+                                ],
+                              ));
+                        }
+                      },
+                    ),
+                  ),
+                ),
 
                 //内容
                 Container(
@@ -249,7 +289,9 @@ class Articlefull extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30),
-                      Text(content,style: TextStyle(fontFamily: 'Lexend'),textAlign: TextAlign.justify),
+                      Text(content,
+                          style: const TextStyle(fontFamily: 'Lexend'),
+                          textAlign: TextAlign.justify),
 
                       //总结
                       const Padding(

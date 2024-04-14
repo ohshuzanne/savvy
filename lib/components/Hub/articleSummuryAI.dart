@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:js_interop';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -30,7 +33,7 @@ List<SafetySetting> _safetySettings = [
   ),
 ];
 
-Future<GenerateContentResponse> getResponeFromGemini(
+Future getResponeFromGemini(
     {required contentToBeSummarized}) async {
   print("Started Connecting to Gemini");
 
@@ -44,23 +47,32 @@ Future<GenerateContentResponse> getResponeFromGemini(
   print("Gemeni Model Connected");
 
   const newPrompt = """
-Respone only in Json in this given format {"title": title,"content":content}, stored multiple title and content is allowed.
+Respone only in Json in this given format [{"title":title,"content":content},{"title":title,"content":content},...], multiple title and content is allowed in jsonArray format.
 Summarize the key points, Provide a concise summary directly, highlighting the main ideas and any important details of the following given article in 5 minutes, 
 Response directly to summarized article without addition conversation.
 Do not response in Markdown, neither contain *.
+use only English as your Language.
 Given article: 
 """;
-  /*const prompt = '''
-  summarize the key points of the following article in 5 minutes.
-  Provide a concise summary directly, highlighting the main ideas and any important details.
-  Response directly to summarized article without addition conversation.
-  Do not response in Markdown, neither contain *.
-  Given article: ''';*/
+
   final content = [Content.text("$newPrompt $contentToBeSummarized")];
   print("Sending respone to Gemini...");
   final response = await model.generateContent(content);
-  print("response get : $response");
-  return response;
+  // print("response get : ${response}");
+  // print("response get candidates: ${response.candidates}");
+  // print("response get candidates first: ${response.candidates.first}");
+  // print("response get promptfeedback: ${response.promptFeedback}");
+  print("response get TEXT : ${response.text}");
+  // print("response get toJSBox: ${response.toJSBox}");
+
+  var jsonResponse = jsonDecode(response.text!);
+  print("jsonResponse get : ${jsonResponse}");
+  print("jsonResponse get : ${jsonResponse[0]}");
+  print("jsonResponse get : ${jsonResponse[0]['title']}");
+  print("jsonResponse get length: ${jsonResponse.length}");
+
+
+  return response.text;
 }
 
 String? applyMarkdownBold(String? text) {

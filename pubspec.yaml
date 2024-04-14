@@ -65,6 +65,7 @@ dependencies:
   percent_indicator: ^4.2.3
   google_generative_ai: ^0.3.0
   gemini_ai: ^1.0.1
+  lottie: ^3.1.0
 
 
 
