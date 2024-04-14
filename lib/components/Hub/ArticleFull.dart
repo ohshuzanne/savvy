@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -9,9 +11,10 @@ import '../InteractedWidget/FavouriteIcon.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import '../InteractedWidget/ShareIcon.dart';
 import '../InteractedWidget/YoutubeIcon.dart';
+import '../buttons.dart';
 import 'articleSummuryAI.dart';
 
-class Articlefull extends StatelessWidget {
+class Articlefull extends StatefulWidget {
   final String authorName;
   final String authorProfilePic;
   final String publishedDate;
@@ -20,7 +23,7 @@ class Articlefull extends StatelessWidget {
   final String hashtag;
   final String pic;
 
-  const Articlefull({
+  Articlefull({
     required this.authorName,
     required this.publishedDate,
     required this.content,
@@ -35,6 +38,25 @@ class Articlefull extends StatelessWidget {
   static const right_Padding = 0.075;
   static const context_lect_right_Padding = 0.025;
   static const profilePix_Ratio = 0.13;
+
+  late bool summaryYes = false;
+
+  @override
+  State<Articlefull> createState() => _ArticlefullState();
+}
+
+class _ArticlefullState extends State<Articlefull> {
+  @override
+  void initState() {
+    widget.summaryYes = false;
+    super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    widget.summaryYes = true;
+    super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +110,7 @@ class Articlefull extends StatelessWidget {
         children: [
           //左Indent
           SizedBox(
-            width: media.size.width * left_Padding,
+            width: media.size.width * Articlefull.left_Padding,
           ),
 
           //主要内容
@@ -98,7 +120,7 @@ class Articlefull extends StatelessWidget {
                 //标题
                 Center(
                     child: Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -113,10 +135,10 @@ class Articlefull extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ProfilePicture(
-                      picUrl: authorProfilePic,
+                      picUrl: widget.authorProfilePic,
                       //头像
-                      width: media.size.width * profilePix_Ratio,
-                      height: media.size.width * profilePix_Ratio,
+                      width: media.size.width * Articlefull.profilePix_Ratio,
+                      height: media.size.width * Articlefull.profilePix_Ratio,
                     ),
 
                     //space between profile pic and name/time
@@ -127,20 +149,20 @@ class Articlefull extends StatelessWidget {
 
                     //名字和时间
                     SizedBox(
-                      height: media.size.width * profilePix_Ratio,
+                      height: media.size.width * Articlefull.profilePix_Ratio,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            authorName,
+                            widget.authorName,
                             style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Lexend'),
                           ),
                           Text(
-                            publishedDate,
+                            widget.publishedDate,
                             style: const TextStyle(
                                 fontSize: 13,
                                 fontFamily: 'Lexend',
@@ -168,7 +190,7 @@ class Articlefull extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       YoutubeIcon(
                         link: "https://www.youtube.com/watch?v=hsvdDrksp-s",
@@ -191,85 +213,87 @@ class Articlefull extends StatelessWidget {
                       )),
                 ),
 
-                //TODO: GENERATIVE AI
-
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: lightBlue.withOpacity(0.5),
-                        // Shadow color (adjustable)
-                        blurRadius: 1.0,
-                        // Adjust shadow blur
-                        spreadRadius: -3.0,
-                        // Negative spread for inner shadow effect
-                        offset: const Offset(
-                            -1.0, -1.0), // No offset for centered shadow
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 25.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: lightBlue.withOpacity(0.5),
+                            // Shadow color (adjustable)
+                            blurRadius: 1.0,
+                            // Adjust shadow blur
+                            spreadRadius: -3.0,
+                            // Negative spread for inner shadow effect
+                            offset: const Offset(
+                                -1.0, -1.0), // No offset for centered shadow
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FutureBuilder(
-                      future:
-                          getResponeFromGemini(contentToBeSummarized: content),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          var jsonResponse = jsonDecode(snapshot.data);
-                          int responseLength = jsonResponse.length;
-                          print("Genimi respone : $jsonResponse");
-                          print("Genimi respone : ${jsonResponse.length}");
-                          return ListView.builder(
-                            itemCount: responseLength,
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int ctr) {
-                              print("Genimi respone in list view : ${jsonResponse[ctr]['title']},");
-                              return Padding(
-                                padding: const EdgeInsets.only(left: 5, right: 5),
-                                child: Column(children: [
-                                  Text(
-                                    "${jsonResponse[ctr]['title']}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Legend', fontSize: 12, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text("${jsonResponse[ctr]['content']}",textAlign: TextAlign.justify, style: const TextStyle(
-                                      fontFamily: 'Lexend', fontSize: 12),),
-                                  const Text('\n'),
-                                ]),
-                              );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
-                          return const Text(
-                              'Sorry, AI Function does not work at this moment, Try again later..', style: TextStyle(
-                              fontFamily: 'Lexend', fontSize: 12),);
-                        } else {
-                          // return const CircularProgressIndicator();
-                          return SizedBox(
+                      child: widget.summaryYes
+                          ? summuryArticle(content: widget.content)
+                          : SizedBox(
                               width: 70,
                               height: 70,
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    "lib/images/3dcat.png",
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  const Text(
-                                    "\t  Maomi is summarizing for you",
-                                    style: TextStyle(
-                                        fontFamily: 'Lexend', fontSize: 12),
-                                  ),
-                                  Lottie.asset('lib/images/typing_lottie.json'),
-                                ],
-                              ));
-                        }
-                      },
-                    ),
-                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 30.0,),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      "lib/images/3dcat.png",
+                                      width: 40,
+                                      height: 40,
+                                    ),
+                                    FutureBuilder(
+                                        future: fakeDelay(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                const Text(
+                                                  "\t  Meow..! Do You Want Maomi To \n\t  Summarise this article for you?",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Lexend',
+                                                      fontSize: 11),
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10)),
+                                                PrimaryButton(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      widget.summaryYes = true;
+                                                    });
+                                                  },
+                                                  buttonText: 'Yes',
+                                                  buttonColor: darkBlue,
+                                                  borderColor: primaryPurple,
+                                                  textColor: lightBlue,
+                                                  borderRadius: 4,
+                                                  splashColor: lighterYellow,
+                                                ),
+                                              ],
+                                            );
+                                          } else {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0),
+                                              child: SizedBox(
+                                                  width: 40,
+                                                  height: 40,
+                                                  child: Lottie.asset(
+                                                      "lib/images/chat.json")),
+                                            );
+                                          }
+                                        })
+                                  ],
+                                ),
+                              ))),
                 ),
 
                 //内容
@@ -278,18 +302,20 @@ class Articlefull extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Image.network(pic)),
+                    child: Image.network(widget.pic)),
 
                 Padding(
                   padding: EdgeInsets.only(
-                      left: media.size.width * context_lect_right_Padding,
-                      right: media.size.width * context_lect_right_Padding),
+                      left: media.size.width *
+                          Articlefull.context_lect_right_Padding,
+                      right: media.size.width *
+                          Articlefull.context_lect_right_Padding),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30),
-                      Text(content,
+                      Text(widget.content,
                           style: const TextStyle(fontFamily: 'Lexend'),
                           textAlign: TextAlign.justify),
 
@@ -320,10 +346,15 @@ class Articlefull extends StatelessWidget {
 
           //右Indent
           SizedBox(
-            width: media.size.width * right_Padding,
+            width: media.size.width * Articlefull.right_Padding,
           ),
         ],
       ),
     );
+  }
+
+  Future fakeDelay() async {
+    await Future.delayed(const Duration(milliseconds: 1800));
+    return true;
   }
 }
