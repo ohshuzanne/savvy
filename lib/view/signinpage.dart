@@ -3,7 +3,6 @@ import 'package:savvy/utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/components/buttons.dart';
-import 'package:savvy/view/homepage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);

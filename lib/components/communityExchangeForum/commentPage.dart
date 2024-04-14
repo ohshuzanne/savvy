@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:savvy/components/InteractedWidget/FavouriteIcon.dart';
 import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
@@ -10,7 +7,7 @@ import 'dart:math' as math;
 import '../../CRUD/read.dart';
 import '../../CRUD/update.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
-import 'ForumSinglePostWidget.dart';
+import 'communityExchangeForumSingleWidget.dart';
 
 class commentPage extends StatefulWidget {
   final communityExchangeDocID;

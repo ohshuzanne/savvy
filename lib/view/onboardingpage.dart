@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:savvy/components/buttons.dart';
 import 'package:savvy/components/gradient_background.dart';
 import 'package:savvy/utils/colors.dart';
-import 'package:savvy/view/signinpage.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);

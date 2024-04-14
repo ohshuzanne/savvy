@@ -148,16 +148,16 @@ class ForumSinglePostWidget extends StatelessWidget {
 }
 
 class CommentIcon extends StatelessWidget {
-  late final name;
-  late final publishedDate;
-  late final content;
-  late final numLikes;
-  late final numComments;
-  late final numShare;
-  late final communityExchangeDocID;
-  late final profilePicUrl;
+  final name;
+  final publishedDate;
+  final content;
+  final numLikes;
+  final numComments;
+  final numShare;
+  final communityExchangeDocID;
+  final profilePicUrl;
 
-  CommentIcon({super.key, required this.name, required this.publishedDate, required this.content, required this.numLikes, required this.numShare, required this.profilePicUrl, required this.numComments, required this.communityExchangeDocID});
+  const CommentIcon({super.key, required this.name, required this.publishedDate, required this.content, required this.numLikes, required this.numShare, required this.profilePicUrl, required this.numComments, required this.communityExchangeDocID});
 
   @override
   Widget build(BuildContext context) {
@@ -165,14 +165,6 @@ class CommentIcon extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            print("communityExchangeDocID type: ${communityExchangeDocID.runtimeType}");
-            print("name type: ${name.runtimeType}");
-            print("publishedDate type: ${publishedDate.runtimeType}");
-            print("content type: ${content.runtimeType}");
-            print("numLikes type: ${numLikes.runtimeType}");
-            print("numComments type: ${numComments.runtimeType}");
-            print("numShare type: ${numShare.runtimeType}");
-            print("profilePicUrl type: ${profilePicUrl.runtimeType}");
             goCommentPage(context);
           },
           child: const Icon(Icons.mode_comment_outlined, color: darkBlue),

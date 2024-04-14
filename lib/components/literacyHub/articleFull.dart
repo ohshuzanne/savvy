@@ -228,7 +228,7 @@ class _articlefullState extends State<articlefull> {
                         ],
                       ),
                       child: widget.summaryYes
-                          ? summuryArticle(content: widget.content)
+                          ? SummuryArticle(content: widget.content)
                           : media.size.width > 400
                               ?
 
@@ -388,13 +388,13 @@ class _articlefullState extends State<articlefull> {
                           "Summary",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              fontSize: 14,
                               fontFamily: 'Lexend'),
                         ),
                       ),
                       const Text(
                           "list all your debts with amounts owed and interest rates. This will help you prioritize your repayment plan. There are different strategies, like the snowball method (pay off smallest debts first for quick wins) or the avalanche method (prioritize high-interest debts to save money).",
-                          style: TextStyle(fontFamily: 'Lexend'),
+                          style: TextStyle(fontFamily: 'Lexend',fontSize: 12),
                           textAlign: TextAlign.justify),
                     ],
                   ),

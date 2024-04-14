@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:savvy/components/InteractedWidget/ProfilePicWidget.dart';
-import '../CRUD/create.dart';
 import '../CRUD/read.dart';
-import '../components/Hub/articleFull.dart';
 import '../components/InteractedWidget/BookmarkIcon.dart';
+import '../components/literacyHub/articleFull.dart';
 import '../dummyData.dart';
 import '../utils/colors.dart';
 import 'package:savvy/components/showdialog.dart';
@@ -16,9 +15,9 @@ class FinancialLiteracyHub extends StatelessWidget {
     return DefaultTabController(
       length: Classifications.values.length,
       child: Scaffold(
-        //TODO: 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
-        floatingActionButton: FloatingActionButton(
-            onPressed: () => initialDataToFirebase()),
+        // 测试Firebase而已的FLOATINGACTIONBUTTON,if上传完了可以清
+        // floatingActionButton: FloatingActionButton(
+        //     onPressed: () => initialDataToFirebase()),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: darkGrey,
@@ -29,7 +28,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                 height: 23,
                 child: Image.asset('lib/images/savvylogo.png'),
               ),
-              Text(
+              const Text(
                 "avvy",
                 style: TextStyle(
                   fontFamily: 'Lexend',
@@ -54,7 +53,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   size: 22, color: Colors.white),
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             isScrollable: true,
             // Optional for many tabs
             tabs: [
@@ -114,7 +113,7 @@ class FinancialLiteracyHub extends StatelessWidget {
         ),
         drawer: Drawer(
           child: Container(
-            decoration: BoxDecoration(color: backgroundWhite),
+            decoration: const BoxDecoration(color: backgroundWhite),
             child: ListView(
               children: [
                 DrawerHeader(
@@ -130,7 +129,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.person_2_rounded,
                     size: 20,
                     color: darkBlue,
@@ -148,7 +147,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.people_rounded,
                     size: 20,
                     color: darkBlue,
@@ -166,7 +165,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.privacy_tip_rounded,
                     size: 20,
                     color: darkBlue,
@@ -184,7 +183,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.settings_rounded,
                     size: 20,
                     color: darkBlue,
@@ -202,7 +201,7 @@ class FinancialLiteracyHub extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.logout_rounded,
                     size: 20,
                     color: darkBlue,

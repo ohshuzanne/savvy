@@ -1,6 +1,3 @@
-
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savvy/dummyData.dart';
 
