@@ -28,7 +28,7 @@ class _FavouritedIconState extends State<FavouritedIcon> {
     setState(() {
       liked = true;
       widget.numLikes += 1;
-      modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
+      // modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
     });
   }
 
@@ -38,7 +38,7 @@ class _FavouritedIconState extends State<FavouritedIcon> {
     setState(() {
       liked = false;
       widget.numLikes -= 1;
-      modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
+      // modifyLikesNumber(widget.communityExchangeDocID,widget.commentDocID,'numLikes',widget.numLikes);
     });
   }
 
