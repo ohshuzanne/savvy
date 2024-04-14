@@ -12,7 +12,7 @@ import '../InteractedWidget/ProfilePicWidget.dart';
 import '../InteractedWidget/ShareIcon.dart';
 import '../InteractedWidget/YoutubeIcon.dart';
 import '../buttons.dart';
-import 'articleSummuryAI.dart';
+import 'articleSummaryAI.dart';
 
 class Articlefull extends StatefulWidget {
   final String authorName;
@@ -237,7 +237,9 @@ class _ArticlefullState extends State<Articlefull> {
                               width: 70,
                               height: 70,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 30.0,),
+                                padding: const EdgeInsets.only(
+                                  left: 30.0,
+                                ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
