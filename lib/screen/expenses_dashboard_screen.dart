@@ -235,7 +235,7 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 70),
+        padding: EdgeInsets.only(bottom: 80),
         child: CreateButton(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -339,7 +339,7 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
                     TransactionLog(
                       isLatest: true,
                     ),
-                    const SizedBox(height: 140),
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
