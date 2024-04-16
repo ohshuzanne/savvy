@@ -41,7 +41,7 @@ class articlefull extends StatefulWidget {
   State<articlefull> createState() => _articlefullState();
 }
 
-class _articlefullState extends State<articlefull> {
+class _articlefullState extends State<articlefull> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     widget.summaryYes = false;
@@ -56,6 +56,7 @@ class _articlefullState extends State<articlefull> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     MediaQueryData media = MediaQuery.of(context);
 
     return Scaffold(
@@ -112,6 +113,7 @@ class _articlefullState extends State<articlefull> {
           //主要内容
           Expanded(
             child: ListView(
+              addAutomaticKeepAlives: true,
               children: [
                 //标题
                 Center(
@@ -229,14 +231,14 @@ class _articlefullState extends State<articlefull> {
                       ),
                       child: widget.summaryYes
                           ? SummuryArticle(content: widget.content)
-                          : media.size.width > 400
+                          : media.size.width > 500
                               ?
 
                               // Fixing Overflow
 
                               Padding(
                                 padding: const EdgeInsets.only(
-                                  left: 30.0,
+                                  left: 30.0,top: 30,bottom: 30
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
@@ -419,4 +421,7 @@ class _articlefullState extends State<articlefull> {
     await Future.delayed(const Duration(milliseconds: 1800));
     return true;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -8,7 +8,7 @@ import '../CRUD/create.dart';
 class AddPost extends StatelessWidget {
   AddPost({super.key});
 
-  TextEditingController _controller = TextEditingController();
+  final _testController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class AddPost extends StatelessWidget {
             child: Container(
                 decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: IconButton(
-                    onPressed: () {pushCommentToFirebase(_controller.text);}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
+                    onPressed: () {pushCommentToFirebase(_testController.text);}, icon: const Icon(Icons.send_rounded,color: darkBlue,))),
           )
         ],
       ),
@@ -73,7 +73,7 @@ class AddPost extends StatelessWidget {
                     child: TextField(
                       decoration: const InputDecoration(hintText: "What would you like to post today..."),
                       maxLines: 100,
-                      controller: _controller,
+                      controller: _testController,
                     ))
               ]),
             ),
