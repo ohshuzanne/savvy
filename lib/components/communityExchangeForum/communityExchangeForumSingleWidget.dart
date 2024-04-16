@@ -30,9 +30,9 @@ class ForumSinglePostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
-    double profilePicRatioSize = 0.13;
-    double screenLeftPaddingRatio = 0.02;
-    double spaceBetweenProfileAndContent = 0.05;
+    double profilePicRatioSize = 0.10;
+    double screenLeftPaddingRatio = 0.07;
+    double spaceBetweenProfileAndContent = 0.03;
     double contentRatioSize = 0.75;
 
     return SizedBox(
