@@ -57,9 +57,8 @@ Given article:
 }
 
 
-class SummuryArticle extends StatelessWidget {
+class SummuryArticle extends StatelessWidget{
   final content;
-
   const SummuryArticle({required this.content, super.key});
 
   @override
@@ -137,28 +136,31 @@ class SummuryArticle extends StatelessWidget {
               style: TextStyle(fontFamily: 'Lexend', fontSize: 12),
             );
           } else {
-            return media.size.width > 400
+            return media.size.width > 500
                 ? SizedBox(
                     width: 70,
-                    height: 70,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 30.0,
+                    height: 95,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30,bottom: 30),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 30.0,
+                            ),
+                            child: Image.asset(
+                              "lib/images/3dcat.png",
+                              width: 40,
+                              height: 40,
+                            ),
                           ),
-                          child: Image.asset(
-                            "lib/images/3dcat.png",
-                            width: 40,
-                            height: 40,
+                          const Text(
+                            "\t  Maomi is summarizing for you",
+                            style: TextStyle(fontFamily: 'Lexend', fontSize: 12),
                           ),
-                        ),
-                        const Text(
-                          "\t  Maomi is summarizing for you",
-                          style: TextStyle(fontFamily: 'Lexend', fontSize: 12),
-                        ),
-                        Lottie.asset('lib/images/typing_lottie.json'),
-                      ],
+                          Lottie.asset('lib/images/typing_lottie.json'),
+                        ],
+                      ),
                     ))
                 : SizedBox(
                     width: 70,
