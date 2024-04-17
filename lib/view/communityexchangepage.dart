@@ -217,7 +217,7 @@ class _CommunityExchangePageState extends State<CommunityExchangePage> {
                 Builder(builder: (BuildContext context) {
                   return SizedBox(
                     width: media.size.width,
-                    height: media.size.height * 0.09, //搜索栏主要高度定型
+                    height: media.size.height * 0.08, //搜索栏主要高度定型
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
