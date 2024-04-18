@@ -17,10 +17,14 @@ List<String> name = [
   "CreativeSoul",
 ];
 
-List<DateTime> publishedDate = List.generate(10, (index) {
-  final randomDate = DateTime.now().subtract(Duration(days: (10 - index) * index));
-  return randomDate;
+List<DateTime> publishedDate = List.generate(10,(index) {
+  return DateTime.now();
 });
+
+// List.generate(10, (index) {
+//   final randomDate = DateTime.now().subtract(Duration(days: (10 - index) * index));
+//   return randomDate;});
+
 
 List<String> content = [
   "Just started using a budgeting app and feeling more in control of my finances! #budgetingtips",
@@ -35,11 +39,11 @@ List<String> content = [
   "Reading a book on personal finance. Learning so much about managing my money effectively. #financialeducation",
 ];
 
-List<int> numLikes = List.generate(10, (index) => Random().nextInt(1000)); // Range: 0 - 999
+List<int> numLikes = List.generate(10, (index) => Random().nextInt(2)); // Range: 0 - 999
 
-List<int> numComments = List.generate(10, (index) => Random().nextInt(100)); // Range: 0 - 99
+List<int> numComments = List.generate(10, (index) => Random().nextInt(1)); // Range: 0 - 99
 
-List<int> numShare = List.generate(10, (index) => Random().nextInt(100)); // Convert to string
+List<int> numShare = List.generate(10, (index) => Random().nextInt(1)); // Convert to string
 
 List<String> profilePicUrl = [
   "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
