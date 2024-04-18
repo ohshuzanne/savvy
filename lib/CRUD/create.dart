@@ -91,10 +91,16 @@ Future<void> pushInitialCommentToFirebase() async {
 }
 
 Future<void> pushCommentToFirebase(content) async {
+  bool _isCommentPosted = false;
+
   DummyData dummyData = DummyData();
   print("content : $content");
-  int i = 5;
-  try {
+  int i = 0;
+
+  if (!_isCommentPosted) {
+    _isCommentPosted = true;
+
+    try {
       Map<String, dynamic> data = {
         'name': dummyData.name[i],
         'publishedDate': dummyData.publishedDate[i],
@@ -107,8 +113,38 @@ Future<void> pushCommentToFirebase(content) async {
       // Add the data to the "Forum" collection with a randomly generated document ID
       await firestore.collection('communityExchange').add(data);
       print('Post ${i + 1} added to Firebase');
+    } catch (error) {
+      print('Error adding posts to Firebase: $error');
+    }
+    _isCommentPosted = false;
+  }
+}
 
+Future<void> addCommentToFirebase({required String documentId, required String content}) async {
+  try {
+    // Reference to the specific document
+    DocumentReference documentRef = firestore.collection('communityExchange').doc(documentId);
+
+    // Get the comments subcollection
+    CollectionReference commentsCollection = documentRef.collection('comments');
+
+    // Check if the comment already exists
+    QuerySnapshot existingComments = await commentsCollection.where('content', isEqualTo: content).get();
+
+    if (existingComments.docs.isEmpty) {
+      // If the comment does not exist, add it to the comments subcollection
+      await commentsCollection.add({
+        'name': "This is Username",
+        'profilePicUrl': "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
+        'content': content,
+        'numLikes': 0,
+        'publishedDate': DateTime.now(), // Add a timestamp if needed
+      });
+      print('Comment added to Firebase');
+    } else {
+      print('Comment already exists in Firebase');
+    }
   } catch (error) {
-    print('Error adding posts to Firebase: $error');
+    print('Error adding comment to Firebase: $error');
   }
 }
