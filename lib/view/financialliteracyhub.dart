@@ -96,7 +96,7 @@ class FinancialLiteracyHub extends StatelessWidget {
               Tab(
                 icon: Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Text("financial Products And Services",
+                  child: Text("Financial Products And Services",
                       style: TextStyle(
                         fontFamily: 'Lexend',
                       )),
@@ -272,10 +272,6 @@ class ArticlesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DummyArticle dummyArticle = DummyArticle();
-    // dummyArticle.getData(classification);
-
-
     MediaQueryData media = MediaQuery.of(context);
 
     return SizedBox(
@@ -314,28 +310,6 @@ class ArticlesListView extends StatelessWidget {
                 ],
               );
             }
-            // else if (!snapshot.hasData) {
-            //   return Padding(
-            //         padding: EdgeInsets.only(top: media.size.height * 0.35),
-            //         child: const Center(
-            //
-            //             child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           children: [
-            //             Text(
-            //               "Currently No Data here.\nExplore other classification\nor follow some other authors",
-            //               style: TextStyle(
-            //                 fontFamily: 'Lexend',
-            //                 fontSize: 14,
-            //               ),
-            //               textAlign: TextAlign.center,
-            //             ),
-            //             Icon(Icons.mobiledata_off_rounded),
-            //           ],
-            //         )),
-            //       );
-            // }
-
             else if (snapshot.hasError) {
               print("HAS ERROR");
               return const Text("Has Error");
@@ -510,8 +484,6 @@ class ArticleOverview extends StatelessWidget {
                                 ],
                               ),
                             ),
-
-                            //TODO
 
                             //Padding between 内容和照片
                             SizedBox(

@@ -6,7 +6,6 @@ import 'dart:math' as math;
 
 import '../../CRUD/create.dart';
 import '../../CRUD/read.dart';
-import '../../CRUD/update.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'communityExchangeForumSingleWidget.dart';
 
