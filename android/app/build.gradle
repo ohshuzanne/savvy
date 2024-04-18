@@ -59,10 +59,15 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.9'
+}

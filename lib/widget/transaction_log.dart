@@ -52,6 +52,7 @@ class _TransactionLogState extends State<TransactionLog> {
             SlidableAction(
               onPressed: (context) {
                 ExpensesController().deleteExpenses(transaction);
+                showSnackBar("Record deleted", context);
                 Provider.of<UserProvider>(context, listen: false).setBalance(transaction.amount,false);
               },
               icon: Icons.delete,
