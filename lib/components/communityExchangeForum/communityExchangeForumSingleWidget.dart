@@ -182,7 +182,7 @@ class CommentIcon extends StatelessWidget {
   Future<void> goCommentPage(context) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => commentPage(communityExchangeDocID,name,publishedDate,content,numLikes,numComments,numShare,profilePicUrl)),
+      MaterialPageRoute(builder: (context) => CommentPage(communityExchangeDocID,name,publishedDate,content,numLikes,numComments,numShare,profilePicUrl)),
     );
   }
 }

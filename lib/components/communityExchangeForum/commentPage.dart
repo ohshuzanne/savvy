@@ -4,12 +4,13 @@ import 'package:savvy/components/textfield.dart';
 import 'package:savvy/utils/colors.dart';
 import 'dart:math' as math;
 
+import '../../CRUD/create.dart';
 import '../../CRUD/read.dart';
 import '../../CRUD/update.dart';
 import '../InteractedWidget/ProfilePicWidget.dart';
 import 'communityExchangeForumSingleWidget.dart';
 
-class commentPage extends StatefulWidget {
+class CommentPage extends StatefulWidget {
   final communityExchangeDocID;
   final name;
   final publishedDate;
@@ -19,17 +20,17 @@ class commentPage extends StatefulWidget {
   final numShare;
   final profilePicUrl;
 
-  const commentPage(this.communityExchangeDocID, this.name, this.publishedDate, this.content,
+  const CommentPage(this.communityExchangeDocID, this.name, this.publishedDate, this.content,
       this.numLikes, this.numComments, this.numShare, this.profilePicUrl,
       {super.key});
 
   @override
-  _commentPageState createState() => _commentPageState();
+  _CommentPageState createState() => _CommentPageState();
 }
 
-class _commentPageState extends State<commentPage> {
+class _CommentPageState extends State<CommentPage> {
   final TextEditingController _textController = TextEditingController();
-  int numComment = 10; //newdata will be 11
+  // int numComment = 10; //newdata will be 11
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class _commentPageState extends State<commentPage> {
                               ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: numComment,
+                                  itemCount: widget.numComments,
                                   itemBuilder: (BuildContext context, int ctr) {
                                     return CommentPostWidget(
                                       commentDocID: comment.id,
@@ -124,6 +125,7 @@ class _commentPageState extends State<commentPage> {
                       // }
                         return const Center(child: Column(
                           children: [
+                            Padding(padding: EdgeInsets.only(top: 50)),
                             Icon(Icons.comments_disabled_outlined),
                             Text("No comment Yet, Be the 1st one to comment!"),
                           ],
@@ -153,7 +155,7 @@ class _commentPageState extends State<commentPage> {
           child: Container(
             decoration: BoxDecoration(
               color: darkBlue.withOpacity(0.5),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
@@ -163,7 +165,7 @@ class _commentPageState extends State<commentPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 250,
                   child: PrimaryTextField(
                       controller: _textController,
@@ -177,9 +179,8 @@ class _commentPageState extends State<commentPage> {
                     padding: EdgeInsets.zero, // Remove default padding
                   ),
                   onPressed: () {
-                    // Access the entered text using the controller
                     String enteredText = _textController.text;
-                    reRender(commentDocumentId: widget.communityExchangeDocID);
+                    reRender(commentDocumentId: widget.communityExchangeDocID,text:enteredText);
                     print('Entered Text: $enteredText');
                   },
                   child: Transform(
@@ -208,19 +209,11 @@ class _commentPageState extends State<commentPage> {
     super.initState();
   }
 
-  void reRender({required commentDocumentId}) {
+  void reRender({required commentDocumentId,required text}) {
     setState(() {
-      numComment += 1;
-      modifyCommentField(communityExchangeDocumentId:'' , commentDocumentId:commentDocumentId , fieldToUpdate: 'numLikes', newValue: numComment);
-      //TODO
-      // commentName.add("NewCommentName");
-      // commentprofilePicUrl.add(
-      //     "https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small_2x/happy-young-cute-illustration-face-profile-png.png");
-      // commentPublishedDate.add(DateTime.now());
-      // commentContent.add(_textController.text);
-      // commentnumLikes.add(0);
-      // _textController.text = "";
-      // print("Re-rendered");
+      // modifyCommentField(communityExchangeDocumentId:'' , commentDocumentId:commentDocumentId , fieldToUpdate: 'numLikes', newValue: numComment);
+      // modifyCommentField(communityExchangeDocumentId:'' , commentDocumentId:commentDocumentId , fieldToUpdate: 'content', newValue: text);
+      addCommentToFirebase(documentId: commentDocumentId, content: text);
     });
   }
 }
@@ -307,7 +300,7 @@ class CommentPostWidget extends StatelessWidget {
                             publishedDate.month == DateTime.now().month &&
                                     publishedDate.day == DateTime.now().day
                                 ? Text(
-                                    "${publishedDate.hour}h ${publishedDate.minute}m ago",
+                                    "${ DateTime.now().hour - publishedDate.hour }h ${ DateTime.now().minute - publishedDate.minute }m ago",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
                                       fontStyle: FontStyle.italic,

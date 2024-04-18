@@ -57,17 +57,22 @@ Given article:
 }
 
 
-class SummuryArticle extends StatelessWidget{
+class SummuryArticle extends StatefulWidget {
   final content;
   const SummuryArticle({required this.content, super.key});
 
+  @override
+  State<SummuryArticle> createState() => _SummuryArticleState();
+}
+
+class _SummuryArticleState extends State<SummuryArticle> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: FutureBuilder(
-        future: getResponeFromGemini(contentToBeSummarized: content),
+        future: getResponeFromGemini(contentToBeSummarized: widget.content),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var jsonResponse = jsonDecode(snapshot.data);
@@ -193,4 +198,8 @@ class SummuryArticle extends StatelessWidget{
       ),
     );
   }
+
+  @override
+
+  bool get wantKeepAlive => true;
 }
