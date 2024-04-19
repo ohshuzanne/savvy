@@ -11,144 +11,34 @@ import 'package:savvy/CRUD/expenses.dart';
 
 import '../utils/categories.dart';
 
-final String? geminiAPIKey = dotenv.env['GeminiAPIKey'];
 
-
-class CreateExpenses extends StatefulWidget {
+class CreateIncome extends StatefulWidget {
   final bool isUpdate;
-  final Expenses expenses;
 
-  const CreateExpenses(
-      {super.key, this.isUpdate = false, required this.expenses});
+  const CreateIncome(
+      {super.key, this.isUpdate = false});
 
   @override
-  State<CreateExpenses> createState() => _CreateExpensesState();
+  State<CreateIncome> createState() => _CreateIncomeState();
 }
 
-class _CreateExpensesState extends State<CreateExpenses> {
+class _CreateIncomeState extends State<CreateIncome> {
   DateTime selectedDay = DateTime.now();
   int selectedIndex = 0;
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      if (widget.isUpdate) {
-        _titleController.text = widget.expenses.title;
-        _amountController.text = widget.expenses.amount.toString();
-        selectedDay = widget.expenses.timestamp;
-        selectedIndex =
-            cats.indexWhere((element) => element == widget.expenses.category);
-      }
-    });
-  }
-  final model = GenerativeModel(
-    model: 'gemini-pro',
-    apiKey: geminiAPIKey!,
-  );
-
-
-  Future<GenerateContentResponse> validateCategory(String title) async {
-    final prompt = 'You are a worker in a finance company..'
-        'You have been given title of expenses: $title.'
-        'Determine which category are the expenses belong to with the provided choices including Foods, Shopping, Transports, and Others .'
-        'Some of the example of transport can be grab, lrt, brt, ktm, ets, and any title related to bus'
-        'Provide your response as a JSON object with the following schema: {"category": category of item}.'
-        'Do not return your result as Markdown.';
-
-    final response = await model.generateContent([
-      Content.text(prompt),
-    ]);
-    print(response);
-    return response;
-  }
-
-  Future<String?> _onCategory(String title) async {
-    Map result = {};
-    final category = await validateCategory(title);
-    final response =
-        category.text!.replaceAll("```json", "").replaceAll("```", "");
-    result = json.decode(response);
-    setState(() {
-      print(result);
-      switch (result['category']) {
-        case ("Foods"):
-          {
-            selectedIndex = 0;
-            break;
-          }
-        case ("Transports"):
-          {
-            selectedIndex = 1;
-            break;
-          }
-        case ("Shopping"):
-          {
-            selectedIndex = 2;
-            break;
-          }
-        default:
-          {
-            selectedIndex = 3;
-            break;
-          }
-      }
-    });
-    return null;
-  }
-
-  void selectCat(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) => StatefulBuilder(
-              builder: (BuildContext context,
-                      StateSetter setModalState /*You can rename this!*/) =>
-                  Container(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ListView.builder(
-                          itemCount: cats.length,
-                          itemBuilder: (context, index) {
-                            String cat = cats[index];
-                            Key tileKey = Key(cat);
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = index;
-                                  setModalState(() {});
-                                });
-                              },
-                              child: ListTile(
-                                title: Text(
-                                  cat,
-                                  style: GoogleFonts.lexend(
-                                    color: index == selectedIndex
-                                        ? mainPurple
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      )),
-            ));
-  }
 
   createTransaction() {
-    Expenses newExpenses = Expenses(
-        id: widget.isUpdate ? widget.expenses.id : "",
-        title: _titleController.text,
-        amount: double.parse(_amountController.text),
-        timestamp: selectedDay,
-        category: cats[selectedIndex]);
-    widget.isUpdate
-        ? ExpensesController().editExpenses(newExpenses)
-        : ExpensesController().createExpenses(newExpenses);
+    // Expenses newExpenses = Expenses(
+    //     id: widget.isUpdate ? widget.expenses.id : "",
+    //     title: _titleController.text,
+    //     amount: double.parse(_amountController.text),
+    //     timestamp: selectedDay,
+    //     category: cats[selectedIndex]);
+    // widget.isUpdate
+    //     ? ExpensesController().editExpenses(newExpenses)
+    //     : ExpensesController().createExpenses(newExpenses);
     showSnackBar(widget.isUpdate? "Record updated":"Record created", context);
     Navigator.pop(context);
   }
@@ -168,7 +58,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            "New Expenses",
+            "New Income",
             style: TextStyle(
               fontFamily: 'Lexend',
               fontSize: 18,
@@ -198,11 +88,6 @@ class _CreateExpensesState extends State<CreateExpenses> {
                         height: 10,
                       ),
                       TextField(
-                        onChanged: (String title) {
-                          setState(() {
-                            _onCategory(title);
-                          });
-                        },
                         textAlignVertical: TextAlignVertical.center,
                         style: GoogleFonts.lexend(),
                         controller: _titleController,
@@ -213,7 +98,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
                               borderRadius: BorderRadius.circular(25),
                             ),
                             contentPadding: EdgeInsets.all(15),
-                            hintText: "Ex: Fried Chicken",
+                            hintText: "Ex: Salary",
                             border: OutlineInputBorder(),
                             suffixIcon: IconButton(
                               icon: Icon(Icons.clear),
@@ -250,18 +135,18 @@ class _CreateExpensesState extends State<CreateExpenses> {
                                 ),
                                 onTap: () {
                                   showDatePicker(
-                                          firstDate: DateTime(1985),
-                                          lastDate: DateTime(2050),
-                                          context: context,
-                                          initialDate: DateTime.now())
+                                      firstDate: DateTime(1985),
+                                      lastDate: DateTime(2050),
+                                      context: context,
+                                      initialDate: DateTime.now())
                                       .then((value) => setState(() {
-                                            selectedDay = DateTime(
-                                                value!.year,
-                                                value.month,
-                                                value.day,
-                                                selectedDay.hour,
-                                                selectedDay.minute);
-                                          }));
+                                    selectedDay = DateTime(
+                                        value!.year,
+                                        value.month,
+                                        value.day,
+                                        selectedDay.hour,
+                                        selectedDay.minute);
+                                  }));
                                 },
                               ),
                               SizedBox(
@@ -274,51 +159,22 @@ class _CreateExpensesState extends State<CreateExpenses> {
                                 ),
                                 onTap: () {
                                   showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now())
+                                      context: context,
+                                      initialTime: TimeOfDay.now())
                                       .then((value) => setState(() {
-                                            selectedDay = DateTime(
-                                                selectedDay.year,
-                                                selectedDay.month,
-                                                selectedDay.day,
-                                                value!.hour,
-                                                value.minute);
-                                          }));
+                                    selectedDay = DateTime(
+                                        selectedDay.year,
+                                        selectedDay.month,
+                                        selectedDay.day,
+                                        value!.hour,
+                                        value.minute);
+                                  }));
                                 },
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Category",
-                        style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w500, fontSize: 17),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                          child: Container(
-                            padding: const EdgeInsets.all(15),
-                            alignment: Alignment.centerLeft,
-                            width: double.infinity,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Text(
-                              "${cats[selectedIndex]}",
-                              style: GoogleFonts.lexend(fontSize: 15),
-                            ),
-                          ),
-                          onTap: () {
-                            selectCat(context);
-                          }),
                       SizedBox(
                         height: 20,
                       ),
@@ -343,7 +199,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           contentPadding: EdgeInsets.all(15),
-                          hintText: "Ex: 20",
+                          hintText: "Ex: 4000",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -356,7 +212,7 @@ class _CreateExpensesState extends State<CreateExpenses> {
                         ),
                       ),
                       SizedBox(
-                        height: 200,
+                        height: 300,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
