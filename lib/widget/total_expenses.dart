@@ -155,7 +155,7 @@ class _TotalExpensesState extends State<TotalExpenses> {
                             ),
                             Text(
                               daily < 1000
-                                  ? "RM $daily"
+                                  ? "RM ${daily.toStringAsFixed(2)}"
                                   : "RM ${(daily / 1000).toStringAsFixed(2)} K",
                               style: GoogleFonts.lexend(
                                   fontSize: 23, color: Colors.black),
