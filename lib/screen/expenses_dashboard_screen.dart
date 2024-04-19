@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -22,56 +23,84 @@ class ExpensesDashboard extends StatefulWidget {
 }
 
 class _ExpensesDashboardState extends State<ExpensesDashboard> {
+  bool isVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      onEndDrawerChanged: (isOpen){
+        if(!isOpen){
+          setState(() {
+            isVisible = false;
+          });
+        }
+      },
       endDrawer: Drawer(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ListView(
             children: [
-              DrawerHeader(child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  0,
-                  20,
-                  0,
-                  20,
+              DrawerHeader(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    0,
+                    20,
+                    0,
+                    20,
+                  ),
+                  child: Image.asset('lib/images/savvylogowithpets.png'),
                 ),
-                child: Image.asset('lib/images/savvylogowithpets.png'),
-              ),),
+              ),
               ListTile(
-
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Balance",
                         style: GoogleFonts.lexend(color: Colors.black)),
-                    SizedBox(height: 10,),
-                    Consumer<UserProvider>(builder: (context,data,child) {
-                      return Text("RM ${data.balance.toStringAsFixed(2)}",style: GoogleFonts.lexend(color: Colors.black, fontSize: 20));
-
-                    },),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Consumer<UserProvider>(
+                      builder: (context, data, child) {
+                        return Text("RM ${data.balance.toStringAsFixed(2)}",
+                            style: GoogleFonts.lexend(
+                                color: Colors.black, fontSize: 20));
+                      },
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               ListTile(
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Monthly Income",
+                    Text("Budget",
                         style: GoogleFonts.lexend(color: Colors.black)),
-                    SizedBox(height: 10,),
-                    Consumer<UserProvider>(builder: (context,data,child) {
-                     return Text("RM ${data.income.toStringAsFixed(2)}", style: GoogleFonts.lexend(fontSize: 20), );
-
-                    },),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Consumer<UserProvider>(
+                      builder: (context, data, child) {
+                        return Text(
+                          "RM ${data.budget.toStringAsFixed(2)}",
+                          style: GoogleFonts.lexend(fontSize: 20),
+                        );
+                      },
+                    ),
                     Row(
                       children: [
-                        Text("Edit Monthly Income",
-                            style: GoogleFonts.lexend(color: Colors.grey, fontSize: 12, decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed, decorationColor: Colors.grey)),
-                        SizedBox(width: 5,),
+                        Text("Edit Budget",
+                            style: GoogleFonts.lexend(
+                                color: Colors.grey,
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                                decorationStyle: TextDecorationStyle.dashed,
+                                decorationColor: Colors.grey)),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Icon(
                           Icons.edit_rounded,
                           color: Colors.grey,
@@ -82,11 +111,91 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               ListTile(
-                title: Row(
-                  children: [],
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Current Month Total Income",
+                        style: GoogleFonts.lexend(color: Colors.black)),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Consumer<UserProvider>(
+                      builder: (context, data, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "RM 5463.60",
+                              style: GoogleFonts.lexend(fontSize: 20),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: GestureDetector(
+                                onTap:(){
+                                setState(() {
+                                  if(isVisible){
+                                    isVisible=false;
+                                  }else{
+                                  isVisible = true;}
+                                });
+                        },
+                                child: Icon(
+                                  Icons.expand_circle_down,
+                                  color: mainPurple,
+                                  size: 15,
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+
+                    Visibility(
+                      visible: isVisible,
+                      child: ListView(
+
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top:8, bottom:8, right: 13, left:8),
+                        children: <Widget>[
+                          Text('View Income History',  style: GoogleFonts.lexend(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationColor: Colors.grey)),
+                          SizedBox(height: 5,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Text('Salary',  style: GoogleFonts.lexend(fontSize: 13),), Text('RM 5460.00', style: GoogleFonts.lexend(fontSize: 13),)],
+                              ),
+                              Text('2 April 2024',  style: GoogleFonts.lexend(fontSize: 13),)
+                            ],
+                          ),
+                          SizedBox(height: 8,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Text('Bonus',  style: GoogleFonts.lexend(fontSize: 13),), Text('RM 3.60', style: GoogleFonts.lexend(fontSize: 13),)],
+                              ),
+                              Text('2 April 2024',  style: GoogleFonts.lexend(fontSize: 13),)
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -234,10 +343,18 @@ class _ExpensesDashboardState extends State<ExpensesDashboard> {
           ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 80),
-        child: CreateButton(),
-      ),
+      floatingActionButton: Stack(children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 80, top: 30),
+          child: CreateButton(),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 150, left: 40),
+          child: CreateButton(
+            isExpense: false,
+          ),
+        )
+      ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: Stack(
         children: <Widget>[

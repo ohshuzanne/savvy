@@ -149,7 +149,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 10,
+                      height: 25,
                     ),
                     AspectRatio(
                         aspectRatio: 1.3,
@@ -182,7 +182,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
 
                                           // Show title only at 74
                                           return Text(
-                                            "Daily \nBudget",
+                                            "Daily \nBudget \nRM${value.toStringAsFixed(0)}",
                                             style:
                                                 GoogleFonts.lexend(fontSize: 12),
                                           );
@@ -258,10 +258,10 @@ class _BarChartWidgetState extends State<BarChartWidget> {
                           width: 5,
                         ),
                         SizedBox(
-                          width: 150,
+                          width: 180,
                           child: Center(
                             child: Text(
-                              "${DateFormat('d MMM').format(selectedDay[0])} - ${DateFormat('d MMM').format(selectedDay[6])}",
+                              "${DateFormat('d MMM yy').format(selectedDay[0])} - ${DateFormat('d MMM yy').format(selectedDay[6])}",
                               style: GoogleFonts.lexend(),
                             ),
                           ),
