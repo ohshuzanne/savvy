@@ -288,7 +288,7 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
               top: 75,
               left: 20,
               child: Container(
-                height: 210,
+                height: 230,
                 width: 320,
                 decoration: BoxDecoration(
                   color: secondaryPurple,
@@ -356,7 +356,7 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(
                         20,
-                        20,
+                        10,
                         20,
                         0,
                       ),
@@ -440,20 +440,29 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
                         ],
                       ),
                     ),
-                    Text(
-                      "Autopay is turned on",
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0,),
+                      child: Text(
+                        "Autopay is enabled, next payment 5/5/24",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.7),
+                            fontFamily: 'Lexend',
+                            fontSize: 13,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    Text("60 installments left",
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.7),
                           fontFamily: 'Lexend',
                           fontSize: 13,
-                          fontStyle: FontStyle.italic),
-                    ),
+                         ),)
                   ],
                 ),
               ),
             ),
             Positioned(
-              top: 305,
+              top: 335,
               left: 0,
               right: 0,
               child: Column(
@@ -496,7 +505,6 @@ class _FullDebtOverviewPageState extends State<FullDebtOverviewPage> {
                     ),
                   ),
                   const SizedBox(height: 100),
-                  Text("Hello"),
                 ],
               ),
             ),
